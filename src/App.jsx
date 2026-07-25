@@ -1,6 +1,7 @@
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
+import ContactToggle from "./components/ui/ContactToggle";
 import PageLoader from "./components/ui/PageLoader";
 import ScrollProgress from "./components/ui/ScrollProgress";
 
@@ -14,6 +15,7 @@ function App() {
         <Home />
       </main>
       <Footer />
+      <ContactToggle />
     </div>
   );
 }

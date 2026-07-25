@@ -208,7 +208,7 @@ export const contact = {
 };
 
 export const heroImage =
-  "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80";
+  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80";
 
 export const heroVideo =
-  "https://videos.pexels.com/video-files/1409899/1409899-uhd_2560_1440_25fps.mp4";
+  "https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4";
