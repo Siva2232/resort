@@ -63,17 +63,17 @@ export default function Navbar() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <div className="section-shell flex h-[4.5rem] items-center justify-between md:h-[5.25rem]">
+        <div className="section-shell flex h-[4.5rem] items-center justify-between px-5 md:h-[5.25rem] md:px-8">
           <motion.a
             href="#top"
             onClick={(e) => {
               e.preventDefault();
               go("#top");
             }}
-            className="group flex items-baseline gap-2.5"
+            className="group flex min-w-0 items-baseline gap-2.5"
             whileHover={{ opacity: 0.85 }}
           >
-            <span className="font-display text-[1.4rem] tracking-tight text-foam md:text-[1.65rem]">
+            <span className="font-display text-[1.35rem] tracking-tight text-foam md:text-[1.65rem]">
               {brand.name}
             </span>
             <span className="hidden text-[10px] font-medium uppercase tracking-[0.22em] text-sand/70 sm:inline">

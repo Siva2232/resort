@@ -1,30 +1,47 @@
 import {
   motion,
-  useMotionTemplate,
   useMotionValue,
   useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { brand } from "../../data/resort";
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 768px), (pointer: coarse)").matches
+      : false
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px), (pointer: coarse)");
+    const onChange = () => setMobile(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  return mobile;
+}
 
 const PANORAMA = [
   {
-    src: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1800&q=80",
+    src: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=70",
     label: "Suite",
   },
   {
-    src: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1800&q=80",
+    src: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=70",
     label: "Lounge",
   },
   {
-    src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1800&q=80",
+    src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=70",
     label: "Terrace light",
   },
   {
-    src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1800&q=80",
+    src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=70",
     label: "Living",
   },
 ];
@@ -39,136 +56,295 @@ function DoorPanel({ side }) {
   const isLeft = side === "left";
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[#0c1820]">
-      {/* Deep lacquer base */}
+    <div className="relative h-full w-full overflow-hidden bg-[#0a1218]">
+      {/* Ebony lacquer body */}
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background: isLeft
-            ? "linear-gradient(118deg, #071218 0%, #12252e 38%, #1a3340 62%, #0d1f28 100%)"
-            : "linear-gradient(242deg, #071218 0%, #12252e 38%, #1a3340 62%, #0d1f28 100%)",
+            ? "linear-gradient(112deg, #060d12 0%, #101c24 28%, #182830 52%, #0e1a22 78%, #081015 100%)"
+            : "linear-gradient(248deg, #060d12 0%, #101c24 28%, #182830 52%, #0e1a22 78%, #081015 100%)",
         }}
       />
 
-      {/* Classic vertical grain */}
+      {/* Polished wood grain */}
       <div
         aria-hidden
-        className="absolute inset-0 opacity-[0.22]"
+        className="absolute inset-0 opacity-[0.28]"
         style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, transparent 0, transparent 14px, rgba(212,196,168,0.07) 14px, rgba(212,196,168,0.07) 15px)",
+          backgroundImage: `
+            repeating-linear-gradient(90deg,
+              transparent 0px,
+              transparent 11px,
+              rgba(212,196,168,0.055) 11px,
+              rgba(212,196,168,0.055) 12px
+            ),
+            repeating-linear-gradient(90deg,
+              transparent 0px,
+              transparent 47px,
+              rgba(184,149,108,0.04) 47px,
+              rgba(184,149,108,0.04) 48px
+            )
+          `,
         }}
       />
 
-      {/* Outer molding */}
+      {/* Soft sheen across the door */}
       <div
         aria-hidden
-        className="absolute inset-3 border border-brass/20 shadow-[inset_0_0_40px_rgba(0,0,0,0.35)] md:inset-5"
+        className="absolute inset-0 opacity-50"
+        style={{
+          background: isLeft
+            ? "linear-gradient(125deg, rgba(255,255,255,0.05) 0%, transparent 38%, transparent 62%, rgba(0,0,0,0.25) 100%)"
+            : "linear-gradient(235deg, rgba(255,255,255,0.05) 0%, transparent 38%, transparent 62%, rgba(0,0,0,0.25) 100%)",
+        }}
+      />
+
+      {/* Outer brass frame — double reveal */}
+      <div
+        aria-hidden
+        className="absolute inset-[10px] border border-brass/25 md:inset-[14px]"
+        style={{
+          boxShadow:
+            "inset 0 0 0 1px rgba(255,255,255,0.04), inset 0 0 60px rgba(0,0,0,0.45)",
+        }}
       />
       <div
         aria-hidden
-        className="absolute inset-5 border border-white/[0.06] md:inset-7"
+        className="absolute inset-[16px] border border-white/[0.05] md:inset-[22px]"
       />
 
-      {/* Classic raised panels — top & bottom */}
-      <div className="absolute inset-x-8 top-[8%] bottom-[52%] md:inset-x-12">
-        <div className="h-full border border-brass/18 bg-gradient-to-b from-white/[0.04] to-transparent shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-1px_0_rgba(0,0,0,0.35)]" />
-      </div>
-      <div className="absolute inset-x-8 top-[52%] bottom-[8%] md:inset-x-12">
-        <div className="h-full border border-brass/18 bg-gradient-to-b from-white/[0.03] to-transparent shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_-1px_0_rgba(0,0,0,0.35)]" />
+      {/* Classic raised panels — hotel door proportions */}
+      <div className="absolute inset-x-[28px] top-[7%] bottom-[54%] md:inset-x-[40px]">
+        <div
+          className="relative h-full border border-brass/22"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.01) 40%, rgba(0,0,0,0.15) 100%)",
+            boxShadow:
+              "inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -2px 8px rgba(0,0,0,0.35), 0 1px 0 rgba(184,149,108,0.12)",
+          }}
+        >
+          <div className="absolute inset-[7px] border border-brass/12 md:inset-[10px]" />
+          <div className="absolute inset-[14px] border border-white/[0.04] md:inset-[18px]" />
+        </div>
       </div>
 
-      {/* Hinges */}
+      <div className="absolute inset-x-[28px] top-[50%] bottom-[7%] md:inset-x-[40px]">
+        <div
+          className="relative h-full border border-brass/22"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 35%, rgba(0,0,0,0.18) 100%)",
+            boxShadow:
+              "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -2px 8px rgba(0,0,0,0.35), 0 1px 0 rgba(184,149,108,0.1)",
+          }}
+        >
+          <div className="absolute inset-[7px] border border-brass/12 md:inset-[10px]" />
+          <div className="absolute inset-[14px] border border-white/[0.04] md:inset-[18px]" />
+          {/* Monogram medallion on lower panel */}
+          <div className="absolute left-1/2 top-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-brass/40 bg-gradient-to-br from-brass/15 via-transparent to-brass/5 md:size-16">
+            <div className="flex size-10 items-center justify-center rounded-full border border-brass/30 md:size-11">
+              <span className="font-display text-lg tracking-wide text-brass-light/90 md:text-xl">
+                {brand.name.charAt(0)}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Center rail between panels */}
       <div
         aria-hidden
-        className={`absolute top-[18%] flex flex-col gap-16 md:gap-20 ${
-          isLeft ? "left-2 md:left-3" : "right-2 md:right-3"
+        className="absolute inset-x-[28px] top-[48.5%] h-[3%] md:inset-x-[40px]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.35), rgba(184,149,108,0.18), rgba(0,0,0,0.35))",
+          boxShadow: "0 1px 0 rgba(255,255,255,0.06)",
+        }}
+      />
+
+      {/* Luxury hinges */}
+      <div
+        aria-hidden
+        className={`absolute top-[14%] flex flex-col gap-[18%] ${
+          isLeft ? "left-[6px] md:left-[8px]" : "right-[6px] md:right-[8px]"
         }`}
+        style={{ height: "72%" }}
       >
         {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className="h-10 w-2.5 rounded-sm bg-gradient-to-b from-brass-light via-brass to-[#7a6040] shadow-[0_2px_8px_rgba(0,0,0,0.4)] md:h-12 md:w-3"
-          />
+          <div key={i} className="relative">
+            <div
+              className="h-11 w-3 rounded-[2px] md:h-14 md:w-3.5"
+              style={{
+                background:
+                  "linear-gradient(90deg, #c4a574 0%, #e2c9a0 35%, #b8956c 55%, #8a6d45 100%)",
+                boxShadow:
+                  "0 2px 10px rgba(0,0,0,0.45), inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(0,0,0,0.25)",
+              }}
+            />
+            <span className="absolute left-1/2 top-1.5 size-1 -translate-x-1/2 rounded-full bg-[#5c4830]/70" />
+            <span className="absolute bottom-1.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-[#5c4830]/70" />
+          </div>
         ))}
       </div>
 
-      {/* Brass plate + handle */}
+      {/* Brass escutcheon + lever handle */}
       <div
-        className={`absolute top-1/2 flex -translate-y-1/2 flex-col items-center gap-3 ${
-          isLeft ? "right-5 md:right-9" : "left-5 md:left-9"
+        className={`absolute top-1/2 z-10 flex -translate-y-1/2 flex-col items-center ${
+          isLeft ? "right-6 md:right-10" : "left-6 md:left-10"
         }`}
       >
-        <div className="flex size-11 items-center justify-center rounded-full border border-brass/50 bg-gradient-to-br from-brass-light/30 to-brass/10 backdrop-blur-sm md:size-12">
-          <span className="font-display text-sm tracking-wide text-brass-light">
-            {brand.name.charAt(0)}
+        {/* Name plate */}
+        <div
+          className="mb-5 flex h-7 min-w-[4.5rem] items-center justify-center px-3 md:h-8 md:min-w-[5.25rem]"
+          style={{
+            background:
+              "linear-gradient(180deg, #d4b896 0%, #b8956c 48%, #9a7a52 100%)",
+            boxShadow:
+              "0 2px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.4)",
+          }}
+        >
+          <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-ink/80 md:text-[10px]">
+            {brand.name}
           </span>
         </div>
-        <div className="h-20 w-1.5 rounded-full bg-gradient-to-b from-brass-light via-brass to-[#8a6d45] shadow-[0_0_24px_rgba(184,149,108,0.45)] md:h-24" />
-        {/* Keyhole */}
-        <div className="mt-1 flex h-4 w-3 flex-col items-center">
-          <div className="size-2 rounded-full border border-brass/60 bg-ink/80" />
-          <div className="mt-[-1px] h-2.5 w-[3px] rounded-b-sm bg-ink/80 ring-1 ring-brass/40" />
+
+        {/* Escutcheon plate */}
+        <div
+          className="relative flex flex-col items-center rounded-sm px-2.5 py-4 md:px-3 md:py-5"
+          style={{
+            background:
+              "linear-gradient(160deg, #e8d4b5 0%, #c4a574 28%, #b8956c 55%, #8f7350 100%)",
+            boxShadow:
+              "0 4px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.2)",
+          }}
+        >
+          {/* Lever handle */}
+          <div
+            className={`relative h-2.5 w-14 rounded-full md:h-3 md:w-16 ${
+              isLeft ? "origin-right" : "origin-left"
+            }`}
+            style={{
+              background:
+                "linear-gradient(180deg, #f0e0c8 0%, #d4b896 40%, #a88458 100%)",
+              boxShadow:
+                "0 3px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.55)",
+              transform: isLeft ? "translateX(6px)" : "translateX(-6px)",
+            }}
+          >
+            <span
+              className={`absolute top-1/2 size-3.5 -translate-y-1/2 rounded-full md:size-4 ${
+                isLeft ? "left-0" : "right-0"
+              }`}
+              style={{
+                background:
+                  "radial-gradient(circle at 35% 30%, #f5ead8, #b8956c 55%, #7a6040)",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.35)",
+              }}
+            />
+          </div>
+
+          {/* Keyhole */}
+          <div className="mt-3.5 flex flex-col items-center">
+            <div
+              className="size-2 rounded-full md:size-2.5"
+              style={{
+                background: "#1a1210",
+                boxShadow:
+                  "inset 0 1px 2px rgba(0,0,0,0.8), 0 0 0 1px rgba(90,70,45,0.5)",
+              }}
+            />
+            <div
+              className="mt-[-1px] h-2.5 w-[3px] rounded-b-[1px] md:h-3"
+              style={{
+                background: "#1a1210",
+                boxShadow: "0 0 0 1px rgba(90,70,45,0.4)",
+              }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Seam highlight */}
+      {/* Meeting-edge polish (where doors meet) */}
       <div
         aria-hidden
-        className={`absolute inset-y-0 w-16 ${
+        className={`absolute inset-y-0 w-10 md:w-14 ${
           isLeft
-            ? "right-0 bg-gradient-to-l from-brass/25 to-transparent"
-            : "left-0 bg-gradient-to-r from-brass/25 to-transparent"
+            ? "right-0 bg-gradient-to-l from-brass/30 via-brass/10 to-transparent"
+            : "left-0 bg-gradient-to-r from-brass/30 via-brass/10 to-transparent"
         }`}
+      />
+
+      {/* Top & bottom threshold lines */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brass/40 to-transparent"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brass/35 to-transparent"
       />
     </div>
   );
 }
 
-function Interior360({ enabled, brightness, scale, onYawChange }) {
+function Interior360({ enabled, brightness, scale, onYawChange, isMobile }) {
   const stageRef = useRef(null);
   const dragging = useRef(false);
   const lastX = useRef(0);
   const look = useMotionValue(0);
-  const lookSpring = useSpring(look, { stiffness: 90, damping: 22, mass: 0.4 });
-  const tiltX = useMotionValue(0);
-  const tiltY = useMotionValue(0);
-  const tiltXSpring = useSpring(tiltX, { stiffness: 60, damping: 18 });
-  const tiltYSpring = useSpring(tiltY, { stiffness: 60, damping: 18 });
+  // Springs are costly on mobile — use direct values there
+  const lookSpring = useSpring(look, {
+    stiffness: isMobile ? 180 : 90,
+    damping: isMobile ? 28 : 22,
+    mass: isMobile ? 0.25 : 0.4,
+  });
   const [activeHotspot, setActiveHotspot] = useState(null);
 
-  const panoramaX = useTransform(lookSpring, [-1, 1], ["0%", "-66.66%"]);
-  const depthX = useTransform(lookSpring, [-1, 1], ["4%", "-4%"]);
-  const rotateY = useTransform(lookSpring, [-1, 1], [2.5, -2.5]);
-  const fogX = useTransform(lookSpring, [-1, 1], ["6%", "-6%"]);
-  const combinedRotateY = useTransform(
-    [rotateY, tiltXSpring],
-    ([base, tilt]) => base + tilt
+  const shots = useMemo(
+    () => (isMobile ? PANORAMA.slice(0, 3) : PANORAMA),
+    [isMobile]
+  );
+  const stripWidth = isMobile ? "200%" : "300%";
+  const slideWidth = isMobile ? "w-1/3" : "w-1/4";
+  const panoramaX = useTransform(
+    lookSpring,
+    [-1, 1],
+    isMobile ? ["0%", "-50%"] : ["0%", "-66.66%"]
   );
 
   useEffect(() => {
-    const unsub = lookSpring.on("change", (v) => {
-      onYawChange?.(Math.round(((v + 1) / 2) * 360));
-    });
-    return unsub;
-  }, [lookSpring, onYawChange]);
-
-  useEffect(() => {
-    if (!enabled) return;
-    let raf;
+    if (!enabled || isMobile) return;
+    let raf = 0;
+    let last = 0;
     const tick = (now) => {
-      if (!dragging.current) {
+      // ~20fps idle drift — far cheaper than every frame
+      if (now - last > 50 && !dragging.current) {
+        last = now;
         const t = now / 1000;
         const base = look.get();
-        const drift = Math.sin(t * 0.35) * 0.008;
-        if (Math.abs(base) < 0.9) look.set(base * 0.999 + drift * 0.12);
+        const drift = Math.sin(t * 0.35) * 0.006;
+        if (Math.abs(base) < 0.9) look.set(base * 0.999 + drift * 0.1);
       }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [enabled, look]);
+  }, [enabled, isMobile, look]);
+
+  useEffect(() => {
+    if (!enabled) return;
+    let lastSent = -1;
+    const unsub = lookSpring.on("change", (v) => {
+      const deg = Math.round(((v + 1) / 2) * 360);
+      if (deg === lastSent) return;
+      lastSent = deg;
+      onYawChange?.(deg);
+    });
+    return unsub;
+  }, [enabled, lookSpring, onYawChange]);
 
   const onPointerDown = (e) => {
     if (!enabled) return;
@@ -179,85 +355,64 @@ function Interior360({ enabled, brightness, scale, onYawChange }) {
   };
 
   const onPointerMove = (e) => {
-    if (!enabled || !stageRef.current) return;
+    if (!enabled || !dragging.current || !stageRef.current) return;
     const rect = stageRef.current.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width - 0.5;
-    const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    tiltX.set(nx * 8);
-    tiltY.set(ny * -6);
-
-    if (dragging.current) {
-      const dx = e.clientX - lastX.current;
-      lastX.current = e.clientX;
-      const next = Math.max(
-        -1,
-        Math.min(1, look.get() - dx / (rect.width * 0.55))
-      );
-      look.set(next);
-    }
+    const dx = e.clientX - lastX.current;
+    lastX.current = e.clientX;
+    const next = Math.max(
+      -1,
+      Math.min(1, look.get() - dx / (rect.width * 0.55))
+    );
+    look.set(next);
   };
 
   const onPointerUp = () => {
     dragging.current = false;
   };
 
-  const transform3d = useMotionTemplate`perspective(1200px) rotateX(${tiltYSpring}deg) rotateY(${combinedRotateY}deg) scale(${scale})`;
-
   return (
     <motion.div
       ref={stageRef}
-      className={`absolute inset-0 touch-none ${enabled ? "cursor-grab active:cursor-grabbing" : "pointer-events-none"}`}
+      className={`absolute inset-0 ${enabled ? "cursor-grab touch-none active:cursor-grabbing" : "pointer-events-none"}`}
       style={{ opacity: brightness }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      onPointerLeave={() => {
-        dragging.current = false;
-        tiltX.set(0);
-        tiltY.set(0);
-      }}
     >
+      {/* Scale only — no perspective/rotate (those thrash mobile GPUs while scrolling) */}
       <motion.div
-        className="absolute inset-0 origin-center will-change-transform"
-        style={{ transform: transform3d }}
+        className="absolute inset-0 origin-center"
+        style={{ scale }}
       >
         <motion.div
-          className="absolute inset-y-0 left-0 flex h-full w-[300%] will-change-transform"
-          style={{ x: panoramaX }}
+          className="absolute inset-y-0 left-0 flex h-full will-change-transform"
+          style={{ width: stripWidth, x: panoramaX }}
         >
-          {PANORAMA.map((shot) => (
-            <div key={shot.src} className="relative h-full w-1/4 shrink-0">
+          {shots.map((shot) => (
+            <div key={shot.src} className={`relative h-full ${slideWidth} shrink-0`}>
               <img
                 src={shot.src}
                 alt={shot.label}
                 className="h-full w-full object-cover"
                 draggable={false}
                 decoding="async"
+                loading={enabled ? "eager" : "lazy"}
               />
             </div>
           ))}
         </motion.div>
 
-        <motion.div
+        <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(11,28,36,0.45)_100%)]"
-          style={{ x: depthX }}
-        />
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            x: fogX,
-            background:
-              "linear-gradient(90deg, rgba(11,28,36,0.55) 0%, transparent 22%, transparent 78%, rgba(11,28,36,0.55) 100%)",
-          }}
         />
       </motion.div>
 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/65 via-transparent to-ink/35" />
 
       {enabled &&
+        !isMobile &&
         HOTSPOTS.map((spot) => (
           <button
             key={spot.id}
@@ -272,14 +427,13 @@ function Interior360({ enabled, brightness, scale, onYawChange }) {
             aria-label={spot.label}
           >
             <span className="relative flex size-9 items-center justify-center">
-              <span className="absolute inset-0 animate-ping rounded-full bg-brass/30" />
-              <span className="relative size-2.5 rounded-full bg-brass shadow-[0_0_12px_rgba(184,149,108,0.8)] ring-2 ring-foam/40" />
+              <span className="relative size-2.5 rounded-full bg-brass ring-2 ring-foam/40" />
             </span>
             <span
-              className={`pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/15 bg-ink/55 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foam backdrop-blur-md transition-all duration-300 ${
+              className={`pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/15 bg-ink/55 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foam backdrop-blur-md transition-opacity duration-300 ${
                 activeHotspot === spot.id
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
+                  ? "opacity-100"
+                  : "opacity-0 group-hover:opacity-100"
               }`}
             >
               {spot.label}
@@ -292,25 +446,35 @@ function Interior360({ enabled, brightness, scale, onYawChange }) {
 
 /**
  * Cinematic classic doors → interactive 360° suite look-around.
+ * Mobile: transform-only door scrub, no animated shadows / particles / 3D tilt.
  */
 export default function DoorReveal() {
   const ref = useRef(null);
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const [doorsOpen, setDoorsOpen] = useState(false);
   const [yaw, setYaw] = useState(0);
+  const [showInterior, setShowInterior] = useState(false);
+  const openRef = useRef(false);
+  const interiorMounted = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
+    layoutEffect: false,
   });
 
   const leftX = useTransform(scrollYProgress, [0.06, 0.55], ["0%", "-104%"]);
   const rightX = useTransform(scrollYProgress, [0.06, 0.55], ["0%", "104%"]);
-  const interiorScale = useTransform(scrollYProgress, [0, 0.55], [1.22, 1]);
+  const interiorScale = useTransform(
+    scrollYProgress,
+    [0, 0.55],
+    isMobile ? [1.08, 1] : [1.18, 1]
+  );
   const interiorBrightness = useTransform(
     scrollYProgress,
     [0.08, 0.5],
-    [0.4, 1]
+    [0.45, 1]
   );
   const captionOpacity = useTransform(
     scrollYProgress,
@@ -324,21 +488,18 @@ export default function DoorReveal() {
   );
   const lightSpill = useTransform(scrollYProgress, [0.06, 0.4], [0, 1]);
   const seamOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const doorShadow = useTransform(
-    scrollYProgress,
-    [0.08, 0.45],
-    ["0px 0px 0px rgba(0,0,0,0)", "48px 0 90px rgba(0,0,0,0.6)"]
-  );
-  const doorShadowRight = useTransform(
-    scrollYProgress,
-    [0.08, 0.45],
-    ["0px 0px 0px rgba(0,0,0,0)", "-48px 0 90px rgba(0,0,0,0.6)"]
-  );
-  const glassY = useTransform(scrollYProgress, [0.5, 0.65], [28, 0]);
 
   useEffect(() => {
     return scrollYProgress.on("change", (v) => {
-      setDoorsOpen(v > 0.52);
+      const open = v > 0.52;
+      if (open !== openRef.current) {
+        openRef.current = open;
+        setDoorsOpen(open);
+      }
+      if (v > 0.18 && !interiorMounted.current) {
+        interiorMounted.current = true;
+        setShowInterior(true);
+      }
     });
   }, [scrollYProgress]);
 
@@ -370,68 +531,48 @@ export default function DoorReveal() {
     <section
       ref={ref}
       aria-label="Open the doors to the 360 suite experience"
-      className="relative h-[280vh] bg-ink"
+      className={`relative bg-ink ${isMobile ? "h-[200vh]" : "h-[260vh]"}`}
     >
-      <div className="sticky top-0 h-svh min-h-[640px] overflow-hidden">
-        {/* Interactive interior beyond the doors */}
-        <Interior360
-          enabled={doorsOpen}
-          brightness={interiorBrightness}
-          scale={interiorScale}
-          onYawChange={setYaw}
-        />
+      <div className="sticky top-0 h-svh min-h-[560px] overflow-hidden [transform:translateZ(0)]">
+        {showInterior ? (
+          <Interior360
+            enabled={doorsOpen}
+            brightness={interiorBrightness}
+            scale={interiorScale}
+            onYawChange={setYaw}
+            isMobile={isMobile}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-ink" />
+        )}
 
-        {/* Warm light through the seam */}
+        {/* Warm light — opacity only */}
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 w-[min(48vw,320px)] -translate-x-1/2"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 w-[min(48vw,280px)] -translate-x-1/2"
           style={{
             opacity: lightSpill,
             background:
-              "radial-gradient(ellipse at center, rgba(212,184,150,0.4) 0%, rgba(212,184,150,0.1) 42%, transparent 72%)",
+              "radial-gradient(ellipse at center, rgba(212,184,150,0.35) 0%, rgba(212,184,150,0.08) 42%, transparent 72%)",
           }}
         />
 
-        {/* Floating dust motes */}
+        {/* Doors — transform only (no animated box-shadow) */}
         <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-[15] overflow-hidden"
-          style={{ opacity: lightSpill }}
+          className="absolute inset-y-0 left-0 z-20 w-1/2 will-change-transform [backface-visibility:hidden]"
+          style={{ x: leftX }}
         >
-          {[...Array(12)].map((_, i) => (
-            <motion.span
-              key={i}
-              className="absolute size-0.5 rounded-full bg-sand/50"
-              style={{
-                left: `${12 + i * 7}%`,
-                top: `${20 + (i % 5) * 12}%`,
-              }}
-              animate={{
-                y: [0, -18, 0],
-                opacity: [0.15, 0.55, 0.15],
-              }}
-              transition={{
-                duration: 4 + (i % 4),
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.25,
-              }}
-            />
-          ))}
-        </motion.div>
-
-        {/* Classic doors */}
-        <motion.div
-          className="absolute inset-y-0 left-0 z-20 w-1/2 will-change-transform"
-          style={{ x: leftX, boxShadow: doorShadow }}
-        >
-          <DoorPanel side="left" />
+          <div className="h-full w-full shadow-[12px_0_40px_rgba(0,0,0,0.35)] md:shadow-[28px_0_60px_rgba(0,0,0,0.45)]">
+            <DoorPanel side="left" />
+          </div>
         </motion.div>
         <motion.div
-          className="absolute inset-y-0 right-0 z-20 w-1/2 will-change-transform"
-          style={{ x: rightX, boxShadow: doorShadowRight }}
+          className="absolute inset-y-0 right-0 z-20 w-1/2 will-change-transform [backface-visibility:hidden]"
+          style={{ x: rightX }}
         >
-          <DoorPanel side="right" />
+          <div className="h-full w-full shadow-[-12px_0_40px_rgba(0,0,0,0.35)] md:shadow-[-28px_0_60px_rgba(0,0,0,0.45)]">
+            <DoorPanel side="right" />
+          </div>
         </motion.div>
 
         <motion.div
@@ -440,7 +581,6 @@ export default function DoorReveal() {
           style={{ opacity: seamOpacity }}
         />
 
-        {/* Closed-door caption */}
         <motion.div
           className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center px-6 text-center"
           style={{ opacity: captionOpacity }}
@@ -456,60 +596,33 @@ export default function DoorReveal() {
           </p>
         </motion.div>
 
-        {/* Open-door HUD — glassmorphism 360 controls */}
         <motion.div
           className={`absolute inset-x-0 bottom-0 z-30 px-5 pb-10 md:px-8 md:pb-14 ${
             doorsOpen ? "pointer-events-auto" : "pointer-events-none"
           }`}
-          style={{ opacity: hudOpacity, y: glassY }}
+          style={{ opacity: hudOpacity }}
         >
           <div className="section-shell">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-md rounded-2xl border border-white/12 bg-ink/40 px-6 py-5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-8 items-center justify-center rounded-full border border-brass/40 text-[10px] font-medium tracking-wider text-brass-light">
-                    360°
-                  </span>
-                  <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-sand">
-                    Suite look-around
-                  </p>
-                </div>
-                <p className="mt-3 font-display text-2xl tracking-tight text-foam md:text-3xl">
-                  Timber, linen, highland light
-                </p>
-                <p className="mt-2 text-sm font-light text-seafoam/70">
-                  Drag left or right to look around the interior.
+            <div className="max-w-md border border-white/12 bg-ink/70 px-5 py-4 md:bg-ink/50 md:px-6 md:py-5 md:backdrop-blur-md">
+              <div className="flex items-center gap-3">
+                <span className="flex size-8 items-center justify-center rounded-full border border-brass/40 text-[10px] font-medium tracking-wider text-brass-light">
+                  360°
+                </span>
+                <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-sand">
+                  Suite look-around
                 </p>
               </div>
-
-              <div className="flex flex-wrap gap-3">
-                {[
-                  { value: "12", label: "Suites" },
-                  { value: "360°", label: "View" },
-                  { value: "24/7", label: "Care" },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="min-w-[5.5rem] rounded-xl border border-white/10 bg-foam/5 px-4 py-3 backdrop-blur-md"
-                  >
-                    <p className="font-display text-xl text-brass-light">
-                      {stat.value}
-                    </p>
-                    <p className="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-seafoam/55">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Compass / yaw indicator */}
-            <div className="mt-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-foam/45">
-              <span className="h-px flex-1 max-w-16 bg-foam/25" />
-              Drag · Look · Explore
-              <span className="rounded-full border border-brass/35 bg-brass/10 px-2.5 py-1 font-medium tracking-[0.14em] text-brass-light">
-                {String(yaw).padStart(3, "0")}°
-              </span>
+              <p className="mt-3 font-display text-2xl tracking-tight text-foam md:text-3xl">
+                Timber, linen, highland light
+              </p>
+              <p className="mt-2 text-sm font-light text-seafoam/70">
+                Drag left or right to look around the interior.
+              </p>
+              {!isMobile && (
+                <p className="mt-3 text-[10px] uppercase tracking-[0.2em] text-brass-light/80">
+                  {String(yaw).padStart(3, "0")}°
+                </p>
+              )}
             </div>
           </div>
         </motion.div>
