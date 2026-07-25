@@ -1,4 +1,5 @@
 import Hero from "../components/sections/Hero";
+import DoorReveal from "../components/sections/DoorReveal";
 import About from "../components/sections/About";
 import Rooms from "../components/sections/Rooms";
 import Facilities from "../components/sections/Facilities";
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <DoorReveal />
       <About />
       <Rooms />
       <Facilities />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MapPin, Mail, Phone, ArrowUpRight, Check } from "lucide-react";
 import { contact } from "../../data/resort";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
@@ -52,6 +52,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [focused, setFocused] = useState(null);
+  const reduce = useReducedMotion();
 
   const update = (e) => {
     const { name, value } = e.target;
@@ -153,10 +154,10 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-sand-light px-5 py-24 md:px-8 md:py-32"
+      className="relative overflow-hidden bg-mist section-pad"
     >
       <div
-        className="pointer-events-none absolute -left-20 top-20 h-80 w-80 rounded-full bg-seafoam/50 blur-3xl"
+        className="pointer-events-none absolute -left-20 top-20 h-80 w-80 rounded-full bg-seafoam/40 blur-3xl"
         aria-hidden
       />
       <div
@@ -164,23 +165,37 @@ export default function Contact() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="section-shell relative">
         <SectionReveal className="mb-12 max-w-2xl md:mb-16">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-brass">
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-brass">
             Enquire
           </p>
           <h2 className="mt-4 font-display text-4xl tracking-tight text-ink md:text-5xl lg:text-6xl">
             Begin your stay
           </h2>
-          <p className="mt-4 max-w-lg text-base font-light leading-relaxed text-ink/60">
+          <p className="mt-5 max-w-lg text-base font-light leading-relaxed text-ink/55">
             Share your dates and preferences. Our concierge replies within one
-            business day — this demo form records locally only.
+            business day.
           </p>
         </SectionReveal>
 
-        <div className="grid overflow-hidden lg:grid-cols-12 lg:min-h-[640px]">
-          {/* Left panel */}
-          <SectionReveal className="relative flex flex-col justify-between bg-ink px-7 py-10 text-foam md:px-10 md:py-12 lg:col-span-5">
+        <div
+          className="grid overflow-hidden lg:grid-cols-12 lg:min-h-[640px]"
+          style={{ perspective: 1600 }}
+        >
+          {/* Left panel — 3D swing from left */}
+          <motion.div
+            className="relative flex flex-col justify-between bg-ink px-7 py-10 text-foam md:px-10 md:py-12 lg:col-span-5"
+            initial={
+              reduce
+                ? false
+                : { opacity: 0, rotateY: 28, x: -40, transformOrigin: "left center" }
+            }
+            whileInView={{ opacity: 1, rotateY: 0, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 1, ease: easeOutExpo }}
+            style={{ transformStyle: "preserve-3d" }}
+          >
             <motion.div
               className="pointer-events-none absolute inset-0 opacity-40"
               aria-hidden
@@ -188,9 +203,15 @@ export default function Contact() {
                 background:
                   "radial-gradient(ellipse at 20% 0%, rgba(184,149,108,0.25), transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(200,217,211,0.12), transparent 50%)",
               }}
+              animate={
+                reduce
+                  ? undefined
+                  : { opacity: [0.3, 0.5, 0.3] }
+              }
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            <div className="relative">
+            <div className="relative" style={{ transform: "translateZ(20px)" }}>
               <p className="font-display text-2xl tracking-tight md:text-3xl">
                 Auralis Concierge
               </p>
@@ -205,15 +226,21 @@ export default function Contact() {
                   return (
                     <motion.li
                       key={item.label}
-                      initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={
+                        reduce
+                          ? false
+                          : { opacity: 0, x: -20, rotateY: 12 }
+                      }
+                      whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                       viewport={{ once: true }}
                       transition={{
-                        delay: 0.1 + i * 0.08,
-                        duration: 0.6,
+                        delay: 0.2 + i * 0.1,
+                        duration: 0.65,
                         ease: easeLuxury,
                       }}
+                      whileHover={reduce ? undefined : { x: 6, z: 12 }}
                       className="flex gap-4"
+                      style={{ transformStyle: "preserve-3d" }}
                     >
                       <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brass/35 text-brass">
                         <Icon size={15} strokeWidth={1.5} />
@@ -232,7 +259,14 @@ export default function Contact() {
               </ul>
             </div>
 
-            <div className="relative mt-12 overflow-hidden border border-white/10">
+            <motion.div
+              className="relative mt-12 overflow-hidden border border-white/10"
+              initial={reduce ? false : { opacity: 0, y: 24, rotateX: 10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35, duration: 0.75, ease: easeOutExpo }}
+              style={{ transform: "translateZ(12px)" }}
+            >
               <div className="absolute left-3 top-3 z-10 bg-ink/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-sand backdrop-blur-sm">
                 Location
               </div>
@@ -242,34 +276,48 @@ export default function Contact() {
                 className="h-44 w-full opacity-80 grayscale contrast-125"
                 loading="lazy"
               />
-            </div>
-          </SectionReveal>
+            </motion.div>
+          </motion.div>
 
-          {/* Form panel */}
-          <SectionReveal
+          {/* Form panel — 3D swing from right */}
+          <motion.div
             className="bg-foam px-6 py-10 md:px-10 md:py-12 lg:col-span-7"
-            delay={0.08}
+            initial={
+              reduce
+                ? false
+                : { opacity: 0, rotateY: -24, x: 40, transformOrigin: "right center" }
+            }
+            whileInView={{ opacity: 1, rotateY: 0, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1, delay: 0.08, ease: easeOutExpo }}
+            style={{ transformStyle: "preserve-3d" }}
           >
             <AnimatePresence mode="wait">
               {submitted ? (
                 <motion.div
                   key="success"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={
+                    reduce
+                      ? { opacity: 0, scale: 0.96 }
+                      : { opacity: 0, rotateX: 20, scale: 0.9, y: 30 }
+                  }
+                  animate={{ opacity: 1, rotateX: 0, scale: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.55, ease: easeOutExpo }}
+                  transition={{ duration: 0.6, ease: easeOutExpo }}
+                  style={{ transformPerspective: 1200 }}
                   className="flex h-full min-h-[420px] flex-col items-start justify-center"
                 >
                   <motion.span
-                    initial={{ scale: 0.6, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    initial={{ scale: 0.4, rotateY: 90, opacity: 0 }}
+                    animate={{ scale: 1, rotateY: 0, opacity: 1 }}
                     transition={{
                       type: "spring",
-                      stiffness: 260,
-                      damping: 18,
-                      delay: 0.1,
+                      stiffness: 220,
+                      damping: 16,
+                      delay: 0.12,
                     }}
                     className="flex h-14 w-14 items-center justify-center rounded-full bg-seafoam text-ink"
+                    style={{ transformStyle: "preserve-3d" }}
                   >
                     <Check size={24} strokeWidth={1.75} />
                   </motion.span>
@@ -301,32 +349,52 @@ export default function Contact() {
                   onSubmit={onSubmit}
                   className="space-y-6"
                   noValidate
+                  style={{ transformStyle: "preserve-3d" }}
                 >
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field id="name" label="Full name" error={errors.name}>
-                      <input
-                        id="name"
-                        name="name"
-                        value={form.name}
-                        onChange={update}
-                        placeholder="Alex Rivera"
-                        className={`${inputBase} ${inputBorder("name")}`}
-                        autoComplete="name"
-                        {...focusProps("name")}
-                      />
+                      <motion.div
+                        animate={
+                          focused === "name" && !reduce
+                            ? { z: 16, scale: 1.01 }
+                            : { z: 0, scale: 1 }
+                        }
+                        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                        style={{ transformStyle: "preserve-3d" }}
+                      >
+                        <input
+                          id="name"
+                          name="name"
+                          value={form.name}
+                          onChange={update}
+                          placeholder="Alex Rivera"
+                          className={`${inputBase} ${inputBorder("name")}`}
+                          autoComplete="name"
+                          {...focusProps("name")}
+                        />
+                      </motion.div>
                     </Field>
                     <Field id="email" label="Email" error={errors.email}>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={form.email}
-                        onChange={update}
-                        placeholder="you@example.com"
-                        className={`${inputBase} ${inputBorder("email")}`}
-                        autoComplete="email"
-                        {...focusProps("email")}
-                      />
+                      <motion.div
+                        animate={
+                          focused === "email" && !reduce
+                            ? { z: 16, scale: 1.01 }
+                            : { z: 0, scale: 1 }
+                        }
+                        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                      >
+                        <input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={form.email}
+                          onChange={update}
+                          placeholder="you@example.com"
+                          className={`${inputBase} ${inputBorder("email")}`}
+                          autoComplete="email"
+                          {...focusProps("email")}
+                        />
+                      </motion.div>
                     </Field>
                   </div>
 
@@ -389,23 +457,32 @@ export default function Contact() {
                       {...focusProps("room")}
                     >
                       <option value="">Any available</option>
-                      <option value="lagoon">Lagoon Suite</option>
-                      <option value="ocean">Ocean Pavilion</option>
+                      <option value="canopy">Canopy Suite</option>
+                      <option value="ridge">Ridge Pavilion</option>
                       <option value="auralis">Auralis Residence</option>
                     </select>
                   </Field>
 
                   <Field id="message" label="Message" error={errors.message}>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      value={form.message}
-                      onChange={update}
-                      placeholder="Room preference, occasions, dietary notes, arrival time…"
-                      className={`${inputBase} ${inputBorder("message")} resize-none`}
-                      {...focusProps("message")}
-                    />
+                    <motion.div
+                      animate={
+                        focused === "message" && !reduce
+                          ? { z: 12, scale: 1.005 }
+                          : { z: 0, scale: 1 }
+                      }
+                      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                    >
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={4}
+                        value={form.message}
+                        onChange={update}
+                        placeholder="Room preference, occasions, dietary notes, arrival time…"
+                        className={`${inputBase} ${inputBorder("message")} resize-none`}
+                        {...focusProps("message")}
+                      />
+                    </motion.div>
                   </Field>
 
                   <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
@@ -416,13 +493,18 @@ export default function Contact() {
                     <motion.button
                       type="submit"
                       className="inline-flex items-center justify-center gap-2 rounded-sm bg-ink px-8 py-3.5 text-sm font-medium text-foam"
-                      whileHover={{ scale: 1.03, backgroundColor: "#152a33" }}
+                      whileHover={
+                        reduce
+                          ? undefined
+                          : { scale: 1.03, rotateX: -4, backgroundColor: "#152a33" }
+                      }
                       whileTap={{ scale: 0.97 }}
                       transition={{
                         type: "spring",
                         stiffness: 400,
                         damping: 22,
                       }}
+                      style={{ transformStyle: "preserve-3d" }}
                     >
                       Send enquiry
                       <ArrowUpRight size={16} strokeWidth={1.75} />
@@ -431,7 +513,7 @@ export default function Contact() {
                 </motion.form>
               )}
             </AnimatePresence>
-          </SectionReveal>
+          </motion.div>
         </div>
       </div>
     </section>

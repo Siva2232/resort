@@ -35,6 +35,15 @@ export default function PageLoader() {
               {brand.name}
             </motion.p>
           </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.35, ease: easeLuxury }}
+            className="absolute mt-20 text-[11px] font-medium uppercase tracking-[0.32em] text-sand/70"
+          >
+            Forest Retreat
+          </motion.p>
           <motion.div
             className="absolute bottom-0 left-0 h-[2px] bg-brass"
             initial={{ width: "0%" }}

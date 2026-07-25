@@ -1,7 +1,7 @@
 import {
   Wifi,
   Wind,
-  Waves,
+  Trees,
   UtensilsCrossed,
   Sparkles,
   Car,
@@ -14,7 +14,7 @@ import SectionReveal from "../ui/SectionReveal";
 const icons = {
   Wifi,
   Wind,
-  Waves,
+  Trees,
   UtensilsCrossed,
   Sparkles,
   Car,
@@ -22,35 +22,36 @@ const icons = {
 
 export default function Facilities() {
   return (
-    <section className="border-y border-ink/5 bg-ink px-5 py-16 md:px-8 md:py-20">
-      <div className="mx-auto max-w-7xl">
+    <section className="bg-ink px-5 py-20 md:px-8 md:py-24">
+      <div className="section-shell">
         <SectionReveal>
-          <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-sand">
-            Facilities
-          </p>
+          <div className="flex flex-col items-center gap-3 text-center">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
+              Included with every stay
+            </p>
+            <div className="h-px w-10 bg-brass/50" aria-hidden />
+          </div>
         </SectionReveal>
 
-        <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-12 grid grid-cols-2 gap-y-12 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-4">
           {facilities.map((item, i) => {
             const Icon = icons[item.icon] || Sparkles;
             return (
-              <SectionReveal key={item.id} delay={0.06 * i}>
+              <SectionReveal key={item.id} delay={0.05 * i}>
                 <motion.div
-                  className="flex flex-col items-center gap-3 text-center"
-                  whileHover={{ y: -6 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 18 }}
+                  className="group flex flex-col items-center gap-4 text-center"
+                  whileHover={{ y: -4 }}
+                  transition={{ type: "spring", stiffness: 320, damping: 20 }}
                 >
                   <motion.span
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-brass/30"
-                    whileHover={{
-                      borderColor: "rgba(184,149,108,0.8)",
-                      backgroundColor: "rgba(184,149,108,0.12)",
-                    }}
+                    className="flex size-14 items-center justify-center border border-brass/25 text-brass transition-colors duration-500 group-hover:border-brass/60 group-hover:bg-brass/10"
                     transition={{ duration: 0.35, ease: easeLuxury }}
                   >
-                    <Icon className="h-5 w-5 text-brass" strokeWidth={1.5} />
+                    <Icon className="size-5" strokeWidth={1.35} />
                   </motion.span>
-                  <p className="text-sm font-light text-seafoam">{item.label}</p>
+                  <p className="max-w-[8.5rem] text-[13px] font-light leading-snug text-seafoam/85">
+                    {item.label}
+                  </p>
                 </motion.div>
               </SectionReveal>
             );
