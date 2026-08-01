@@ -20,7 +20,7 @@ function WhatsAppIcon({ className }) {
 const phoneDigits = contact.phone.replace(/\D/g, "");
 const telHref = `tel:+${phoneDigits}`;
 const waHref = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(
-  "Hello Auralis, I'd like to enquire about a stay."
+  "Hello Mount Misty Retreat, I'd like to enquire about a stay."
 )}`;
 
 const actions = [

@@ -1,14 +1,56 @@
 import {
+  AnimatePresence,
   motion,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { brand } from "../../data/resort";
+import { easeLuxury } from "../../utils/motion";
 
-const INTERIOR =
-  "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1600&q=75";
+const INTERIOR_SLIDES = [
+  {
+    src: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1600&q=75",
+    alt: "Suite with soft linen and timber",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1600&q=75",
+    alt: "Quiet bedroom in highland light",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=75",
+    alt: "Pavilion lounge overlooking mist",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1600&q=75",
+    alt: "Living room with woven textures",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=75",
+    alt: "Private residence and deck",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=75",
+    alt: "Evening interiors aglow",
+  },
+];
+
+const SLIDE_COUNT = INTERIOR_SLIDES.length;
+const INTERIOR = INTERIOR_SLIDES[0].src;
+
+/** Scroll progress: doors finish opening slowly, then slides begin. */
+const DOOR_END = 0.4;
+/** Last slide holds until near the end of the sticky section. */
+const SLIDES_END = 0.95;
+
+/** Velvet ease-out — slow start, long soft finish on the hinges. */
+function easeDoorOpen(t) {
+  const x = Math.min(1, Math.max(0, t));
+  return 1 - (1 - x) ** 5;
+}
 
 function DoorPanel({ side }) {
   const isLeft = side === "left";
@@ -233,12 +275,88 @@ function DoorPanel({ side }) {
 }
 
 /**
+ * Scroll-driven interior gallery — index advances with scroll, not autoplay.
+ */
+function InteriorCarousel({ index, showDots }) {
+  const reduce = useReducedMotion();
+  const [direction, setDirection] = useState(1);
+  const prevIndex = useRef(index);
+
+  useEffect(() => {
+    if (index !== prevIndex.current) {
+      setDirection(index > prevIndex.current ? 1 : -1);
+      prevIndex.current = index;
+    }
+  }, [index]);
+
+  useEffect(() => {
+    INTERIOR_SLIDES.forEach((s) => {
+      const img = new Image();
+      img.src = s.src;
+    });
+  }, []);
+
+  const slide = INTERIOR_SLIDES[index] ?? INTERIOR_SLIDES[0];
+
+  return (
+    <div className="absolute inset-0 overflow-hidden bg-ink">
+      <AnimatePresence initial={false} custom={direction} mode="sync">
+        <motion.img
+          key={slide.src}
+          src={slide.src}
+          alt={slide.alt}
+          custom={direction}
+          variants={{
+            enter: (d) =>
+              reduce
+                ? { opacity: 0 }
+                : { opacity: 0, scale: 1.05, x: d > 0 ? "2.5%" : "-2.5%" },
+            center: { opacity: 1, scale: 1, x: 0 },
+            exit: (d) =>
+              reduce
+                ? { opacity: 0 }
+                : { opacity: 0, scale: 1.015, x: d > 0 ? "-2%" : "2%" },
+          }}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: reduce ? 0.3 : 0.85, ease: easeLuxury }}
+          className="absolute inset-0 h-full w-full object-cover will-change-transform"
+          decoding="async"
+          draggable={false}
+        />
+      </AnimatePresence>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-ink/25" />
+
+      {showDots && SLIDE_COUNT > 1 && (
+        <div
+          aria-hidden
+          className="absolute bottom-28 left-1/2 z-[5] flex -translate-x-1/2 items-center gap-2 md:bottom-32"
+        >
+          {INTERIOR_SLIDES.map((s, i) => (
+            <span
+              key={s.src}
+              className={`h-1 rounded-full transition-all duration-500 ${
+                i === index ? "w-7 bg-foam" : "w-1.5 bg-foam/35"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Hinged double doors — push open on their hinges (rotateY),
- * like a person opening the door back into the room. Not left/right slide.
+ * then scroll through interior images before the next section.
  */
 export default function DoorReveal() {
   const ref = useRef(null);
   const reduce = useReducedMotion();
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [doorsOpen, setDoorsOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -246,25 +364,88 @@ export default function DoorReveal() {
     layoutEffect: false,
   });
 
-  // Closed 0° → pushed open past 90° toward ~105° (hinge swing into the room)
-  const leftRotateY = useTransform(scrollYProgress, [0.05, 0.7], [0, -105]);
-  const rightRotateY = useTransform(scrollYProgress, [0.05, 0.7], [0, 105]);
-  const interiorScale = useTransform(scrollYProgress, [0, 0.7], [1.12, 1]);
-  const interiorOpacity = useTransform(scrollYProgress, [0.1, 0.45], [0.35, 1]);
-  const captionOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.12, 0.32, 0.48],
-    [1, 1, 0.2, 0]
-  );
+  // Doors open across a long, slow stretch of scroll
+  const openAmountRaw = useTransform(scrollYProgress, (v) => {
+    const t = Math.min(1, Math.max(0, (v - 0.015) / (DOOR_END - 0.015)));
+    return easeDoorOpen(t);
+  });
+
+  // Right leaf lags — second hand pushing a heavy door
+  const openAmountRightRaw = useTransform(scrollYProgress, (v) => {
+    const start = 0.045;
+    const t = Math.min(1, Math.max(0, (v - start) / (DOOR_END - start + 0.04)));
+    return easeDoorOpen(t);
+  });
+
+  // Soft spring inertia — doors feel heavy and fluid, not 1:1 with the wheel
+  const doorSpring = { stiffness: 48, damping: 28, mass: 1.15, restDelta: 0.001 };
+  const openAmount = useSpring(openAmountRaw, doorSpring);
+  const openAmountRight = useSpring(openAmountRightRaw, {
+    ...doorSpring,
+    mass: 1.35,
+    stiffness: 42,
+  });
+
+  // After doors open, map remaining scroll across each interior image
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const open = v >= DOOR_END * 0.88;
+    setDoorsOpen((prev) => (prev === open ? prev : open));
+
+    let next = 0;
+    if (v > DOOR_END) {
+      const t = Math.min(
+        1,
+        Math.max(0, (v - DOOR_END) / (SLIDES_END - DOOR_END))
+      );
+      next = Math.min(SLIDE_COUNT - 1, Math.floor(t * SLIDE_COUNT));
+    }
+    setSlideIndex((prev) => (prev === next ? prev : next));
+  });
+
+  // Soft push to ~108° — settled open without a harsh snap
+  const leftRotateY = useTransform(openAmount, [0, 1], [0, -108]);
+  const rightRotateY = useTransform(openAmountRight, [0, 1], [0, 108]);
+
+  const leftZ = useTransform(openAmount, [0, 0.45, 1], [0, 14, 6]);
+  const rightZ = useTransform(openAmountRight, [0, 0.45, 1], [0, 14, 6]);
+
+  const interiorScale = useTransform(openAmount, [0, 1], [1.12, 1]);
+  const interiorOpacity = useTransform(openAmount, [0.04, 0.62], [0.22, 1]);
+  const interiorY = useTransform(openAmount, [0, 1], ["3.5%", "0%"]);
+
+  const captionOpacity = useTransform(openAmount, [0, 0.12, 0.48], [1, 0.9, 0]);
+  const captionY = useTransform(openAmount, [0, 0.48], [0, -20]);
   const revealOpacity = useTransform(
     scrollYProgress,
-    [0.55, 0.72, 0.92],
-    [0, 1, 1]
+    [DOOR_END * 0.86, DOOR_END + 0.05],
+    [0, 1]
   );
-  const lightSpill = useTransform(scrollYProgress, [0.08, 0.45], [0, 0.85]);
-  const seamOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const doorBrightness = useTransform(scrollYProgress, [0, 0.7], [1, 0.72]);
-  const doorFilter = useTransform(doorBrightness, (b) => `brightness(${b})`);
+  const revealY = useTransform(
+    scrollYProgress,
+    [DOOR_END * 0.86, DOOR_END + 0.07],
+    [24, 0]
+  );
+
+  const lightSpill = useTransform(openAmount, [0.06, 0.58], [0, 1]);
+  const lightWidth = useTransform(openAmount, [0, 1], ["10vw", "52vw"]);
+  const seamOpacity = useTransform(openAmount, [0, 0.18], [1, 0]);
+
+  const doorBrightness = useTransform(openAmount, [0, 0.5, 1], [1, 0.82, 0.66]);
+  const doorFilter = useTransform(
+    doorBrightness,
+    (b) => `brightness(${b}) contrast(1.04)`
+  );
+  const doorBrightnessR = useTransform(
+    openAmountRight,
+    [0, 0.5, 1],
+    [1, 0.82, 0.66]
+  );
+  const doorFilterR = useTransform(
+    doorBrightnessR,
+    (b) => `brightness(${b}) contrast(1.04)`
+  );
+
+  const shadowOpacity = useTransform(openAmount, [0.04, 0.42, 1], [0, 0.48, 0.22]);
 
   if (reduce) {
     return (
@@ -294,38 +475,37 @@ export default function DoorReveal() {
     <section
       ref={ref}
       aria-label="Open the doors to the retreat"
-      className="relative h-[220vh] bg-ink"
+      className="relative h-[560vh] bg-ink"
     >
       <div
         className="sticky top-0 h-svh min-h-[560px] overflow-hidden"
-        style={{ perspective: "1800px", perspectiveOrigin: "50% 50%" }}
+        style={{
+          perspective: "2400px",
+          perspectiveOrigin: "50% 48%",
+        }}
       >
-        {/* Interior behind the doors */}
         <motion.div
           className="absolute inset-0"
-          style={{ scale: interiorScale, opacity: interiorOpacity }}
+          style={{
+            scale: interiorScale,
+            opacity: interiorOpacity,
+            y: interiorY,
+          }}
         >
-          <img
-            src={INTERIOR}
-            alt="Auralis suite interior"
-            className="h-full w-full object-cover"
-            decoding="async"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-ink/25" />
+          <InteriorCarousel index={slideIndex} showDots={doorsOpen} />
         </motion.div>
 
-        {/* Warm light through the opening */}
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 w-[min(42vw,260px)] -translate-x-1/2"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 -translate-x-1/2"
           style={{
             opacity: lightSpill,
+            width: lightWidth,
             background:
-              "radial-gradient(ellipse at center, rgba(212,184,150,0.4) 0%, rgba(212,184,150,0.08) 45%, transparent 72%)",
+              "radial-gradient(ellipse at center, rgba(212,184,150,0.45) 0%, rgba(212,184,150,0.12) 40%, transparent 70%)",
           }}
         />
 
-        {/* 3D door stage */}
         <div
           className="absolute inset-0 z-20"
           style={{ transformStyle: "preserve-3d" }}
@@ -334,16 +514,35 @@ export default function DoorReveal() {
             className="absolute inset-y-0 left-0 w-1/2 origin-left will-change-transform [backface-visibility:hidden]"
             style={{
               rotateY: leftRotateY,
+              z: leftZ,
               filter: doorFilter,
               transformStyle: "preserve-3d",
             }}
           >
-            <div className="h-full w-full" style={{ transformStyle: "preserve-3d" }}>
+            <div
+              className="relative h-full w-full"
+              style={{ transformStyle: "preserve-3d" }}
+            >
               <DoorPanel side="left" />
               <div
                 aria-hidden
-                className="absolute inset-y-0 right-0 w-2 origin-right bg-gradient-to-l from-[#1a2830] to-[#0a1218]"
-                style={{ transform: "rotateY(90deg)" }}
+                className="absolute inset-y-0 -right-[5px] w-[5px] origin-left"
+                style={{
+                  transform: "rotateY(90deg)",
+                  background:
+                    "linear-gradient(180deg, #2a3a44 0%, #152028 40%, #0c141a 100%)",
+                  boxShadow: "1px 0 0 rgba(184,149,108,0.25)",
+                }}
+              />
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute inset-y-[8%] -right-8 w-24 origin-left"
+                style={{
+                  opacity: shadowOpacity,
+                  background:
+                    "linear-gradient(90deg, rgba(0,0,0,0.55), transparent)",
+                  transform: "rotateY(8deg) translateZ(-2px)",
+                }}
               />
             </div>
           </motion.div>
@@ -352,16 +551,35 @@ export default function DoorReveal() {
             className="absolute inset-y-0 right-0 w-1/2 origin-right will-change-transform [backface-visibility:hidden]"
             style={{
               rotateY: rightRotateY,
-              filter: doorFilter,
+              z: rightZ,
+              filter: doorFilterR,
               transformStyle: "preserve-3d",
             }}
           >
-            <div className="h-full w-full" style={{ transformStyle: "preserve-3d" }}>
+            <div
+              className="relative h-full w-full"
+              style={{ transformStyle: "preserve-3d" }}
+            >
               <DoorPanel side="right" />
               <div
                 aria-hidden
-                className="absolute inset-y-0 left-0 w-2 origin-left bg-gradient-to-r from-[#1a2830] to-[#0a1218]"
-                style={{ transform: "rotateY(-90deg)" }}
+                className="absolute inset-y-0 -left-[5px] w-[5px] origin-right"
+                style={{
+                  transform: "rotateY(-90deg)",
+                  background:
+                    "linear-gradient(180deg, #2a3a44 0%, #152028 40%, #0c141a 100%)",
+                  boxShadow: "-1px 0 0 rgba(184,149,108,0.25)",
+                }}
+              />
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute inset-y-[8%] -left-8 w-24 origin-right"
+                style={{
+                  opacity: shadowOpacity,
+                  background:
+                    "linear-gradient(270deg, rgba(0,0,0,0.55), transparent)",
+                  transform: "rotateY(-8deg) translateZ(-2px)",
+                }}
               />
             </div>
           </motion.div>
@@ -369,37 +587,36 @@ export default function DoorReveal() {
 
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-[25] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-brass/45 to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-[25] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-brass/50 to-transparent"
           style={{ opacity: seamOpacity }}
         />
 
-        {/* Closed caption — simple */}
         <motion.div
           className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-center px-6 text-center"
-          style={{ opacity: captionOpacity }}
+          style={{ opacity: captionOpacity, y: captionY }}
         >
           <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
-            Scroll to enter
+            Scroll slowly to enter
           </p>
           <h2 className="mt-4 max-w-lg font-display text-4xl tracking-tight text-foam md:text-5xl lg:text-6xl">
             Open the doors
           </h2>
           <p className="mx-auto mt-5 max-w-sm text-base font-light leading-relaxed text-seafoam/75">
-            Push through the threshold — into quiet highland interiors.
+            Ease the hinges open — into quiet highland interiors.
           </p>
         </motion.div>
 
-        {/* After open — normal copy, no HUD cards */}
         <motion.div
           className="pointer-events-none absolute inset-x-0 bottom-0 z-30 px-5 pb-14 md:px-8 md:pb-20"
-          style={{ opacity: revealOpacity }}
+          style={{ opacity: revealOpacity, y: revealY }}
         >
           <div className="section-shell">
             <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
-              The interior
+              The interior · {slideIndex + 1} / {SLIDE_COUNT}
             </p>
             <p className="mt-3 max-w-md font-display text-3xl tracking-tight text-foam md:text-4xl">
-              Timber, linen, and soft highland light.
+              {INTERIOR_SLIDES[slideIndex]?.alt ??
+                "Timber, linen, and soft highland light."}
             </p>
           </div>
         </motion.div>

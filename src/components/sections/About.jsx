@@ -58,7 +58,7 @@ export default function About() {
               <div className="relative">
                 <ImageCarousel
                   images={aboutImages}
-                  altPrefix="Auralis forest retreat"
+                  altPrefix="Mount Misty forest retreat"
                   className="aspect-[16/10] w-full md:aspect-[21/11]"
                   interval={5000}
                 />

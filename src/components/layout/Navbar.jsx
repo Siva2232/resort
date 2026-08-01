@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { brand, contact, navLinks } from "../../data/resort";
 import { scrollToId } from "../../utils/helpers";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
+import BrandLogo from "../ui/BrandLogo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -63,22 +64,18 @@ export default function Navbar() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <div className="section-shell flex h-[4.5rem] items-center justify-between px-5 md:h-[5.25rem] md:px-8">
+        <div className="section-shell flex h-[6rem] items-center justify-between px-5 md:h-[7rem] md:px-8">
           <motion.a
             href="#top"
             onClick={(e) => {
               e.preventDefault();
               go("#top");
             }}
-            className="group flex min-w-0 items-baseline gap-2.5"
-            whileHover={{ opacity: 0.85 }}
+            className="group flex min-w-0 items-center"
+            whileHover={{ opacity: 0.9 }}
+            aria-label={brand.fullName}
           >
-            <span className="font-display text-[1.35rem] tracking-tight text-foam md:text-[1.65rem]">
-              {brand.name}
-            </span>
-            <span className="hidden text-[10px] font-medium uppercase tracking-[0.22em] text-sand/70 sm:inline">
-              Forest Retreat
-            </span>
+            <BrandLogo size="md" />
           </motion.a>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -170,7 +167,8 @@ export default function Navbar() {
             />
 
             <div className="relative flex h-full flex-col px-6 pb-10 pt-28">
-              <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand/70">
+              <BrandLogo size="xl" className="mb-2" />
+              <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.28em] text-sand/70">
                 Menu
               </p>
 
@@ -222,7 +220,7 @@ export default function Navbar() {
                   >
                     {contact.phone}
                   </a>
-                  <p className="text-xs text-foam/40">Adimali · Kerala</p>
+                  <p className="text-xs text-foam/40">Edathana · Idukki</p>
                 </div>
               </motion.div>
             </div>

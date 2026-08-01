@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 import { brand, contact, navLinks } from "../../data/resort";
 import { scrollToId } from "../../utils/helpers";
 import { easeLuxury } from "../../utils/motion";
+import BrandLogo from "../ui/BrandLogo";
 
 export default function Footer() {
   return (
@@ -46,16 +47,15 @@ export default function Footer() {
               scrollToId("#top");
             }}
             className="inline-block"
+            aria-label={brand.fullName}
           >
-            <p className="font-display text-3xl tracking-tight md:text-4xl">
-              {brand.name}
-            </p>
-            <p className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.24em] text-sand/75">
-              Forest Retreat
-            </p>
+            <BrandLogo size="lg" />
           </a>
-          <p className="mt-6 max-w-sm text-sm font-light leading-relaxed text-seafoam/65">
-            {brand.tagline}
+          <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.28em] text-sand/80">
+            Edathana · Idukki
+          </p>
+          <p className="mt-3 max-w-sm text-sm font-light leading-relaxed text-seafoam/65">
+            A quiet highland stay amid mist, forest, and slow mornings.
           </p>
           <motion.div
             className="mt-8 h-px w-16 origin-left bg-brass/50"
@@ -111,9 +111,20 @@ export default function Footer() {
                 strokeWidth={1.5}
                 className="mt-0.5 shrink-0 text-brass"
               />
-              <span className="text-sm font-light leading-relaxed text-foam/65">
-                {contact.address}
-              </span>
+              <div className="text-sm font-light leading-relaxed text-foam/65">
+                {contact.addressLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+                <a
+                  href={contact.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1.5 text-brass-light transition-colors hover:text-foam"
+                >
+                  View on Google Maps
+                  <ExternalLink size={12} strokeWidth={1.6} />
+                </a>
+              </div>
             </li>
             <li className="flex gap-3">
               <Mail
@@ -152,7 +163,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {brand.fullName}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <p>Adimali · Idukki · Kerala</p>
+            <p>Edathana · Idukki · Kerala</p>
             <button
               type="button"
               onClick={() => scrollToId("#top")}

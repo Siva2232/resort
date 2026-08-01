@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { brand } from "../../data/resort";
-import { easeLuxury, easeOutExpo } from "../../utils/motion";
+import { easeLuxury } from "../../utils/motion";
+import BrandLogo from "./BrandLogo";
 
 export default function PageLoader() {
   const [show, setShow] = useState(true);
@@ -10,9 +10,9 @@ export default function PageLoader() {
   useEffect(() => {
     if (reduce) {
       setShow(false);
-      return;
+      return undefined;
     }
-    const t = setTimeout(() => setShow(false), 1800);
+    const t = setTimeout(() => setShow(false), 2000);
     return () => clearTimeout(t);
   }, [reduce]);
 
@@ -20,35 +20,41 @@ export default function PageLoader() {
     <AnimatePresence>
       {show && (
         <motion.div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-ink"
+          className="pointer-events-none fixed inset-0 z-[80] flex flex-col items-center justify-center bg-ink"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.7, ease: easeLuxury, delay: 0.15 }}
         >
-          <div className="overflow-hidden">
-            <motion.p
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "-40%", opacity: 0 }}
-              transition={{ duration: 0.8, ease: easeOutExpo }}
-              className="font-display text-4xl tracking-tight text-foam md:text-5xl"
-            >
-              {brand.name}
-            </motion.p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16, scale: 0.98 }}
+            transition={{ duration: 0.85, ease: easeLuxury }}
+          >
+            <BrandLogo size="xl" imgClassName="max-w-[min(88vw,22rem)]" />
+          </motion.div>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.35, ease: easeLuxury }}
-            className="absolute mt-20 text-[11px] font-medium uppercase tracking-[0.32em] text-sand/70"
+            transition={{ duration: 0.6, delay: 0.45, ease: easeLuxury }}
+            className="mt-8 text-[11px] font-medium uppercase tracking-[0.32em] text-sand/70"
           >
-            Forest Retreat
+            Edathana · Idukki
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.55, delay: 0.6, ease: easeLuxury }}
+            className="mt-3 max-w-xs text-center text-sm font-light leading-relaxed text-seafoam/60"
+          >
+            A quiet highland stay amid mist, forest, and slow mornings.
           </motion.p>
           <motion.div
             className="absolute bottom-0 left-0 h-[2px] bg-brass"
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
-            transition={{ duration: 1.4, ease: easeLuxury }}
+            transition={{ duration: 1.55, ease: easeLuxury }}
           />
         </motion.div>
       )}

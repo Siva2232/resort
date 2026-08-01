@@ -5,7 +5,9 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
-import { brand, heroImage, heroVideo } from "../../data/resort";
+import heroPoster from "../../assets/herovideo-poster.jpg";
+import heroVideo from "../../assets/herovideo.mp4";
+import { brand } from "../../data/resort";
 import { scrollToId } from "../../utils/helpers";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
 import MagneticButton from "../ui/MagneticButton";
@@ -40,7 +42,8 @@ export default function Hero() {
           muted
           loop
           playsInline
-          poster={heroImage}
+          preload="metadata"
+          poster={heroPoster}
           aria-hidden
           initial={reduce ? false : { scale: 1.1, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -76,7 +79,7 @@ export default function Hero() {
             transition={{ duration: 0.9, delay: 0.45, ease: easeLuxury }}
             className="mb-5 text-[11px] font-medium uppercase tracking-[0.32em] text-sand"
           >
-            Adimali · Kerala Highlands
+            Edathana · Idukki Highlands
           </motion.p>
 
           <motion.h1
@@ -85,7 +88,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.15, delay: 0.55, ease: easeOutExpo }}
           >
-            {brand.name}
+            {brand.fullName}
           </motion.h1>
 
           <motion.p
@@ -94,7 +97,7 @@ export default function Hero() {
             transition={{ duration: 1, delay: 0.85, ease: easeOutExpo }}
             className="mt-3 font-display text-xl italic tracking-tight text-seafoam/90 md:text-2xl"
           >
-            Forest Retreat
+            {brand.taglineShort}
           </motion.p>
 
           <motion.p

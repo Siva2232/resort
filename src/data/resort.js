@@ -1,11 +1,12 @@
 export const brand = {
-  name: "Auralis",
-  fullName: "Auralis Forest Retreat",
-  tagline: "The perfect blend of sanctuary and exploration.",
+  name: "Mount Misty",
+  fullName: "Mount Misty Retreat",
+  tagline: "Escape into the mist.",
+  taglineShort: "Escape into the mist",
   about:
-    "Nestled amid Kerala’s highland forests, Auralis is a sanctuary of mist, timber, and unhurried mornings. Every suite opens toward reserve forest lands. Every evening ends with a panoramic horizon.",
+    "Nestled in the highlands of Idukki, Mount Misty Retreat is a sanctuary of mist, timber, and unhurried mornings. Every suite opens toward quiet forest lands. Every evening settles into soft mountain light.",
   aboutSecondary:
-    "Quiet stays for those who seek both rest and discovery — from pristine forest views to waterfalls, viewpoints, and easy links to Kochi’s transit hubs.",
+    "Quiet stays for those who seek both rest and discovery — from pristine forest views to waterfalls, viewpoints, and easy links across Kerala’s highland belt.",
 };
 
 export const aboutImages = [
@@ -104,8 +105,8 @@ export const rooms = [
     amenities: ["King bed", "Valley terrace", "Daybed"],
   },
   {
-    id: "auralis",
-    name: "Auralis Residence",
+    id: "misty",
+    name: "Misty Residence",
     category: "Private villa",
     price: 18500,
     description:
@@ -217,7 +218,7 @@ export const testimonials = [
   {
     id: "t2",
     quote:
-      "Mornings on the verandah, evenings watching mist lift from the valley. Auralis understands how to make time slow down.",
+      "Mornings on the verandah, evenings watching mist lift from the valley. Mount Misty understands how to make time slow down.",
     name: "James & Elena K.",
     place: "London",
   },
@@ -231,16 +232,21 @@ export const testimonials = [
 ];
 
 export const contact = {
-  address: "Near Kokkippara, Adimali, Idukki, Kerala 685561",
-  email: "stay@auralis.example",
-  phone: "+91 90000 11223",
-  phoneSecondary: "+91 90000 44556",
+  address: "Pulickathotty P.O., Edathana, Idukki, Pin code 685607",
+  addressLines: [
+    "Mount Misty Retreat",
+    "Pulickathotty P.O.",
+    "Edathana",
+    "Idukki",
+    "Pin code 685607",
+  ],
+  email: "stay@mountmisty.example",
+  phone: "+91 79078 08656",
+  phoneSecondary: "+91 79078 08656",
+  mapsUrl: "https://maps.app.goo.gl/Pup59CyU29h8nFKL7?g_st=ac",
   mapEmbed:
-    "https://www.openstreetmap.org/export/embed.html?bbox=76.90%2C9.98%2C77.05%2C10.10&layer=mapnik&marker=10.04%2C76.97",
+    "https://www.google.com/maps?q=Pulickathotty+P.O.+Edathana+Idukki+685607&output=embed",
 };
 
 export const heroImage =
   "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80";
-
-export const heroVideo =
-  "https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4";

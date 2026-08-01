@@ -115,7 +115,21 @@ export default function Contact() {
     {
       icon: MapPin,
       label: "Address",
-      content: contact.address,
+      content: (
+        <div>
+          {contact.addressLines.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+          <a
+            href={contact.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-block text-brass-light transition-colors hover:text-foam"
+          >
+            View on Google Maps
+          </a>
+        </div>
+      ),
     },
     {
       icon: Mail,
@@ -133,20 +147,12 @@ export default function Contact() {
       icon: Phone,
       label: "Phone",
       content: (
-        <span className="flex flex-wrap gap-x-3 gap-y-1">
-          <a
-            href={`tel:${contact.phone.replace(/\s/g, "")}`}
-            className="transition-colors hover:text-brass-light"
-          >
-            {contact.phone}
-          </a>
-          <a
-            href={`tel:${contact.phoneSecondary.replace(/\s/g, "")}`}
-            className="transition-colors hover:text-brass-light"
-          >
-            {contact.phoneSecondary}
-          </a>
-        </span>
+        <a
+          href={`tel:${contact.phone.replace(/\s/g, "")}`}
+          className="transition-colors hover:text-brass-light"
+        >
+          {contact.phone}
+        </a>
       ),
     },
   ];
@@ -213,7 +219,7 @@ export default function Contact() {
 
             <div className="relative" style={{ transform: "translateZ(20px)" }}>
               <p className="font-display text-2xl tracking-tight md:text-3xl">
-                Auralis Concierge
+                Mount Misty Concierge
               </p>
               <p className="mt-3 max-w-sm text-sm font-light leading-relaxed text-seafoam/80">
                 Tell us how you wish to arrive — we will prepare the room, the
@@ -271,7 +277,7 @@ export default function Contact() {
                 Location
               </div>
               <iframe
-                title="Auralis location map"
+                title="Mount Misty Retreat location map"
                 src={contact.mapEmbed}
                 className="h-44 w-full opacity-80 grayscale contrast-125"
                 loading="lazy"
@@ -459,7 +465,7 @@ export default function Contact() {
                       <option value="">Any available</option>
                       <option value="canopy">Canopy Suite</option>
                       <option value="ridge">Ridge Pavilion</option>
-                      <option value="auralis">Auralis Residence</option>
+                      <option value="misty">Misty Residence</option>
                     </select>
                   </Field>
 

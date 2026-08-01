@@ -80,7 +80,7 @@ export default function Gallery() {
             />
             <p className="max-w-sm text-sm font-light leading-relaxed text-ink/50 md:pb-1 md:text-right">
               Forests, suites, and highland light — the atmosphere of a stay at
-              Auralis.
+              Mount Misty.
             </p>
           </div>
         </SectionReveal>
@@ -95,7 +95,7 @@ export default function Gallery() {
           >
             <ImageCarousel
               images={gallery}
-              altPrefix="Auralis gallery"
+              altPrefix="Mount Misty gallery"
               className="aspect-[16/10] w-full md:aspect-[2.4/1]"
               interval={4500}
             />
