@@ -4,9 +4,12 @@ export const brand = {
   tagline: "Escape into the mist.",
   taglineShort: "Escape into the mist",
   about:
-    "Nestled in the highlands of Idukki, Mount Misty Retreat is a sanctuary of mist, timber, and unhurried mornings. Every suite opens toward quiet forest lands. Every evening settles into soft mountain light.",
+    "High above the beautiful landscapes of Idukki, Mount Misty Retreat offers a peaceful escape surrounded by mountains, greenery and the ever-changing beauty of the mist.",
   aboutSecondary:
-    "Quiet stays for those who seek both rest and discovery — from pristine forest views to waterfalls, viewpoints, and easy links across Kerala’s highland belt.",
+    "Wake up to cool mountain air. Watch the hills disappear into the clouds. Explore the beauty around you, or simply slow down and enjoy doing nothing.",
+  aboutTertiary:
+    "Whether it is a romantic getaway, honeymoon, family holiday or peaceful weekend escape, Mount Misty Retreat is a place to pause, breathe and reconnect.",
+  aboutClose: "Your escape begins here.",
 };
 
 export const aboutImages = [
@@ -32,39 +35,39 @@ export const aboutImages = [
 export const aboutImage = aboutImages[0].src;
 
 export const aboutStats = [
-  { value: "12", label: "Private suites" },
-  { value: "5+", label: "Nearby landmarks" },
-  { value: "24/7", label: "Concierge care" },
+  { value: "16", label: "Rooms & cottages" },
+  { value: "15 Aug", label: "Grand inauguration" },
+  { value: "Idukki", label: "Kerala highlands" },
 ];
 
 export const aboutFeatures = [
   {
-    id: "forest",
-    title: "Surrounded by pristine forest",
+    id: "views",
+    title: "Breathtaking hill views",
     description:
-      "Breathtaking, unfiltered natural views facing reserve forest lands and iconic spots like Kokkippara.",
+      "Wake up to panoramic views of Idukki’s lush mountains and mist-covered landscapes.",
+    icon: "Mountain",
+  },
+  {
+    id: "nature",
+    title: "Nature all around",
+    description:
+      "Experience the greenery, cool climate and peaceful atmosphere of the Idukki highlands.",
     icon: "Trees",
   },
   {
-    id: "attractions",
-    title: "Heart of major attractions",
+    id: "stays",
+    title: "Comfortable stays",
     description:
-      "Minutes away from Kottappara Viewpoint, Meenuliyan Para, Kattadikadavu, Thommankuthu, and Anayadikuthu Waterfalls.",
-    icon: "MapPin",
+      "Thoughtfully designed rooms created for relaxation, privacy and uninterrupted views.",
+    icon: "BedDouble",
   },
   {
-    id: "horizons",
-    title: "Panoramic horizons",
+    id: "escape",
+    title: "Perfect for every escape",
     description:
-      "Enjoy vast, breathtaking sightlines overlooking Adimali, Lower Periyar, and beyond.",
-    icon: "Sunrise",
-  },
-  {
-    id: "location",
-    title: "Convenient location",
-    description:
-      "Easy connectivity to major transit hubs, including Nedumbassery (Cochin International Airport) and Ernakulam.",
-    icon: "Plane",
+      "A beautiful setting for couples, families, friends and anyone looking for a break from the everyday.",
+    icon: "Heart",
   },
 ];
 
@@ -77,91 +80,139 @@ export const navLinks = [
 
 export const rooms = [
   {
-    id: "canopy",
-    name: "Canopy Suite",
-    category: "Forest facing",
-    price: 8500,
+    id: "classic",
+    name: "Classic Room",
+    category: "8 units",
+    units: 8,
+    price: 3500,
+    regularPrice: 5500,
     description:
-      "Soft linens, a private verandah, and filtered light through highland trees. Ideal for quiet escapes into the forest.",
+      "Thoughtfully appointed for a comfortable highland stay — quiet interiors, restful nights, and an easy inaugural tariff.",
     images: [
       "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1400&q=80",
     ],
-    amenities: ["King bed", "Rain shower", "Forest view"],
   },
   {
-    id: "ridge",
-    name: "Ridge Pavilion",
-    category: "Valley facing",
-    price: 12000,
+    id: "deluxe",
+    name: "Deluxe Room",
+    category: "4 units",
+    units: 4,
+    price: 4500,
+    regularPrice: 7500,
     description:
-      "Floor-to-ceiling glass frames Adimali’s rolling ridges. Wake to mist, sleep to the hush of the hills.",
+      "A more spacious stay with refined comfort — designed to make your inaugural visit to Mount Misty Retreat memorable.",
     images: [
       "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1400&q=80",
     ],
-    amenities: ["King bed", "Valley terrace", "Daybed"],
   },
   {
-    id: "misty",
-    name: "Misty Residence",
-    category: "Private villa",
-    price: 18500,
+    id: "cottage",
+    name: "Signature Cottage – 2 BHK",
+    category: "4 units",
+    units: 4,
+    price: 7500,
+    regularPrice: 10500,
     description:
-      "A standalone villa with its own lounge deck and forest path. Designed for longer, slower highland stays.",
+      "A two-bedroom cottage for families and longer stays — private, generous, and offered at a special inaugural rate.",
     images: [
       "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80",
     ],
-    amenities: ["Private deck", "Living room", "Butler service"],
   },
 ];
 
-export const facilities = [
-  { id: "wifi", label: "Complimentary Wi‑Fi", icon: "Wifi" },
-  { id: "ac", label: "Climate control", icon: "Wind" },
-  { id: "trail", label: "Forest trail access", icon: "Trees" },
-  { id: "dining", label: "In-suite dining", icon: "UtensilsCrossed" },
-  { id: "spa", label: "Highland spa rituals", icon: "Sparkles" },
-  { id: "transfer", label: "Airport transfers", icon: "Car" },
+export const roomFeatures = [
+  { id: "views", label: "Beautiful hill and nature views", icon: "Mountain" },
+  { id: "bedding", label: "Comfortable premium bedding", icon: "BedDouble" },
+  { id: "bath", label: "Modern en-suite bathrooms", icon: "Bath" },
+  { id: "wifi", label: "Wi-Fi", icon: "Wifi" },
+  { id: "tea", label: "Tea & coffee facilities", icon: "Coffee" },
+  { id: "entertainment", label: "Smart entertainment", icon: "Tv" },
+  { id: "housekeeping", label: "Housekeeping", icon: "Sparkles" },
+];
+
+export const additionalFacilities = [
+  {
+    id: "classic",
+    name: "Classic Room",
+    extras: [
+      { label: "Air Conditioning", price: 800, type: "addon" },
+      { label: "Extra Bed", price: 500, type: "addon" },
+    ],
+  },
+  {
+    id: "deluxe",
+    name: "Deluxe Room",
+    extras: [
+      { label: "Air Conditioning", price: 900, type: "addon" },
+      { label: "Extra Bed", price: 500, type: "addon" },
+    ],
+  },
+  {
+    id: "cottage",
+    name: "Misty Cottage – 2 BHK",
+    extras: [
+      { label: "Full Cottage Booking", price: 14500, type: "rate" },
+      { label: "Air Conditioning", price: 1600, type: "addon" },
+      { label: "Extra Bed", price: 500, type: "addon" },
+    ],
+  },
 ];
 
 export const experiences = [
   {
-    id: "kokkippara",
-    title: "Kokkippara overlook",
+    id: "mornings",
+    title: "Wake Up to the Mountains",
     description:
-      "A guided morning walk to reserve-forest viewpoints and quiet lookouts.",
+      "There is something magical about mornings in Idukki. The cool breeze. The sound of nature. The mountains covered in mist. And the first rays of sunlight appearing through the clouds.",
+    detail:
+      "At Mount Misty Retreat, the destination itself becomes part of your stay.",
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    id: "waterfall",
-    title: "Waterfall trail",
+    id: "couples",
+    title: "A Little More Romance in the Mountains",
     description:
-      "Day trip to Thommankuthu and Anayadikuthu — cool pools, rock paths, and shade.",
+      "Looking for a peaceful honeymoon stay in Idukki? Let the mountains set the mood.",
+    detail:
+      "From quiet mornings to sunset moments overlooking the hills, Mount Misty Retreat offers couples the perfect setting to slow down and enjoy time together. Create memories that stay long after the mist clears.",
     image:
-      "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    id: "viewpoint",
-    title: "Kottappara dusk",
+    id: "family",
+    title: "Time Well Spent Together",
     description:
-      "Evening drive to Kottappara Viewpoint as the valleys turn gold and violet.",
+      "Leave behind busy schedules and spend meaningful time with the people who matter most.",
+    detail:
+      "Explore the surrounding nature, share time together and simply take in the beauty of Idukki. Because the best family memories don’t need a plan.",
     image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80",
   },
-  {
-    id: "ayurveda",
-    title: "Mist & stillness",
-    description:
-      "A ninety-minute Ayurvedic ritual designed for travel-weary bodies.",
-    image:
-      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
-  },
+];
+
+export const inauguration = {
+  eyebrow: "The journey begins",
+  title: "Grand Inauguration of Mount Misty Retreat",
+  body: "We are delighted to welcome you as we begin a new chapter in the hills of Idukki.",
+  date: "15 August 2026",
+  time: "10:30 AM – 11:30 AM",
+  close: "Come experience Mount Misty Retreat as it opens its doors.",
+};
+
+export const nearbyAttractions = [
+  "Munnar",
+  "Idukki Dam",
+  "Calvary Mount",
+  "Ramakkalmedu",
+  "Tea plantations",
+  "Hill viewpoints",
 ];
 
 export const gallery = [
@@ -182,7 +233,7 @@ export const gallery = [
   },
   {
     id: "g4",
-    alt: "Outdoor dining among the trees",
+    alt: "Evening light among the trees",
     src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80",
   },
   {
@@ -243,6 +294,7 @@ export const contact = {
   email: "stay@mountmisty.example",
   phone: "+91 79078 08656",
   phoneSecondary: "+91 79078 08656",
+  whatsappUrl: "https://wa.me/917907808656",
   mapsUrl: "https://maps.app.goo.gl/Pup59CyU29h8nFKL7?g_st=ac",
   mapEmbed:
     "https://www.google.com/maps?q=Pulickathotty+P.O.+Edathana+Idukki+685607&output=embed",

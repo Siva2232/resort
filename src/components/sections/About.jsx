@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Trees, MapPin, Sunrise, Plane, ArrowDown } from "lucide-react";
+import { Trees, Mountain, BedDouble, Heart, ArrowDown } from "lucide-react";
 import {
   aboutFeatures,
   aboutImages,
@@ -15,9 +15,9 @@ import SectionReveal from "../ui/SectionReveal";
 
 const icons = {
   Trees,
-  MapPin,
-  Sunrise,
-  Plane,
+  Mountain,
+  BedDouble,
+  Heart,
 };
 
 export default function About() {
@@ -32,11 +32,11 @@ export default function About() {
         <div className="grid gap-12 md:grid-cols-12 md:gap-16 md:items-end">
           <SectionReveal className="md:col-span-5">
             <SectionHeader
-              eyebrow="The retreat"
+              eyebrow="Welcome"
               title={
                 <>
                   Welcome to{" "}
-                  <span className="italic text-ink-soft">{brand.name}</span>
+                  <span className="italic text-ink-soft">{brand.fullName}</span>
                 </>
               }
             />
@@ -48,6 +48,12 @@ export default function About() {
             </p>
             <p className="mt-6 text-base font-light leading-relaxed text-ink/50">
               {brand.aboutSecondary}
+            </p>
+            <p className="mt-6 text-base font-light leading-relaxed text-ink/50">
+              {brand.aboutTertiary}
+            </p>
+            <p className="mt-6 text-sm font-medium uppercase tracking-[0.16em] text-brass">
+              {brand.aboutClose}
             </p>
           </SectionReveal>
         </div>
@@ -69,7 +75,7 @@ export default function About() {
                   transition={{ delay: 0.2, duration: 0.7, ease: easeLuxury }}
                   className="pointer-events-none absolute bottom-10 left-5 z-10 max-w-xs text-sm font-light leading-relaxed text-foam/90 md:bottom-12 md:left-7"
                 >
-                  Mist, timber, and forest light — composed for slower days.
+                  Mornings begin with mist-covered mountains.
                 </motion.p>
               </div>
             </ClipReveal>
@@ -85,7 +91,7 @@ export default function About() {
                 At a glance
               </p>
               <p className="mt-4 font-display text-2xl leading-snug tracking-tight md:text-[1.75rem]">
-                A quiet sanctuary.
+                A place to pause.
                 <br />
                 A wide horizon.
                 <br />
@@ -134,13 +140,13 @@ export default function About() {
           <SectionReveal>
             <div className="flex flex-col gap-6 border-t border-ink/10 pt-14 md:flex-row md:items-end md:justify-between">
               <SectionHeader
-                eyebrow="Why stay here"
-                title="The perfect blend of sanctuary & exploration"
+                eyebrow="Why Mount Misty Retreat"
+                title="More than a stay. It’s an experience."
                 titleClassName="max-w-xl lg:text-5xl"
               />
               <p className="max-w-sm pb-1 text-sm font-light leading-relaxed text-ink/45 md:text-right">
-                Forest stillness when you need rest. Iconic trails and viewpoints
-                when you want to wander.
+                We don’t just offer a place to stay. We offer a reason to slow
+                down.
               </p>
             </div>
           </SectionReveal>

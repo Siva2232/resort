@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { MapPin, Mail, Phone, ArrowUpRight, Check } from "lucide-react";
+import { MapPin, Mail, Phone, MessageCircle, ArrowUpRight, Check } from "lucide-react";
 import { contact } from "../../data/resort";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
 import SectionReveal from "../ui/SectionReveal";
@@ -126,7 +126,7 @@ export default function Contact() {
             rel="noopener noreferrer"
             className="mt-2 inline-block text-brass-light transition-colors hover:text-foam"
           >
-            View on Google Maps
+            Get Directions
           </a>
         </div>
       ),
@@ -145,10 +145,24 @@ export default function Contact() {
     },
     {
       icon: Phone,
-      label: "Phone",
+      label: "Call us",
       content: (
         <a
           href={`tel:${contact.phone.replace(/\s/g, "")}`}
+          className="transition-colors hover:text-brass-light"
+        >
+          {contact.phone}
+        </a>
+      ),
+    },
+    {
+      icon: MessageCircle,
+      label: "WhatsApp us",
+      content: (
+        <a
+          href={contact.whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="transition-colors hover:text-brass-light"
         >
           {contact.phone}
@@ -177,11 +191,12 @@ export default function Contact() {
             Enquire
           </p>
           <h2 className="mt-4 font-display text-4xl tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Begin your stay
+            Your mountain escape awaits
           </h2>
           <p className="mt-5 max-w-lg text-base font-light leading-relaxed text-ink/55">
-            Share your dates and preferences. Our concierge replies within one
-            business day.
+            Ready to experience the mist? Whether you’re planning a romantic
+            getaway, family holiday or peaceful escape, our team is here to help
+            you plan your stay.
           </p>
         </SectionReveal>
 
@@ -219,11 +234,11 @@ export default function Contact() {
 
             <div className="relative" style={{ transform: "translateZ(20px)" }}>
               <p className="font-display text-2xl tracking-tight md:text-3xl">
-                Mount Misty Concierge
+                Book your stay
               </p>
               <p className="mt-3 max-w-sm text-sm font-light leading-relaxed text-seafoam/80">
-                Tell us how you wish to arrive — we will prepare the room, the
-                light, and the quiet.
+                Call us, WhatsApp us, or send your dates below. Plan your escape
+                to Mount Misty Retreat.
               </p>
 
               <ul className="mt-10 space-y-7">
@@ -331,8 +346,8 @@ export default function Contact() {
                     Enquiry received
                   </p>
                   <p className="mt-4 max-w-md text-base font-light leading-relaxed text-ink/60">
-                    Thank you. In a live site, our concierge would confirm
-                    availability and rates within one business day.
+                    Thank you. We’ll be in touch about availability and your
+                    stay.
                   </p>
                   <motion.button
                     type="button"
@@ -463,9 +478,9 @@ export default function Contact() {
                       {...focusProps("room")}
                     >
                       <option value="">Any available</option>
-                      <option value="canopy">Canopy Suite</option>
-                      <option value="ridge">Ridge Pavilion</option>
-                      <option value="misty">Misty Residence</option>
+                      <option value="classic">Classic Room</option>
+                      <option value="deluxe">Deluxe Room</option>
+                      <option value="cottage">Signature Cottage – 2 BHK</option>
                     </select>
                   </Field>
 
@@ -512,7 +527,7 @@ export default function Contact() {
                       }}
                       style={{ transformStyle: "preserve-3d" }}
                     >
-                      Send enquiry
+                      Check Availability
                       <ArrowUpRight size={16} strokeWidth={1.75} />
                     </motion.button>
                   </div>

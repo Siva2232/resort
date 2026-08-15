@@ -75,12 +75,12 @@ export default function Gallery() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeader
               eyebrow="Gallery"
-              title="A visual quiet"
+              title="See the mist. Feel the moment."
               titleClassName="max-w-md"
             />
             <p className="max-w-sm text-sm font-light leading-relaxed text-ink/50 md:pb-1 md:text-right">
-              Forests, suites, and highland light — the atmosphere of a stay at
-              Mount Misty.
+              A glimpse of the mountains, the rooms and the peaceful
+              surroundings of Mount Misty Retreat.
             </p>
           </div>
         </SectionReveal>

@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { brand } from "../../data/resort";
 import { easeLuxury } from "../../utils/motion";
 
@@ -40,11 +40,10 @@ const INTERIOR_SLIDES = [
 
 const SLIDE_COUNT = INTERIOR_SLIDES.length;
 const INTERIOR = INTERIOR_SLIDES[0].src;
+const SLIDE_INTERVAL = 4200;
 
-/** Scroll progress: doors finish opening slowly, then slides begin. */
-const DOOR_END = 0.4;
-/** Last slide holds until near the end of the sticky section. */
-const SLIDES_END = 0.95;
+/** Scroll progress: doors finish opening near the end of the sticky section. */
+const DOOR_END = 0.88;
 
 /** Velvet ease-out — slow start, long soft finish on the hinges. */
 function easeDoorOpen(t) {
@@ -372,19 +371,21 @@ function DoorPanel({ side }) {
 }
 
 /**
- * Scroll-driven interior gallery — index advances with scroll, not autoplay.
+ * Interior gallery — auto-slides once the doors are open.
  */
-function InteriorCarousel({ index, showDots }) {
+function InteriorCarousel({ playing, showDots, onIndexChange }) {
   const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const prevIndex = useRef(index);
+
+  const go = useCallback((dir) => {
+    setDirection(dir);
+    setIndex((i) => (i + dir + SLIDE_COUNT) % SLIDE_COUNT);
+  }, []);
 
   useEffect(() => {
-    if (index !== prevIndex.current) {
-      setDirection(index > prevIndex.current ? 1 : -1);
-      prevIndex.current = index;
-    }
-  }, [index]);
+    onIndexChange?.(index);
+  }, [index, onIndexChange]);
 
   useEffect(() => {
     INTERIOR_SLIDES.forEach((s) => {
@@ -392,6 +393,12 @@ function InteriorCarousel({ index, showDots }) {
       img.src = s.src;
     });
   }, []);
+
+  useEffect(() => {
+    if (!playing || reduce || SLIDE_COUNT < 2) return;
+    const id = window.setTimeout(() => go(1), SLIDE_INTERVAL);
+    return () => window.clearTimeout(id);
+  }, [playing, reduce, go, index]);
 
   const slide = INTERIOR_SLIDES[index] ?? INTERIOR_SLIDES[0];
 
@@ -446,8 +453,8 @@ function InteriorCarousel({ index, showDots }) {
 }
 
 /**
- * Hinged double doors — push open on their hinges (rotateY),
- * then scroll through interior images before the next section.
+ * Hinged double doors — push open on their hinges (rotateY).
+ * Interior photos auto-slide once the threshold is open.
  */
 export default function DoorReveal() {
   const ref = useRef(null);
@@ -483,20 +490,9 @@ export default function DoorReveal() {
     stiffness: 42,
   });
 
-  // After doors open, map remaining scroll across each interior image
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const open = v >= DOOR_END * 0.88;
+    const open = v >= DOOR_END * 0.55;
     setDoorsOpen((prev) => (prev === open ? prev : open));
-
-    let next = 0;
-    if (v > DOOR_END) {
-      const t = Math.min(
-        1,
-        Math.max(0, (v - DOOR_END) / (SLIDES_END - DOOR_END))
-      );
-      next = Math.min(SLIDE_COUNT - 1, Math.floor(t * SLIDE_COUNT));
-    }
-    setSlideIndex((prev) => (prev === next ? prev : next));
   });
 
   // Soft push to ~108° — settled open without a harsh snap
@@ -572,7 +568,7 @@ export default function DoorReveal() {
     <section
       ref={ref}
       aria-label="Open the doors to the retreat"
-      className="relative h-[560vh] bg-ink"
+      className="relative h-[180vh] bg-ink"
     >
       <div
         className="sticky top-0 h-svh min-h-[560px] overflow-hidden"
@@ -589,7 +585,11 @@ export default function DoorReveal() {
             y: interiorY,
           }}
         >
-          <InteriorCarousel index={slideIndex} showDots={doorsOpen} />
+          <InteriorCarousel
+            playing={doorsOpen}
+            showDots={doorsOpen}
+            onIndexChange={setSlideIndex}
+          />
         </motion.div>
 
         <motion.div

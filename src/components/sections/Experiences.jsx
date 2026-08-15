@@ -18,13 +18,13 @@ export default function Experiences() {
         <SectionReveal>
           <SectionHeader
             eyebrow="Experiences"
-            title="Days beyond the room"
-            description="Curated moments in the highlands — paced slowly, reserved for guests of the retreat."
+            title="Wake up to the mountains"
+            description="There is something magical about mornings in Idukki. At Mount Misty Retreat, the destination itself becomes part of your stay."
           />
         </SectionReveal>
 
         <div
-          className="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-6"
+          className="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-6"
           style={{ perspective: 1400 }}
         >
           {experiences.map((item, i) => {
@@ -166,9 +166,14 @@ export default function Experiences() {
                   <p className="mt-5 text-base font-light leading-relaxed text-seafoam/80">
                     {active.description}
                   </p>
+                  {active.detail && (
+                    <p className="mt-4 text-base font-light leading-relaxed text-seafoam/70">
+                      {active.detail}
+                    </p>
+                  )}
                 </div>
                 <p className="mt-10 text-sm font-light text-seafoam/50">
-                  Arranged by our concierge for guests of the retreat.
+                  Slow mornings, hill views, and time together — at your own pace.
                 </p>
               </div>
 

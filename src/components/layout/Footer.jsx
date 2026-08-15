@@ -13,11 +13,15 @@ export default function Footer() {
         <div className="section-shell flex flex-col items-start justify-between gap-8 px-5 py-16 md:flex-row md:items-end md:px-8 md:py-20">
           <div className="max-w-xl">
             <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
-              Begin the journey
+              Some places you visit
             </p>
             <h2 className="mt-4 font-display text-3xl tracking-tight text-foam md:text-4xl lg:text-5xl">
-              Ready for mist, timber, and quiet highland light?
+              Some places you remember.
             </h2>
+            <p className="mt-4 max-w-lg text-sm font-light leading-relaxed text-seafoam/70">
+              Come discover Mount Misty Retreat — where the mountains, the mist
+              and the moments become part of your story.
+            </p>
           </div>
           <motion.button
             type="button"
@@ -27,7 +31,7 @@ export default function Footer() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 400, damping: 22 }}
           >
-            Reserve a stay
+            Book Your Stay
             <ArrowUpRight
               size={15}
               strokeWidth={1.6}
@@ -55,7 +59,7 @@ export default function Footer() {
             Edathana · Idukki
           </p>
           <p className="mt-3 max-w-sm text-sm font-light leading-relaxed text-seafoam/65">
-            A quiet highland stay amid mist, forest, and slow mornings.
+            A peaceful highland stay amid mist, mountains, and slow mornings.
           </p>
           <motion.div
             className="mt-8 h-px w-16 origin-left bg-brass/50"

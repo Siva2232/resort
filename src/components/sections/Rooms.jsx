@@ -1,5 +1,14 @@
 import { motion } from "framer-motion";
-import { rooms } from "../../data/resort";
+import {
+  Bath,
+  BedDouble,
+  Coffee,
+  Mountain,
+  Sparkles,
+  Tv,
+  Wifi,
+} from "lucide-react";
+import { roomFeatures, rooms } from "../../data/resort";
 import { formatPrice, scrollToId } from "../../utils/helpers";
 import { easeLuxury } from "../../utils/motion";
 import ImageCarousel from "../ui/ImageCarousel";
@@ -8,16 +17,55 @@ import MagneticButton from "../ui/MagneticButton";
 import SectionHeader from "../ui/SectionHeader";
 import SectionReveal from "../ui/SectionReveal";
 
+const featureIcons = {
+  Bath,
+  BedDouble,
+  Coffee,
+  Mountain,
+  Sparkles,
+  Tv,
+  Wifi,
+};
+
 export default function Rooms() {
   return (
     <section id="stay" className="bg-mist section-pad">
       <div className="section-shell">
         <SectionReveal>
           <SectionHeader
-            eyebrow="Accommodation"
-            title="Suites shaped by mist and canopy"
-            description="Each stay opens toward forest light — quiet interiors, private decks, and the highlands beyond."
+            eyebrow="Rooms & suites"
+            title="Stay above the ordinary"
+            description="Your room should be more than just a place to sleep. At Mount Misty Retreat, our accommodation is designed to give you comfort while keeping you connected to the beauty outside."
           />
+          <p className="mt-5 max-w-xl text-base font-light leading-relaxed text-ink/50">
+            Wake up to mountain views, enjoy your morning coffee surrounded by
+            mist and end your day in the comfort of your private space.
+          </p>
+        </SectionReveal>
+
+        <SectionReveal className="mt-12 md:mt-14" y={32}>
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-brass">
+            Room features
+          </p>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {roomFeatures.map((feature) => {
+              const Icon = featureIcons[feature.icon] || Sparkles;
+              return (
+                <li
+                  key={feature.id}
+                  className="flex items-center gap-3 border border-ink/8 bg-foam/50 px-4 py-3.5"
+                >
+                  <Icon
+                    className="size-4 shrink-0 text-brass"
+                    strokeWidth={1.4}
+                  />
+                  <span className="text-sm font-light text-ink/70">
+                    {feature.label}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </SectionReveal>
 
         <div className="mt-16 space-y-24 md:mt-20 md:space-y-32">
@@ -52,7 +100,7 @@ export default function Rooms() {
                     transition={{ duration: 0.9, delay: 0.12, ease: easeLuxury }}
                   >
                     <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-seafoam-deep">
-                      {room.category}
+                      {room.units} units
                     </p>
                     <h3 className="mt-3 font-display text-3xl tracking-tight text-ink md:text-4xl lg:text-[2.75rem]">
                       {room.name}
@@ -61,24 +109,26 @@ export default function Rooms() {
                       {room.description}
                     </p>
 
-                    <ul className="mt-7 flex flex-wrap gap-x-1 gap-y-2 text-sm font-light text-ink/50">
-                      {room.amenities.map((item, i) => (
-                        <li key={item} className="flex items-center">
-                          {i > 0 && (
-                            <span className="mx-3 h-px w-3 bg-ink/20" aria-hidden />
-                          )}
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-10 flex flex-wrap items-center gap-6 border-t border-ink/10 pt-8">
-                      <p className="font-display text-2xl text-ink md:text-3xl">
-                        {formatPrice(room.price)}
-                        <span className="ml-2 font-sans text-sm font-light tracking-normal text-ink/45">
-                          / night
-                        </span>
-                      </p>
+                    <div className="mt-10 flex flex-wrap items-end gap-8 border-t border-ink/10 pt-8">
+                      <div>
+                        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/40">
+                          Regular tariff
+                        </p>
+                        <p className="mt-1 font-display text-xl text-ink/35 line-through decoration-ink/25">
+                          {formatPrice(room.regularPrice)}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-seafoam-deep">
+                          Inaugural offer
+                        </p>
+                        <p className="mt-1 font-display text-2xl text-ink md:text-3xl">
+                          {formatPrice(room.price)}
+                          <span className="ml-2 font-sans text-sm font-light tracking-normal text-ink/45">
+                            / night
+                          </span>
+                        </p>
+                      </div>
                       <MagneticButton
                         variant="outline"
                         onClick={() => scrollToId("#contact")}
@@ -92,6 +142,18 @@ export default function Rooms() {
             );
           })}
         </div>
+
+        <SectionReveal className="mt-16 md:mt-20">
+          <div className="flex flex-col items-start gap-4 border-t border-ink/10 pt-10 md:flex-row md:items-center md:justify-between">
+            <p className="max-w-md text-base font-light leading-relaxed text-ink/55">
+              Find the stay that suits your escape — Classic, Deluxe, or a
+              Signature Cottage.
+            </p>
+            <MagneticButton onClick={() => scrollToId("#contact")}>
+              Find Your Perfect Stay
+            </MagneticButton>
+          </div>
+        </SectionReveal>
       </div>
     </section>
   );

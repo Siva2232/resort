@@ -79,34 +79,27 @@ export default function Hero() {
             transition={{ duration: 0.9, delay: 0.45, ease: easeLuxury }}
             className="mb-5 text-[11px] font-medium uppercase tracking-[0.32em] text-sand"
           >
-            Edathana · Idukki Highlands
+            {brand.taglineShort}
           </motion.p>
 
           <motion.h1
-            className="max-w-4xl font-display text-6xl leading-[0.95] tracking-tight text-foam sm:text-7xl md:text-8xl lg:text-[7.5rem]"
+            className="max-w-4xl font-display text-5xl leading-[0.95] tracking-tight text-foam sm:text-6xl md:text-7xl lg:text-[5.5rem]"
             initial={reduce ? false : { opacity: 0, y: 36 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.15, delay: 0.55, ease: easeOutExpo }}
           >
-            {brand.fullName}
+            Where the mountains slow you down.
           </motion.h1>
 
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.85, ease: easeOutExpo }}
-            className="mt-3 font-display text-xl italic tracking-tight text-seafoam/90 md:text-2xl"
-          >
-            {brand.taglineShort}
-          </motion.p>
-
-          <motion.p
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.05, ease: easeOutExpo }}
-            className="mt-6 max-w-md text-base font-light leading-relaxed text-seafoam/85 md:text-lg"
+            className="mt-6 max-w-xl text-base font-light leading-relaxed text-seafoam/85 md:text-lg"
           >
-            {brand.tagline}
+            Welcome to Mount Misty Retreat — a premium nature retreat in the
+            hills of Idukki, Kerala, where breathtaking views, peaceful
+            surroundings and thoughtfully designed comfort come together.
           </motion.p>
 
           <motion.div
@@ -116,13 +109,13 @@ export default function Hero() {
             className="mt-10 flex flex-wrap items-center gap-4"
           >
             <MagneticButton onClick={() => scrollToId("#contact")}>
-              Reserve a stay
+              Book Your Stay
             </MagneticButton>
             <MagneticButton
               variant="ghost"
-              onClick={() => scrollToId("#stay")}
+              onClick={() => scrollToId("#about")}
             >
-              Explore suites
+              Explore Mount Misty
             </MagneticButton>
           </motion.div>
         </div>

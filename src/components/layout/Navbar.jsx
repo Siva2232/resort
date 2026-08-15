@@ -167,8 +167,7 @@ export default function Navbar() {
             />
 
             <div className="relative flex h-full flex-col px-6 pb-10 pt-28">
-              <BrandLogo size="xl" className="mb-2" />
-              <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.28em] text-sand/70">
+              <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand/70">
                 Menu
               </p>
 
