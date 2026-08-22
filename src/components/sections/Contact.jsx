@@ -478,9 +478,11 @@ export default function Contact() {
                       {...focusProps("room")}
                     >
                       <option value="">Any available</option>
-                      <option value="classic">Classic Room</option>
                       <option value="deluxe">Deluxe Room</option>
-                      <option value="cottage">Signature Cottage – 2 BHK</option>
+                      <option value="suite">Suite Room</option>
+                      <option value="cottage-2bhk">Misty Cottage – 2 BHK</option>
+                      <option value="cottage-4bhk">Misty Cottage – 4 BHK</option>
+                      <option value="complete-resort">Complete Resort Booking</option>
                     </select>
                   </Field>
 

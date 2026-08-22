@@ -1,15 +1,77 @@
-import { BedDouble, Home, Wind } from "lucide-react";
+import {
+  BedDouble,
+  ParkingCircle,
+  Users,
+  UtensilsCrossed,
+  Waves,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import { additionalFacilities } from "../../data/resort";
+import {
+  additionalFacilities,
+  premiumBookingExtras,
+  propertyAmenities,
+  tariff,
+} from "../../data/resort";
 import { formatPrice } from "../../utils/helpers";
-import { easeLuxury } from "../../utils/motion";
 import SectionReveal from "../ui/SectionReveal";
 
-const extraIcons = {
-  "Air Conditioning": Wind,
-  "Extra Bed": BedDouble,
-  "Full Cottage Booking": Home,
+const propertyIcons = {
+  BedDouble,
+  ParkingCircle,
+  UtensilsCrossed,
+  Users,
+  Waves,
 };
+
+function ExtraRow({ extra }) {
+  const isFree = extra.type === "free";
+
+  return (
+    <li className="flex items-start justify-between gap-4 border-t border-brass/15 pt-5 first:border-t-0 first:pt-0">
+      <span className="text-sm font-light text-seafoam/85">
+        {extra.label}
+        {extra.note && (
+          <span className="text-seafoam/50">{extra.note}</span>
+        )}
+      </span>
+      <span
+        className={`shrink-0 text-sm font-medium ${
+          isFree ? "bg-seafoam/20 px-2 py-0.5 text-seafoam" : "font-display text-sand"
+        }`}
+      >
+        {isFree
+          ? "Free"
+          : `+${formatPrice(extra.price)}${extra.unit || ""}`}
+      </span>
+    </li>
+  );
+}
+
+function FacilityCard({ group, index }) {
+  return (
+    <SectionReveal delay={0.06 * index}>
+      <motion.div
+        className="flex h-full flex-col border border-brass/20 px-6 py-8"
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 320, damping: 20 }}
+      >
+        <h3 className="font-display text-2xl tracking-tight text-sand">
+          {group.name}
+        </h3>
+        {group.subtitle && (
+          <p className="mt-2 text-xs font-light leading-relaxed text-seafoam/60">
+            {group.subtitle}
+          </p>
+        )}
+        <ul className="mt-8 space-y-5">
+          {group.extras.map((extra) => (
+            <ExtraRow key={`${group.id}-${extra.label}`} extra={extra} />
+          ))}
+        </ul>
+      </motion.div>
+    </SectionReveal>
+  );
+}
 
 export default function Facilities() {
   return (
@@ -18,59 +80,66 @@ export default function Facilities() {
         <SectionReveal>
           <div className="flex flex-col items-center gap-3 text-center">
             <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
-              Additional facilities
+              Additional facilities & add-ons
             </p>
             <div className="h-px w-10 bg-brass/50" aria-hidden />
-            <p className="mt-4 max-w-xl text-sm font-light leading-relaxed text-seafoam/70">
-              Optional add-ons to tailor your stay. All rates are subject to the
-              applicable terms and conditions of Mount Misty Retreat.
-            </p>
           </div>
         </SectionReveal>
 
         <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8 lg:gap-12">
           {additionalFacilities.map((group, i) => (
-            <SectionReveal key={group.id} delay={0.06 * i}>
-              <motion.div
-                className="flex h-full flex-col border border-brass/20 px-6 py-8"
-                whileHover={{ y: -4 }}
-                transition={{ type: "spring", stiffness: 320, damping: 20 }}
-              >
-                <h3 className="font-display text-2xl tracking-tight text-sand">
-                  {group.name}
-                </h3>
-                <ul className="mt-8 space-y-5">
-                  {group.extras.map((extra) => {
-                    const Icon = extraIcons[extra.label] || Wind;
-                    return (
-                      <li
-                        key={extra.label}
-                        className="flex items-start justify-between gap-4 border-t border-brass/15 pt-5 first:border-t-0 first:pt-0"
-                      >
-                        <span className="flex items-center gap-3 text-sm font-light text-seafoam/85">
-                          <Icon
-                            className="size-4 shrink-0 text-brass"
-                            strokeWidth={1.35}
-                          />
-                          {extra.label}
-                        </span>
-                        <span className="shrink-0 font-display text-base text-sand">
-                          {extra.type === "addon" ? "+" : ""}
-                          {formatPrice(extra.price)}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </motion.div>
-            </SectionReveal>
+            <FacilityCard key={group.id} group={group} index={i} />
           ))}
         </div>
 
+        <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-8 lg:gap-12">
+          {premiumBookingExtras.map((group, i) => (
+            <FacilityCard key={group.id} group={group} index={i + 3} />
+          ))}
+        </div>
+
+        <SectionReveal className="mt-16" delay={0.12}>
+          <p className="text-center text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
+            Property facilities
+          </p>
+          <ul className="mt-10 space-y-0">
+            {propertyAmenities.map((item, i) => {
+              const Icon = propertyIcons[item.icon] || Waves;
+              return (
+                <li
+                  key={item.id}
+                  className={`flex items-start gap-5 px-5 py-5 md:items-center md:px-8 ${
+                    i % 2 === 0 ? "bg-white/[0.04]" : "bg-transparent"
+                  }`}
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brass/30 text-brass">
+                    <Icon className="size-4" strokeWidth={1.35} />
+                  </span>
+                  <div>
+                    <p className="font-display text-lg text-sand">{item.title}</p>
+                    <p className="mt-1 text-sm font-light text-seafoam/70">
+                      {item.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </SectionReveal>
+
         <SectionReveal delay={0.18}>
-          <p className="mt-14 text-center text-sm font-light leading-relaxed text-seafoam/55">
-            We look forward to welcoming you and making your stay at Mount Misty
-            Retreat a truly memorable experience.
+          <ul className="mt-10 space-y-1.5 text-center">
+            {tariff.notes.map((note) => (
+              <li
+                key={note}
+                className="text-xs font-light italic text-seafoam/50"
+              >
+                * {note}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 text-center text-sm font-light leading-relaxed text-seafoam/55">
+            {tariff.closing}
           </p>
         </SectionReveal>
       </div>

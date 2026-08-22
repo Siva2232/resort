@@ -78,16 +78,71 @@ export const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
+export const tariff = {
+  title: "Room Tariff & Inaugural Offer",
+  greeting: {
+    salutation: "Dear Guest,",
+    lines: [
+      "Warm greetings from Mount Misty Retreat.",
+      "We are delighted to welcome you to our retreat and present our Special Inaugural Offers, thoughtfully designed to make your stay comfortable and memorable.",
+    ],
+  },
+  notes: [
+    "All rates are subject to the applicable terms and conditions of Mount Misty Retreat.",
+    "Infinity Swimming Pool access is available for Deluxe & Suite Room guests from 8:30 AM to 6:30 PM only.",
+  ],
+  closing:
+    "We look forward to welcoming you and making your stay at Mount Misty Retreat a truly memorable experience.",
+};
+
+export const accommodationOptions = [
+  {
+    id: "deluxe",
+    name: "Deluxe Room",
+    units: 8,
+    regularPrice: 5500,
+    inauguralPrice: 3500,
+  },
+  {
+    id: "suite",
+    name: "Suite Room",
+    units: 4,
+    regularPrice: 7500,
+    inauguralPrice: 4500,
+  },
+  {
+    id: "cottage-2bhk",
+    name: "Misty Cottage – 2 BHK",
+    units: 2,
+    regularPrice: 10500,
+    inauguralPrice: 7500,
+  },
+  {
+    id: "cottage-4bhk",
+    name: "Misty Cottage – 4 BHK (2 Floor)",
+    units: 1,
+    regularPrice: 17500,
+    inauguralPrice: 14500,
+  },
+  {
+    id: "complete-resort",
+    name: "Complete Resort Booking",
+    units: 1,
+    regularPrice: 80000,
+    inauguralPrice: 55500,
+  },
+];
+
 export const rooms = [
   {
-    id: "classic",
-    name: "Classic Room",
+    id: "deluxe",
+    name: "Deluxe Room",
     category: "8 units",
     units: 8,
     price: 3500,
     regularPrice: 5500,
     description:
-      "Thoughtfully appointed for a comfortable highland stay — quiet interiors, restful nights, and an easy inaugural tariff.",
+      "Comfortable highland accommodation with thoughtful amenities — offered at a special inaugural tariff for our opening guests.",
     images: [
       "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1400&q=80",
       "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1400&q=80",
@@ -95,8 +150,8 @@ export const rooms = [
     ],
   },
   {
-    id: "deluxe",
-    name: "Deluxe Room",
+    id: "suite",
+    name: "Suite Room",
     category: "4 units",
     units: 4,
     price: 4500,
@@ -110,10 +165,11 @@ export const rooms = [
     ],
   },
   {
-    id: "cottage",
-    name: "Signature Cottage – 2 BHK",
-    category: "4 units",
-    units: 4,
+    id: "cottage-2bhk",
+    name: "Misty Cottage – 2 BHK",
+    category: "2 units",
+    units: 2,
+    subtitle: "2 Bedroom, Hall, Kitchen, Sitout",
     price: 7500,
     regularPrice: 10500,
     description:
@@ -126,42 +182,142 @@ export const rooms = [
   },
 ];
 
-export const roomFeatures = [
-  { id: "views", label: "Beautiful hill and nature views", icon: "Mountain" },
-  { id: "bedding", label: "Comfortable premium bedding", icon: "BedDouble" },
-  { id: "bath", label: "Modern en-suite bathrooms", icon: "Bath" },
-  { id: "wifi", label: "Wi-Fi", icon: "Wifi" },
-  { id: "tea", label: "Tea & coffee facilities", icon: "Coffee" },
-  { id: "entertainment", label: "Smart entertainment", icon: "Tv" },
-  { id: "housekeeping", label: "Housekeeping", icon: "Sparkles" },
+export const premiumBookings = [
+  {
+    id: "cottage-4bhk",
+    name: "Misty Cottage 4 BHK Full Booking",
+    subtitle:
+      "4 Bedroom, 2 Hall, 2 Kitchen, 2 Sitout, Private Infinity Pool Access, Private Campfire Access, Private Space",
+    units: 1,
+    price: 14500,
+    regularPrice: 17500,
+  },
+  {
+    id: "complete-resort",
+    name: "Complete Resort & Property Booking",
+    subtitle: "Exclusive use of the entire retreat and its facilities",
+    units: 1,
+    price: 55500,
+    regularPrice: 80000,
+  },
+];
+
+const sharedFreeExtras = [
+  { label: "Infinity Pool access", price: 0, type: "free", note: "*" },
+  { label: "Breakfast", price: 0, type: "free" },
+  { label: "Children's park access", price: 0, type: "free" },
+  { label: "Wi-Fi Access", price: 0, type: "free" },
+];
+
+const sharedPaidExtras = [
+  { label: "Campfire", price: 1500, type: "addon" },
+  { label: "Barbeque", price: 3000, type: "addon" },
 ];
 
 export const additionalFacilities = [
   {
-    id: "classic",
-    name: "Classic Room",
-    extras: [
-      { label: "Air Conditioning", price: 800, type: "addon" },
-      { label: "Extra Bed", price: 500, type: "addon" },
-    ],
-  },
-  {
     id: "deluxe",
     name: "Deluxe Room",
     extras: [
-      { label: "Air Conditioning", price: 900, type: "addon" },
+      ...sharedFreeExtras,
+      { label: "Air Conditioning", price: 500, type: "addon" },
       { label: "Extra Bed", price: 500, type: "addon" },
+      ...sharedPaidExtras,
     ],
   },
   {
-    id: "cottage",
-    name: "Misty Cottage – 2 BHK",
+    id: "suite",
+    name: "Suite Room",
     extras: [
-      { label: "Full Cottage Booking", price: 14500, type: "rate" },
-      { label: "Air Conditioning", price: 1600, type: "addon" },
+      ...sharedFreeExtras,
+      { label: "Air Conditioning", price: 900, type: "addon" },
       { label: "Extra Bed", price: 500, type: "addon" },
+      ...sharedPaidExtras,
     ],
   },
+  {
+    id: "cottage-2bhk",
+    name: "Misty Cottage – 2 BHK",
+    subtitle: "2 Bedroom, Hall, Kitchen, Sitout",
+    extras: [
+      ...sharedFreeExtras,
+      { label: "Air Conditioning", price: 1600, type: "addon" },
+      { label: "Extra Bed", price: 500, type: "addon" },
+      ...sharedPaidExtras,
+    ],
+  },
+];
+
+export const premiumBookingExtras = [
+  {
+    id: "cottage-4bhk",
+    name: "Misty Cottage 4 BHK Full Booking",
+    subtitle:
+      "4 Bedroom, 2 Hall, 2 Kitchen, 2 Sitout, Private Infinity Pool Access, Private Campfire Access, Private Space",
+    extras: [
+      ...sharedFreeExtras,
+      { label: "Air Conditioning", price: 700, type: "addon", unit: "/ Room" },
+      { label: "Extra Bed", price: 500, type: "addon", unit: "/ Room" },
+      ...sharedPaidExtras,
+    ],
+  },
+  {
+    id: "complete-resort",
+    name: "Complete Resort & Property Booking Facilities",
+    extras: [
+      ...sharedFreeExtras,
+      { label: "Air Conditioning", price: 700, type: "addon", unit: "/ Room" },
+      { label: "Extra Bed", price: 500, type: "addon", unit: "/ Room" },
+      ...sharedPaidExtras,
+    ],
+  },
+];
+
+export const propertyAmenities = [
+  {
+    id: "rooms",
+    title: "16 Well-Appointed Rooms",
+    description: "Comfortable accommodation for guests and families.",
+    icon: "BedDouble",
+  },
+  {
+    id: "parking",
+    title: "Spacious Parking Area",
+    description: "Ample parking space for guests and visitors.",
+    icon: "ParkingCircle",
+  },
+  {
+    id: "restaurant",
+    title: "60-Seater Restaurant",
+    description: "Enjoy delicious meals in a comfortable dining environment.",
+    icon: "UtensilsCrossed",
+  },
+  {
+    id: "hall",
+    title: "200-Seater Program Hall",
+    description: "Ideal for celebrations, corporate events, and special occasions.",
+    icon: "Users",
+  },
+  {
+    id: "pool",
+    title: "24/7 Infinity Pool Access",
+    description: "Relax and enjoy convenient swimming pool access throughout the day.",
+    icon: "Waves",
+  },
+];
+
+export const roomAmenities = [
+  { id: "dressing", label: "Dressing Unit", icon: "Mirror" },
+  { id: "wardrobe", label: "Wardrobe", icon: "Archive" },
+  { id: "locker", label: "Locker", icon: "Lock" },
+  { id: "tv", label: "Smart Android TV", icon: "Tv" },
+  { id: "kettle", label: "Electric Kettle", icon: "Coffee" },
+  { id: "heater", label: "Water Heater", icon: "Flame" },
+  { id: "fridge", label: "Mini Fridge", icon: "Refrigerator" },
+  { id: "dryer", label: "Hair Dryer", icon: "Wind" },
+  { id: "iron", label: "Iron Box", icon: "Shirt" },
+  { id: "restaurant", label: "Restaurant Access", icon: "UtensilsCrossed" },
+  { id: "pickup", label: "Pickup & Drop (Paid)", icon: "Car" },
 ];
 
 export const experiences = [
@@ -206,14 +362,41 @@ export const inauguration = {
   close: "Come experience Mount Misty Retreat as it opens its doors.",
 };
 
-export const nearbyAttractions = [
-  "Munnar",
-  "Idukki Dam",
-  "Calvary Mount",
-  "Ramakkalmedu",
-  "Tea plantations",
-  "Hill viewpoints",
+export const sightseeing = [
+  {
+    id: "kottappara",
+    name: "Kottappara Viewpoint",
+    image:
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: "meenuliyan",
+    name: "Meenuliyan Para",
+    image:
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: "kattadikadavu",
+    name: "Kattadikadavu Viewpoint",
+    image:
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: "thommankuthu",
+    name: "Thommankuthu Waterfalls",
+    image:
+      "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: "anayadikuthu",
+    name: "Anayadikuthu Waterfalls",
+    image:
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
+  },
 ];
+
+/** @deprecated use sightseeing */
+export const nearbyAttractions = sightseeing.map((s) => s.name);
 
 export const gallery = [
   {
@@ -291,7 +474,7 @@ export const contact = {
     "Idukki",
     "Pin code 685607",
   ],
-  email: "stay@mountmisty.example",
+  email: "mountmistyretreat@gmail.com",
   phone: "+91 79078 08656",
   phoneSecondary: "+91 79078 08656",
   whatsappUrl: "https://wa.me/917907808656",

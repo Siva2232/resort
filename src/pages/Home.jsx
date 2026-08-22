@@ -2,6 +2,7 @@ import Hero from "../components/sections/Hero";
 import DoorReveal from "../components/sections/DoorReveal";
 import About from "../components/sections/About";
 import Rooms from "../components/sections/Rooms";
+import RoomAmenities from "../components/sections/RoomAmenities";
 import Facilities from "../components/sections/Facilities";
 import Experiences from "../components/sections/Experiences";
 import Inauguration from "../components/sections/Inauguration";
@@ -17,6 +18,7 @@ export default function Home() {
       <DoorReveal />
       <About />
       <Rooms />
+      <RoomAmenities />
       <Facilities />
       <Experiences />
       <Inauguration />
