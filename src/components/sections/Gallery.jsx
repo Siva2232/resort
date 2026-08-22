@@ -69,16 +69,26 @@ export default function Gallery() {
   };
 
   return (
-    <section id="gallery" className="bg-mist section-pad">
-      <div className="section-shell">
+    <section id="gallery" className="relative overflow-hidden bg-ink section-pad">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{
+          background:
+            "radial-gradient(ellipse at 20% 0%, rgba(184,149,108,0.18), transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(200,217,211,0.08), transparent 50%)",
+        }}
+        aria-hidden
+      />
+
+      <div className="section-shell relative">
         <SectionReveal>
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeader
               eyebrow="Gallery"
               title="See the mist. Feel the moment."
               titleClassName="max-w-md"
+              tone="dark"
             />
-            <p className="max-w-sm text-sm font-light leading-relaxed text-ink/50 md:pb-1 md:text-right">
+            <p className="max-w-sm text-sm font-light leading-relaxed text-seafoam/70 md:pb-1 md:text-right">
               A glimpse of the mountains, the rooms and the peaceful
               surroundings of Mount Misty Retreat.
             </p>

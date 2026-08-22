@@ -328,6 +328,47 @@ export const roomAmenityGroups = [
   { id: "services", title: "Services", subtitle: "Beyond your room" },
 ];
 
+export const propertyTimings = [
+  {
+    id: "breakfast",
+    label: "Breakfast Time",
+    time: "7:00 AM – 10:30 AM",
+    icon: "Coffee",
+  },
+  {
+    id: "restaurant",
+    label: "Restaurant Time",
+    time: "7:00 AM – 7:00 PM",
+    note: "All orders will be closed at 7:00 PM",
+    icon: "UtensilsCrossed",
+  },
+  {
+    id: "pool",
+    label: "Pool Time",
+    time: "7:00 AM – 7:00 PM",
+    icon: "Waves",
+  },
+  {
+    id: "park",
+    label: "Children's Park",
+    time: "7:00 AM – 5:00 PM",
+    icon: "Trees",
+  },
+];
+
+export const houseRules = [
+  "Check-in: 2:00 PM onwards | Check-out: 11:00 AM",
+  "Please carry a valid ID proof for check-in.",
+  "Outside food and beverages are not allowed.",
+  "Smoking is strictly prohibited inside the rooms.",
+  "We request you to always maintain a minimal voice to ensure a peaceful and pleasant stay for all guests.",
+  "Children must be supervised by adults at all times.",
+  "Do not litter. Please use dustbins and help us keep the property clean.",
+  "Any damages to hotel property will be chargeable.",
+  "Management is not responsible for the loss of personal belongings.",
+  "Follow pool rules and use appropriate swimwear.",
+];
+
 export const experiences = [
   {
     id: "mornings",
@@ -360,15 +401,6 @@ export const experiences = [
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80",
   },
 ];
-
-export const inauguration = {
-  eyebrow: "The journey begins",
-  title: "Grand Inauguration of Mount Misty Retreat",
-  body: "We are delighted to welcome you as we begin a new chapter in the hills of Idukki.",
-  date: "15 August 2026",
-  time: "10:30 AM – 11:30 AM",
-  close: "Come experience Mount Misty Retreat as it opens its doors.",
-};
 
 export const sightseeingRoute = {
   origin: {
@@ -516,9 +548,9 @@ export const contact = {
   phone: "+91 79078 08656",
   phoneSecondary: "+91 79078 08656",
   whatsappUrl: "https://wa.me/917907808656",
-  mapsUrl: "https://maps.app.goo.gl/Pup59CyU29h8nFKL7?g_st=ac",
+  mapsUrl: "https://maps.app.goo.gl/DFj175PudexhbU676?g_st=ac",
   mapEmbed:
-    "https://www.google.com/maps?q=Pulickathotty+P.O.+Edathana+Idukki+685607&z=14&output=embed",
+    "https://www.google.com/maps?q=9.998917,76.849972&z=15&output=embed",
 };
 
 export const heroImage =

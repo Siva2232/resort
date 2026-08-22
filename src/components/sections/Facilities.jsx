@@ -5,7 +5,7 @@ import {
   UtensilsCrossed,
   Waves,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   additionalFacilities,
   premiumBookingExtras,
@@ -13,6 +13,7 @@ import {
   tariff,
 } from "../../data/resort";
 import { formatPrice } from "../../utils/helpers";
+import { easeOutExpo } from "../../utils/motion";
 import SectionReveal from "../ui/SectionReveal";
 
 const propertyIcons = {
@@ -73,6 +74,36 @@ function FacilityCard({ group, index }) {
   );
 }
 
+function MobilePropertyCard({ item, index }) {
+  const reduce = useReducedMotion();
+  const Icon = propertyIcons[item.icon] || Waves;
+
+  return (
+    <motion.li
+      className="flex min-h-[148px] flex-col border border-white/10 bg-white/[0.05] p-3.5"
+      initial={reduce ? false : { opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay: 0.03 * index, duration: 0.55, ease: easeOutExpo }}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brass/30 bg-brass/10 text-brass">
+          <Icon className="size-3.5" strokeWidth={1.35} aria-hidden />
+        </span>
+        <span className="font-display text-xs tabular-nums text-sand/30">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+      <p className="mt-2.5 font-display text-[13px] leading-snug tracking-tight text-sand">
+        {item.title}
+      </p>
+      <p className="mt-1.5 text-[11px] font-light leading-relaxed text-seafoam/70">
+        {item.description}
+      </p>
+    </motion.li>
+  );
+}
+
 export default function Facilities() {
   return (
     <section className="bg-ink px-5 py-20 md:px-8 md:py-24">
@@ -102,7 +133,14 @@ export default function Facilities() {
           <p className="text-center text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
             Property facilities
           </p>
-          <ul className="mt-10 space-y-0">
+
+          <ul className="mt-6 grid grid-cols-2 gap-3 md:hidden">
+            {propertyAmenities.map((item, i) => (
+              <MobilePropertyCard key={item.id} item={item} index={i} />
+            ))}
+          </ul>
+
+          <ul className="mt-10 hidden space-y-0 md:block">
             {propertyAmenities.map((item, i) => {
               const Icon = propertyIcons[item.icon] || Waves;
               return (

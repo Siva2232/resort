@@ -4,16 +4,22 @@ import {
   Archive,
   Box,
   Car,
+  Clock,
   Coffee,
   Droplets,
   Lock,
+  ScrollText,
   Sparkles,
+  Trees,
   Tv,
   UtensilsCrossed,
+  Waves,
   Wind,
   Zap,
 } from "lucide-react";
 import {
+  houseRules,
+  propertyTimings,
   roomAmenities,
   roomAmenityGroups,
 } from "../../data/resort";
@@ -33,6 +39,15 @@ const amenityIcons = {
   Shirt: Zap,
   UtensilsCrossed,
   Car,
+  Waves,
+  Trees,
+};
+
+const timingIcons = {
+  Coffee,
+  UtensilsCrossed,
+  Waves,
+  Trees,
 };
 
 function getGroupSubtitle(groupId) {
@@ -84,6 +99,63 @@ function MobileAmenityCard({ item, index }) {
         {subtitle}
       </p>
     </motion.article>
+  );
+}
+
+function MobileTimingCard({ item, index }) {
+  const reduce = useReducedMotion();
+  const Icon = timingIcons[item.icon] || Clock;
+
+  return (
+    <motion.article
+      className="flex min-h-[148px] flex-col border border-ink/8 bg-white/80 p-3.5"
+      initial={reduce ? false : { opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay: 0.03 * index, duration: 0.55, ease: easeOutExpo }}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brass/30 bg-brass/5 text-brass">
+          <Icon className="size-3.5" strokeWidth={1.35} aria-hidden />
+        </span>
+        <span className="font-display text-xs tabular-nums text-ink/20">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      <h3 className="mt-2.5 font-display text-[13px] leading-snug tracking-tight text-ink">
+        {item.label}
+      </h3>
+      <p className="mt-1.5 text-[11px] font-medium leading-snug text-brass">
+        {item.time}
+      </p>
+      {item.note && (
+        <p className="mt-auto pt-2 text-[10px] font-light italic leading-relaxed text-ink/45">
+          {item.note}
+        </p>
+      )}
+    </motion.article>
+  );
+}
+
+function MobileRuleCard({ rule, index }) {
+  const reduce = useReducedMotion();
+
+  return (
+    <motion.li
+      className="flex min-h-[120px] flex-col border border-white/10 bg-white/[0.05] p-3.5"
+      initial={reduce ? false : { opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay: 0.025 * index, duration: 0.55, ease: easeOutExpo }}
+    >
+      <span className="font-display text-xs tabular-nums text-brass/80">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <p className="mt-2 text-[11px] font-light leading-relaxed text-seafoam/85">
+        {rule}
+      </p>
+    </motion.li>
   );
 }
 
@@ -330,6 +402,122 @@ export default function RoomAmenities() {
                 </motion.div>
               );
             })}
+          </div>
+        </SectionReveal>
+
+        {/* Timings & house rules — from guest welcome guide */}
+        <SectionReveal className="mt-16 md:mt-20" y={28}>
+          <div className="mb-8 max-w-2xl">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-brass">
+              During your stay
+            </p>
+            <h3 className="mt-3 font-display text-3xl tracking-tight text-ink md:text-4xl">
+              Timings & house rules
+            </h3>
+            <p className="mt-4 text-base font-light leading-relaxed text-ink/55">
+              To ensure a comfortable and enjoyable stay for everyone, please
+              review our service timings and property guidelines.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-5">
+              <div className="border border-ink/10 bg-white/60 p-5 md:p-8">
+                <div className="flex items-center gap-3 border-b border-ink/10 pb-4 md:pb-5">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-brass/30 bg-brass/5 text-brass">
+                    <Clock className="size-4" strokeWidth={1.5} aria-hidden />
+                  </span>
+                  <h4 className="font-display text-xl tracking-tight text-ink">
+                    Timings
+                  </h4>
+                </div>
+
+                <ul className="mt-4 grid grid-cols-2 gap-3 lg:hidden">
+                  {propertyTimings.map((item, index) => (
+                    <MobileTimingCard
+                      key={item.id}
+                      item={item}
+                      index={index}
+                    />
+                  ))}
+                </ul>
+
+                <ul className="mt-6 hidden space-y-5 lg:block">
+                  {propertyTimings.map((item, index) => {
+                    const Icon = timingIcons[item.icon] || Clock;
+                    return (
+                      <motion.li
+                        key={item.id}
+                        initial={{ opacity: 0, x: -12 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.4 }}
+                        transition={{
+                          delay: 0.05 * index,
+                          duration: 0.55,
+                          ease: easeOutExpo,
+                        }}
+                        className="flex gap-4 border-t border-ink/8 pt-5 first:border-t-0 first:pt-0"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-brass/25 bg-brass/5 text-brass">
+                          <Icon className="size-4" strokeWidth={1.35} aria-hidden />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-display text-base tracking-tight text-ink">
+                            {item.label}
+                          </p>
+                          <p className="mt-1 text-sm font-medium text-brass">
+                            {item.time}
+                          </p>
+                          {item.note && (
+                            <p className="mt-2 text-xs font-light italic leading-relaxed text-ink/50">
+                              {item.note}
+                            </p>
+                          )}
+                        </div>
+                      </motion.li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="relative h-full overflow-hidden border border-ink/10 bg-ink px-5 py-7 text-foam md:px-8 md:py-10">
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-40"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at 0% 0%, rgba(184,149,108,0.2), transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(200,217,211,0.1), transparent 50%)",
+                  }}
+                  aria-hidden
+                />
+                <div className="relative flex items-center gap-3 border-b border-white/10 pb-5">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-brass/35 bg-brass/10 text-brass">
+                    <ScrollText className="size-4" strokeWidth={1.5} aria-hidden />
+                  </span>
+                  <h4 className="font-display text-xl tracking-tight text-sand">
+                    Rules & regulations
+                  </h4>
+                </div>
+
+                <ol className="relative mt-4 grid grid-cols-2 gap-2.5 sm:gap-4 lg:mt-6">
+                  {houseRules.map((rule, index) => (
+                    <MobileRuleCard
+                      key={rule}
+                      rule={rule}
+                      index={index}
+                    />
+                  ))}
+                </ol>
+
+                <p className="relative mt-6 text-center font-display text-base italic text-sand/80 md:mt-8 md:text-lg">
+                  Thank you for your cooperation.
+                </p>
+                <p className="relative mt-2 text-center text-[11px] font-medium uppercase tracking-[0.22em] text-seafoam/55">
+                  Wish you a pleasant stay
+                </p>
+              </div>
+            </div>
           </div>
         </SectionReveal>
       </div>
