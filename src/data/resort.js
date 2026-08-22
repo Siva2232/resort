@@ -307,17 +307,25 @@ export const propertyAmenities = [
 ];
 
 export const roomAmenities = [
-  { id: "dressing", label: "Dressing Unit", icon: "Mirror" },
-  { id: "wardrobe", label: "Wardrobe", icon: "Archive" },
-  { id: "locker", label: "Locker", icon: "Lock" },
-  { id: "tv", label: "Smart Android TV", icon: "Tv" },
-  { id: "kettle", label: "Electric Kettle", icon: "Coffee" },
-  { id: "heater", label: "Water Heater", icon: "Flame" },
-  { id: "fridge", label: "Mini Fridge", icon: "Refrigerator" },
-  { id: "dryer", label: "Hair Dryer", icon: "Wind" },
-  { id: "iron", label: "Iron Box", icon: "Shirt" },
-  { id: "restaurant", label: "Restaurant Access", icon: "UtensilsCrossed" },
-  { id: "pickup", label: "Pickup & Drop (Paid)", icon: "Car" },
+  { id: "dressing", label: "Dressing Unit", icon: "Mirror", group: "comfort" },
+  { id: "wardrobe", label: "Wardrobe", icon: "Archive", group: "comfort" },
+  { id: "locker", label: "Locker", icon: "Lock", group: "comfort" },
+  { id: "tv", label: "Smart Android TV", icon: "Tv", group: "entertainment", featured: true },
+  { id: "kettle", label: "Electric Kettle", icon: "Coffee", group: "refreshments" },
+  { id: "heater", label: "Water Heater", icon: "Flame", group: "bathroom" },
+  { id: "fridge", label: "Mini Fridge", icon: "Refrigerator", group: "refreshments" },
+  { id: "dryer", label: "Hair Dryer", icon: "Wind", group: "bathroom" },
+  { id: "iron", label: "Iron Box", icon: "Shirt", group: "bathroom" },
+  { id: "restaurant", label: "Restaurant Access", icon: "UtensilsCrossed", group: "services" },
+  { id: "pickup", label: "Pickup & Drop", icon: "Car", group: "services", paid: true },
+];
+
+export const roomAmenityGroups = [
+  { id: "comfort", title: "Comfort & storage", subtitle: "Space to settle in" },
+  { id: "entertainment", title: "Entertainment", subtitle: "Stay connected" },
+  { id: "refreshments", title: "Refreshments", subtitle: "In-room convenience" },
+  { id: "bathroom", title: "Bathroom & grooming", subtitle: "Daily essentials" },
+  { id: "services", title: "Services", subtitle: "Beyond your room" },
 ];
 
 export const experiences = [
@@ -362,34 +370,64 @@ export const inauguration = {
   close: "Come experience Mount Misty Retreat as it opens its doors.",
 };
 
+export const sightseeingRoute = {
+  origin: {
+    name: "Mount Misty Retreat",
+    location: "Edathana, Idukki",
+  },
+  note: "Distances and routes are arranged as per your requirements during your stay.",
+  totalDistanceKm: 42,
+  estimatedDriveTime: "2–3 hrs",
+};
+
 export const sightseeing = [
   {
     id: "kottappara",
     name: "Kottappara Viewpoint",
+    type: "Viewpoint",
+    distanceKm: 8,
+    segmentKm: 8,
+    driveTime: "20 min",
     image:
       "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "meenuliyan",
     name: "Meenuliyan Para",
+    type: "Viewpoint",
+    distanceKm: 14,
+    segmentKm: 6,
+    driveTime: "15 min",
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "kattadikadavu",
     name: "Kattadikadavu Viewpoint",
+    type: "Viewpoint",
+    distanceKm: 18,
+    segmentKm: 5,
+    driveTime: "12 min",
     image:
       "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "thommankuthu",
     name: "Thommankuthu Waterfalls",
+    type: "Waterfalls",
+    distanceKm: 32,
+    segmentKm: 14,
+    driveTime: "35 min",
     image:
       "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "anayadikuthu",
     name: "Anayadikuthu Waterfalls",
+    type: "Waterfalls",
+    distanceKm: 28,
+    segmentKm: 9,
+    driveTime: "22 min",
     image:
       "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
   },
