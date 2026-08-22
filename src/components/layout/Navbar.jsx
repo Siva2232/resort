@@ -212,13 +212,9 @@ export default function Navbar() {
                 >
                   Reserve a stay
                 </button>
+
                 <div className="flex flex-col gap-1 text-sm font-light text-seafoam/65">
-                  <a
-                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                    className="hover:text-foam"
-                  >
-                    {contact.phone}
-                  </a>
+                  <p>{contact.phone}</p>
                   <p className="text-xs text-foam/40">Edathana · Idukki</p>
                 </div>
               </motion.div>

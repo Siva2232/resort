@@ -4,10 +4,11 @@ import { brand, contact, navLinks } from "../../data/resort";
 import { scrollToId } from "../../utils/helpers";
 import { easeLuxury } from "../../utils/motion";
 import BrandLogo from "../ui/BrandLogo";
+import { ContactActionButtons } from "../ui/ContactToggle";
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-foam">
+    <footer id="site-footer" className="bg-ink text-foam">
       {/* CTA band */}
       <div className="border-t border-white/10">
         <div className="section-shell flex flex-col items-start justify-between gap-8 px-5 py-16 md:flex-row md:items-end md:px-8 md:py-20">
@@ -157,6 +158,8 @@ export default function Footer() {
               </a>
             </li>
           </ul>
+
+          <ContactActionButtons variant="footer" className="mt-6" />
         </div>
       </div>
 

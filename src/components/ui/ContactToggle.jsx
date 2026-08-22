@@ -1,10 +1,10 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { MessageCircle, Phone, X } from "lucide-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Phone } from "lucide-react";
+import { useEffect, useState } from "react";
 import { contact } from "../../data/resort";
 import { easeLuxury } from "../../utils/motion";
 
-function WhatsAppIcon({ className }) {
+export function WhatsAppIcon({ className }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -18,163 +18,220 @@ function WhatsAppIcon({ className }) {
 }
 
 const phoneDigits = contact.phone.replace(/\D/g, "");
-const telHref = `tel:+${phoneDigits}`;
-const waHref = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(
+export const telHref = `tel:+${phoneDigits}`;
+export const waHref = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(
   "Hello Mount Misty Retreat, I'd like to enquire about a stay."
 )}`;
 
-const actions = [
+export const contactQuickActions = [
   {
     id: "whatsapp",
     label: "WhatsApp",
     href: waHref,
-    icon: WhatsAppIcon,
-    className: "bg-[#25D366] text-white hover:bg-[#1ebe57]",
     external: true,
+    buttonClass:
+      "bg-[#25D366] text-white hover:bg-[#1ebe57] ring-[#25D366]/30 shadow-[0_10px_28px_-10px_rgba(37,211,102,0.5)]",
+    iconWrapClass: "bg-[#128C7E]/25",
+    pulseClass: "ring-[#25D366]/45",
   },
   {
     id: "call",
     label: "Call",
     href: telHref,
-    icon: Phone,
-    className: "bg-brass text-ink hover:bg-brass-light",
+    external: false,
+    buttonClass:
+      "bg-brass text-ink hover:bg-brass-light ring-brass/30 shadow-[0_10px_28px_-10px_rgba(184,149,108,0.5)]",
+    iconWrapClass: "bg-ink/10",
+    pulseClass: "ring-brass/40",
   },
 ];
 
-export default function ContactToggle() {
-  const [open, setOpen] = useState(false);
+function ActionIcon({ id, className }) {
+  if (id === "call") {
+    return <Phone className={className} strokeWidth={1.75} />;
+  }
+  return <WhatsAppIcon className={className} />;
+}
+
+function FloatingAction({ action, index, reduce }) {
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 20, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        delay: 0.15 + index * 0.08,
+        duration: 0.45,
+        ease: easeLuxury,
+      }}
+      className="flex flex-col items-center gap-1.5"
+    >
+      <motion.a
+        href={action.href}
+        {...(action.external
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+        aria-label={action.label}
+        className={`group relative flex size-14 items-center justify-center rounded-full ring-1 transition-colors ${action.buttonClass}`}
+        whileHover={reduce ? undefined : { scale: 1.06 }}
+        whileTap={reduce ? undefined : { scale: 0.94 }}
+        transition={{ type: "spring", stiffness: 420, damping: 24 }}
+      >
+        {!reduce && (
+          <motion.span
+            aria-hidden
+            className={`pointer-events-none absolute inset-0 rounded-full ring-2 ${action.pulseClass}`}
+            animate={{ scale: [1, 1.28], opacity: [0.5, 0] }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              ease: "easeOut",
+              delay: index * 0.6,
+            }}
+          />
+        )}
+        <span
+          className={`flex size-11 items-center justify-center rounded-full ${action.iconWrapClass}`}
+        >
+          <ActionIcon id={action.id} className="size-5" />
+        </span>
+      </motion.a>
+      <span className="select-none text-[10px] font-medium uppercase tracking-[0.2em] text-ink/70">
+        {action.label}
+      </span>
+    </motion.div>
+  );
+}
+
+function InlineAction({ action, onClick }) {
+  return (
+    <a
+      href={action.href}
+      {...(action.external
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+      onClick={onClick}
+      className={`inline-flex flex-1 items-center justify-center gap-2.5 rounded-sm px-4 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] ring-1 transition-colors ${action.buttonClass}`}
+    >
+      <span
+        className={`flex size-8 items-center justify-center rounded-full ${action.iconWrapClass}`}
+      >
+        <ActionIcon id={action.id} className="size-4" />
+      </span>
+      {action.label}
+    </a>
+  );
+}
+
+function FooterAction({ action }) {
+  return (
+    <a
+      href={action.href}
+      {...(action.external
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+      className={`inline-flex items-center gap-2.5 rounded-sm px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.14em] ring-1 transition-colors ${action.buttonClass}`}
+    >
+      <span
+        className={`flex size-7 items-center justify-center rounded-full ${action.iconWrapClass}`}
+      >
+        <ActionIcon id={action.id} className="size-3.5" />
+      </span>
+      {action.label}
+    </a>
+  );
+}
+
+export function ContactActionButtons({
+  variant = "floating",
+  className = "",
+  onActionClick,
+}) {
   const reduce = useReducedMotion();
-  const rootRef = useRef(null);
-  const labelId = useId();
 
-  useEffect(() => {
-    if (!open) return;
+  if (variant === "floating") {
+    return (
+      <div
+        className={`flex flex-col items-center gap-4 ${className}`}
+        aria-label="Quick contact"
+      >
+        {contactQuickActions.map((action, index) => (
+          <FloatingAction
+            key={action.id}
+            action={action}
+            index={index}
+            reduce={reduce}
+          />
+        ))}
+      </div>
+    );
+  }
 
-    const onPointerDown = (e) => {
-      if (rootRef.current && !rootRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  if (variant === "menu") {
+    return (
+      <div className={`space-y-3 ${className}`} aria-label="Contact options">
+        <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-sand/70">
+          Contact us
+        </p>
+        <div className="flex gap-3">
+          {contactQuickActions.map((action) => (
+            <InlineAction
+              key={action.id}
+              action={action}
+              onClick={onActionClick}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
-      ref={rootRef}
-      className="fixed bottom-5 right-4 z-[55] flex flex-col items-center gap-2.5 md:bottom-8 md:right-8"
+      className={`flex flex-wrap gap-3 ${className}`}
+      aria-label="Contact options"
     >
-      <AnimatePresence>
-        {open && (
-          <motion.ul
-            className="mb-1 flex flex-col items-end gap-3"
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: reduce ? 0 : 0.07,
-                  staggerDirection: -1,
-                },
-              },
-            }}
-          >
-            {actions.map((action) => {
-              const Icon = action.icon;
-              return (
-                <motion.li
-                  key={action.id}
-                  variants={{
-                    hidden: reduce
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 16, scale: 0.9 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                      transition: { duration: 0.35, ease: easeLuxury },
-                    },
-                  }}
-                >
-                  <a
-                    href={action.href}
-                    {...(action.external
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className={`group flex items-center gap-3 rounded-full py-1.5 pl-4 pr-1.5 shadow-[0_10px_30px_-12px_rgba(11,28,36,0.55)] transition-colors ${action.className}`}
-                    aria-label={action.label}
-                    onClick={() => setOpen(false)}
-                  >
-                    <span className="text-xs font-medium tracking-wide">
-                      {action.label}
-                    </span>
-                    <span className="flex size-11 items-center justify-center rounded-full bg-black/10">
-                      <Icon className="size-5" />
-                    </span>
-                  </a>
-                </motion.li>
-              );
-            })}
-          </motion.ul>
-        )}
-      </AnimatePresence>
-
-      <div className="flex flex-col items-center gap-1.5">
-        <motion.button
-          type="button"
-          aria-expanded={open}
-          aria-controls={labelId}
-          aria-label={open ? "Close enquire options" : "Enquire"}
-          onClick={() => setOpen((v) => !v)}
-          className="relative flex size-14 items-center justify-center rounded-full bg-ink text-foam shadow-[0_14px_36px_-10px_rgba(11,28,36,0.65)] ring-1 ring-seafoam/25"
-          whileHover={reduce ? undefined : { scale: 1.06 }}
-          whileTap={reduce ? undefined : { scale: 0.94 }}
-          transition={{ type: "spring", stiffness: 420, damping: 24 }}
-        >
-          <span id={labelId} className="sr-only">
-            Call or WhatsApp enquire options
-          </span>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.span
-              key={open ? "close" : "open"}
-              initial={reduce ? false : { opacity: 0, rotate: -45, scale: 0.7 }}
-              animate={{ opacity: 1, rotate: 0, scale: 1 }}
-              exit={reduce ? undefined : { opacity: 0, rotate: 45, scale: 0.7 }}
-              transition={{ duration: 0.22, ease: easeLuxury }}
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              {open ? (
-                <X className="size-5" strokeWidth={1.75} />
-              ) : (
-                <MessageCircle className="size-5" strokeWidth={1.75} />
-              )}
-            </motion.span>
-          </AnimatePresence>
-
-          {!open && !reduce && (
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-brass/40"
-              animate={{ scale: [1, 1.35], opacity: [0.55, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
-            />
-          )}
-        </motion.button>
-
-        <span className="select-none text-[10px] font-medium uppercase tracking-[0.22em] text-ink/70">
-          Enquire
-        </span>
-      </div>
+      {contactQuickActions.map((action) => (
+        <FooterAction key={action.id} action={action} />
+      ))}
     </div>
+  );
+}
+
+export default function ContactToggle() {
+  const [footerInView, setFooterInView] = useState(false);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const footer = document.getElementById("site-footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterInView(entry.isIntersecting),
+      { threshold: 0.06, rootMargin: "0px 0px -48px 0px" }
+    );
+
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {!footerInView && (
+        <motion.div
+          key="contact-toggle"
+          initial={reduce ? false : { opacity: 0, y: 16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={
+            reduce
+              ? { opacity: 0 }
+              : { opacity: 0, y: 16, scale: 0.96, pointerEvents: "none" }
+          }
+          transition={{ duration: reduce ? 0.15 : 0.35, ease: easeLuxury }}
+          className="fixed bottom-5 right-4 z-30 md:bottom-8 md:right-8"
+        >
+          <ContactActionButtons variant="floating" />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

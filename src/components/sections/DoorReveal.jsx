@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   AnimatePresence,
   motion,
@@ -56,6 +57,52 @@ const BRASS =
 const BRASS_EDGE =
   "linear-gradient(90deg, #c4a574 0%, #f0e0c8 35%, #b8956c 58%, #7a6040 100%)";
 
+/** Warm teak / walnut palette for carved wooden doors. */
+const WOOD = {
+  deep: "#2a1810",
+  dark: "#3d2518",
+  base: "#5c3824",
+  mid: "#7a4f32",
+  warm: "#96603c",
+  light: "#b0784a",
+  grain: "#c4925e",
+  highlight: "#d4a574",
+  plank: "#6b4428",
+};
+
+const WOOD_FACE = (isLeft) =>
+  isLeft
+    ? `linear-gradient(118deg, ${WOOD.deep} 0%, ${WOOD.dark} 14%, ${WOOD.base} 32%, ${WOOD.mid} 48%, ${WOOD.warm} 58%, ${WOOD.base} 72%, ${WOOD.dark} 88%, ${WOOD.deep} 100%)`
+    : `linear-gradient(242deg, ${WOOD.deep} 0%, ${WOOD.dark} 14%, ${WOOD.base} 32%, ${WOOD.mid} 48%, ${WOOD.warm} 58%, ${WOOD.base} 72%, ${WOOD.dark} 88%, ${WOOD.deep} 100%)`;
+
+const WOOD_GRAIN = `
+  repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 5px,
+    rgba(42,24,16,0.14) 5px, rgba(42,24,16,0.14) 6px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 28px,
+    rgba(0,0,0,0.07) 28px, rgba(0,0,0,0.07) 29px
+  ),
+  repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 18px,
+    rgba(255,220,180,0.035) 18px, rgba(255,220,180,0.035) 19px,
+    transparent 19px, transparent 42px,
+    rgba(0,0,0,0.05) 42px, rgba(0,0,0,0.05) 43px
+  ),
+  repeating-linear-gradient(
+    3deg,
+    transparent 0px, transparent 96px,
+    rgba(180,120,70,0.06) 96px, rgba(180,120,70,0.06) 98px
+  )
+`;
+
+const WOOD_PANEL_FACE =
+  "linear-gradient(168deg, rgba(212,165,116,0.22) 0%, rgba(180,120,72,0.08) 28%, rgba(42,24,16,0.18) 62%, rgba(26,16,10,0.42) 100%)";
+
 function BrassCorner({ className }) {
   return (
     <div aria-hidden className={`absolute size-4 md:size-5 ${className}`}>
@@ -79,22 +126,26 @@ function RaisedPanel({ className, children }) {
   return (
     <div className={`absolute ${className}`}>
       <div
-        className="relative h-full w-full border border-brass/30"
+        className="relative h-full w-full border border-[#8b5a35]/45"
         style={{
-          background:
-            "linear-gradient(165deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 32%, rgba(0,0,0,0.12) 68%, rgba(0,0,0,0.28) 100%)",
+          background: WOOD_PANEL_FACE,
           boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.14), inset 0 -4px 14px rgba(0,0,0,0.45), 0 2px 0 rgba(184,149,108,0.16)",
+            "inset 0 2px 0 rgba(212,165,116,0.18), inset 0 -6px 16px rgba(26,16,10,0.55), inset 4px 0 12px rgba(0,0,0,0.12), inset -4px 0 12px rgba(0,0,0,0.12), 0 2px 0 rgba(180,120,72,0.2)",
         }}
       >
-        <div className="absolute inset-[5px] border border-brass/20 md:inset-[7px]" />
-        <div className="absolute inset-[10px] border border-white/[0.05] md:inset-[13px]" />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-[14%] top-[10%] h-[28%] rounded-[100%] opacity-40"
+          className="pointer-events-none absolute inset-0 opacity-50"
+          style={{ backgroundImage: WOOD_GRAIN }}
+        />
+        <div className="absolute inset-[5px] border border-[#6b4428]/35 md:inset-[7px]" />
+        <div className="absolute inset-[10px] border border-[#d4a574]/10 md:inset-[13px]" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-[14%] top-[10%] h-[28%] rounded-[100%] opacity-35"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(255,255,255,0.12), transparent 70%)",
+              "radial-gradient(ellipse at center, rgba(255,228,196,0.16), transparent 70%)",
           }}
         />
         {children}
@@ -103,64 +154,45 @@ function RaisedPanel({ className, children }) {
   );
 }
 
-/** Palace lacquer door — ink + brass, royal and refined. */
+/** Carved teak double doors — warm grain, brass hardware. */
 function DoorPanel({ side }) {
   const isLeft = side === "left";
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[#070e14]">
+    <div className="relative h-full w-full overflow-hidden bg-[#2a1810]">
       <div
         aria-hidden
         className="absolute inset-0"
+        style={{ background: WOOD_FACE(isLeft) }}
+      />
+
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.72]"
+        style={{ backgroundImage: WOOD_GRAIN }}
+      />
+
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-55"
         style={{
           background: isLeft
-            ? "linear-gradient(122deg, #03070a 0%, #0a141a 18%, #14232c 42%, #0d1a22 68%, #050b10 100%)"
-            : "linear-gradient(238deg, #03070a 0%, #0a141a 18%, #14232c 42%, #0d1a22 68%, #050b10 100%)",
+            ? "linear-gradient(128deg, rgba(255,220,180,0.14) 0%, transparent 32%, transparent 52%, rgba(26,16,10,0.42) 100%)"
+            : "linear-gradient(232deg, rgba(255,220,180,0.14) 0%, transparent 32%, transparent 52%, rgba(26,16,10,0.42) 100%)",
         }}
       />
 
       <div
         aria-hidden
-        className="absolute inset-0 opacity-[0.38]"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(90deg,
-              transparent 0px, transparent 7px,
-              rgba(212,196,168,0.045) 7px, rgba(212,196,168,0.045) 8px
-            ),
-            repeating-linear-gradient(90deg,
-              transparent 0px, transparent 36px,
-              rgba(184,149,108,0.05) 36px, rgba(184,149,108,0.05) 37px
-            ),
-            repeating-linear-gradient(0deg,
-              transparent 0px, transparent 48px,
-              rgba(0,0,0,0.06) 48px, rgba(0,0,0,0.06) 49px
-            )
-          `,
-        }}
-      />
-
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-60"
-        style={{
-          background: isLeft
-            ? "linear-gradient(130deg, rgba(255,255,255,0.08) 0%, transparent 34%, transparent 55%, rgba(0,0,0,0.38) 100%)"
-            : "linear-gradient(230deg, rgba(255,255,255,0.08) 0%, transparent 34%, transparent 55%, rgba(0,0,0,0.38) 100%)",
-        }}
-      />
-
-      <div
-        aria-hidden
-        className="absolute inset-[6px] border border-brass/40 md:inset-[10px]"
+        className="absolute inset-[6px] border border-[#a67c52]/35 md:inset-[10px]"
         style={{
           boxShadow:
-            "inset 0 0 0 1px rgba(255,255,255,0.06), inset 0 0 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(184,149,108,0.15)",
+            "inset 0 0 0 1px rgba(212,165,116,0.12), inset 0 0 80px rgba(26,16,10,0.45), 0 0 0 1px rgba(90,56,36,0.35)",
         }}
       />
-      <div aria-hidden className="absolute inset-[11px] border border-brass/22 md:inset-[17px]" />
-      <div aria-hidden className="absolute inset-[17px] border border-white/[0.045] md:inset-[24px]" />
-      <div aria-hidden className="absolute inset-[22px] border border-brass/12 md:inset-[30px]" />
+      <div aria-hidden className="absolute inset-[11px] border border-[#6b4428]/30 md:inset-[17px]" />
+      <div aria-hidden className="absolute inset-[17px] border border-[#d4a574]/10 md:inset-[24px]" />
+      <div aria-hidden className="absolute inset-[22px] border border-[#5c3824]/25 md:inset-[30px]" />
 
       <BrassCorner className="left-[14px] top-[14px] md:left-[22px] md:top-[22px]" />
       <BrassCorner className="right-[14px] top-[14px] md:right-[22px] md:top-[22px]" />
@@ -181,17 +213,17 @@ function DoorPanel({ side }) {
         <div className="absolute left-1/2 top-[46%] flex size-[5.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center md:size-[6.5rem]">
           <div
             aria-hidden
-            className="absolute inset-0 rotate-45 border border-brass/45"
+            className="absolute inset-0 rotate-45 border border-[#a67c52]/50"
             style={{
               background:
-                "linear-gradient(145deg, rgba(232,212,181,0.16), transparent 48%, rgba(0,0,0,0.3))",
+                "linear-gradient(145deg, rgba(212,165,116,0.24), transparent 48%, rgba(42,24,16,0.35))",
               boxShadow:
-                "inset 0 0 0 1px rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.4)",
+                "inset 0 0 0 1px rgba(255,228,196,0.1), 0 8px 24px rgba(26,16,10,0.45)",
             }}
           />
-          <div aria-hidden className="absolute inset-[18%] rotate-45 border border-brass/30" />
-          <div aria-hidden className="absolute inset-[32%] rotate-45 border border-brass/18" />
-          <span className="relative z-[1] font-display text-2xl tracking-wide text-brass-light md:text-3xl">
+          <div aria-hidden className="absolute inset-[18%] rotate-45 border border-[#8b5a35]/35" />
+          <div aria-hidden className="absolute inset-[32%] rotate-45 border border-[#6b4428]/25" />
+          <span className="relative z-[1] font-display text-2xl tracking-wide text-[#f5ead8] md:text-3xl">
             {brand.fullName.charAt(0)}
           </span>
         </div>
@@ -202,9 +234,9 @@ function DoorPanel({ side }) {
         className="absolute inset-x-[28px] top-[49%] h-[2.2%] md:inset-x-[42px]"
         style={{
           background:
-            "linear-gradient(180deg, #5c4830 0%, #e8d4b5 22%, #b8956c 50%, #8f7350 78%, #3d2e1c 100%)",
+            "linear-gradient(180deg, #4a2f1a 0%, #c4925e 22%, #96603c 50%, #6b4428 78%, #3d2518 100%)",
           boxShadow:
-            "0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25)",
+            "0 1px 0 rgba(255,228,196,0.12), 0 -1px 0 rgba(26,16,10,0.5), 0 4px 12px rgba(26,16,10,0.35)",
         }}
       />
 
@@ -221,19 +253,19 @@ function DoorPanel({ side }) {
           />
           <div
             aria-hidden
-            className="absolute inset-[3px] rounded-full border border-[#5c4830]/40"
+            className="absolute inset-[3px] rounded-full border border-[#4a2f1a]/50"
             style={{
               background:
-                "radial-gradient(circle at 32% 28%, #1a2830 0%, #0a141a 55%, #050b10 100%)",
+                "radial-gradient(circle at 32% 28%, #7a4f32 0%, #5c3824 55%, #3d2518 100%)",
             }}
           />
-          <div aria-hidden className="absolute inset-[10px] rounded-full border border-brass/35" />
-          <div aria-hidden className="absolute inset-[16px] rounded-full border border-brass/18" />
+          <div aria-hidden className="absolute inset-[10px] rounded-full border border-[#c4925e]/40" />
+          <div aria-hidden className="absolute inset-[16px] rounded-full border border-[#8b5a35]/25" />
           <div className="relative z-[1] flex flex-col items-center text-center">
-            <span className="font-display text-lg leading-none tracking-wide text-brass-light md:text-xl">
+            <span className="font-display text-lg leading-none tracking-wide text-[#f5ead8] md:text-xl">
               MM
             </span>
-            <span className="mt-1 text-[6px] font-medium uppercase tracking-[0.2em] text-brass/65 md:text-[7px]">
+            <span className="mt-1 text-[6px] font-medium uppercase tracking-[0.2em] text-[#d4a574]/75 md:text-[7px]">
               Retreat
             </span>
           </div>
@@ -289,7 +321,7 @@ function DoorPanel({ side }) {
               "0 4px 18px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.25)",
           }}
         >
-          <span className="text-[7px] font-medium uppercase tracking-[0.24em] text-ink/85 md:text-[8px]">
+          <span className="text-[7px] font-medium uppercase tracking-[0.24em] text-[#2a1810]/90 md:text-[8px]">
             {brand.fullName}
           </span>
         </div>
@@ -298,20 +330,20 @@ function DoorPanel({ side }) {
           className="relative flex flex-col items-center px-3.5 py-5 md:px-4 md:py-6"
           style={{
             background:
-              "linear-gradient(165deg, #f5ead8 0%, #e8d4b5 16%, #c4a574 40%, #b8956c 70%, #8a6d45 100%)",
+              "linear-gradient(165deg, #f0dcc0 0%, #d4a574 16%, #b0784a 40%, #96603c 70%, #6b4428 100%)",
             boxShadow:
-              "0 8px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -2px 0 rgba(0,0,0,0.25)",
+              "0 8px 28px rgba(26,16,10,0.55), inset 0 1px 0 rgba(255,240,220,0.55), inset 0 -2px 0 rgba(42,24,16,0.35)",
             borderRadius: "2px",
           }}
         >
           <div aria-hidden className="absolute inset-[3px] border border-white/25" />
-          <div aria-hidden className="absolute inset-[7px] border border-[#5c4830]/20" />
+          <div aria-hidden className="absolute inset-[7px] border border-[#6b4428]/25" />
 
           <div
             className="relative h-3.5 w-[4.25rem] rounded-full md:h-4 md:w-[5rem]"
             style={{
               background:
-                "linear-gradient(180deg, #faf4ea 0%, #e2c9a0 40%, #a88458 100%)",
+                "linear-gradient(180deg, #faf0e4 0%, #d4a574 40%, #8b5a35 100%)",
               boxShadow:
                 "0 5px 14px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.7)",
               transform: isLeft ? "translateX(8px)" : "translateX(-8px)",
@@ -323,7 +355,7 @@ function DoorPanel({ side }) {
               }`}
               style={{
                 background:
-                  "radial-gradient(circle at 32% 28%, #fff8ee, #d4b896 48%, #7a6040)",
+                  "radial-gradient(circle at 32% 28%, #fff8ee, #c4925e 48%, #5c3824)",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.45)",
               }}
             />
@@ -333,16 +365,16 @@ function DoorPanel({ side }) {
             <div
               className="size-3 rounded-full md:size-3.5"
               style={{
-                background: "#0a0806",
+                background: "#2a1810",
                 boxShadow:
-                  "inset 0 2px 4px rgba(0,0,0,0.9), 0 0 0 1px rgba(90,70,45,0.6)",
+                  "inset 0 2px 4px rgba(0,0,0,0.9), 0 0 0 1px rgba(107,68,40,0.65)",
               }}
             />
             <div
               className="mt-[-2px] h-3.5 w-[3.5px] rounded-b-[1px] md:h-4"
               style={{
-                background: "#0a0806",
-                boxShadow: "0 0 0 1px rgba(90,70,45,0.5)",
+                background: "#2a1810",
+                boxShadow: "0 0 0 1px rgba(107,68,40,0.55)",
               }}
             />
           </div>
@@ -353,18 +385,18 @@ function DoorPanel({ side }) {
         aria-hidden
         className={`absolute inset-y-0 w-14 md:w-[4.5rem] ${
           isLeft
-            ? "right-0 bg-gradient-to-l from-brass/40 via-brass/14 to-transparent"
-            : "left-0 bg-gradient-to-r from-brass/40 via-brass/14 to-transparent"
+            ? "right-0 bg-gradient-to-l from-[#c4925e]/35 via-[#8b5a35]/12 to-transparent"
+            : "left-0 bg-gradient-to-r from-[#c4925e]/35 via-[#8b5a35]/12 to-transparent"
         }`}
       />
 
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brass/55 to-transparent"
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d4a574]/50 to-transparent"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brass/45 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#a67c52]/45 to-transparent"
       />
     </div>
   );
@@ -373,19 +405,8 @@ function DoorPanel({ side }) {
 /**
  * Interior gallery — auto-slides once the doors are open.
  */
-function InteriorCarousel({ playing, showDots, onIndexChange }) {
+function InteriorCarousel({ index, direction, showDots }) {
   const reduce = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-
-  const go = useCallback((dir) => {
-    setDirection(dir);
-    setIndex((i) => (i + dir + SLIDE_COUNT) % SLIDE_COUNT);
-  }, []);
-
-  useEffect(() => {
-    onIndexChange?.(index);
-  }, [index, onIndexChange]);
 
   useEffect(() => {
     INTERIOR_SLIDES.forEach((s) => {
@@ -394,16 +415,10 @@ function InteriorCarousel({ playing, showDots, onIndexChange }) {
     });
   }, []);
 
-  useEffect(() => {
-    if (!playing || reduce || SLIDE_COUNT < 2) return;
-    const id = window.setTimeout(() => go(1), SLIDE_INTERVAL);
-    return () => window.clearTimeout(id);
-  }, [playing, reduce, go, index]);
-
   const slide = INTERIOR_SLIDES[index] ?? INTERIOR_SLIDES[0];
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-ink">
+    <div className="absolute inset-0 overflow-hidden bg-[#2a1810]">
       <AnimatePresence initial={false} custom={direction} mode="sync">
         <motion.img
           key={slide.src}
@@ -431,7 +446,7 @@ function InteriorCarousel({ playing, showDots, onIndexChange }) {
         />
       </AnimatePresence>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-ink/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#2a1810]/60 via-transparent to-[#3d2518]/30" />
 
       {showDots && SLIDE_COUNT > 1 && (
         <div
@@ -442,13 +457,26 @@ function InteriorCarousel({ playing, showDots, onIndexChange }) {
             <span
               key={s.src}
               className={`h-1 rounded-full transition-all duration-500 ${
-                i === index ? "w-7 bg-foam" : "w-1.5 bg-foam/35"
+                i === index ? "w-7 bg-[#f5ead8]" : "w-1.5 bg-[#f5ead8]/35"
               }`}
             />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+function SlideNavButton({ label, onClick, children }) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className="pointer-events-auto flex size-11 items-center justify-center rounded-full border border-[#c4925e]/40 bg-[#2a1810]/60 text-[#f5ead8] shadow-[0_8px_24px_rgba(26,16,10,0.45)] backdrop-blur-sm transition duration-300 hover:border-[#d4a574]/65 hover:bg-[#3d2518]/80 md:size-12"
+    >
+      {children}
+    </button>
   );
 }
 
@@ -460,7 +488,29 @@ export default function DoorReveal() {
   const ref = useRef(null);
   const reduce = useReducedMotion();
   const [slideIndex, setSlideIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(1);
   const [doorsOpen, setDoorsOpen] = useState(false);
+
+  const goSlide = useCallback((dir) => {
+    setSlideDirection(dir);
+    setSlideIndex((i) => (i + dir + SLIDE_COUNT) % SLIDE_COUNT);
+  }, []);
+
+  useEffect(() => {
+    if (!doorsOpen || reduce || SLIDE_COUNT < 2) return;
+    const id = window.setTimeout(() => goSlide(1), SLIDE_INTERVAL);
+    return () => window.clearTimeout(id);
+  }, [doorsOpen, reduce, goSlide, slideIndex]);
+
+  useEffect(() => {
+    if (!doorsOpen) return;
+    const onKey = (e) => {
+      if (e.key === "ArrowLeft") goSlide(-1);
+      if (e.key === "ArrowRight") goSlide(1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [doorsOpen, goSlide]);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -544,16 +594,16 @@ export default function DoorReveal() {
     return (
       <section
         aria-label="Enter the retreat"
-        className="relative flex min-h-[70vh] items-end overflow-hidden bg-ink"
+        className="relative flex min-h-[70vh] items-end overflow-hidden bg-[#2a1810]"
       >
         <img
           src={INTERIOR}
           alt="Retreat interior"
           className="absolute inset-0 h-full w-full object-cover opacity-75"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2a1810] via-[#3d2518]/45 to-transparent" />
         <div className="section-shell relative z-10 px-5 pb-16 md:px-8">
-          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-[#d4a574]">
             Step inside
           </p>
           <h2 className="mt-4 max-w-xl font-display text-4xl tracking-tight text-foam md:text-5xl">
@@ -568,7 +618,7 @@ export default function DoorReveal() {
     <section
       ref={ref}
       aria-label="Open the doors to the retreat"
-      className="relative h-[180vh] overflow-x-clip bg-ink"
+      className="relative h-[180vh] overflow-x-clip bg-[#1f140c]"
     >
       <div
         className="sticky top-0 h-svh min-h-[560px] overflow-hidden"
@@ -586,9 +636,9 @@ export default function DoorReveal() {
           }}
         >
           <InteriorCarousel
-            playing={doorsOpen}
+            index={slideIndex}
+            direction={slideDirection}
             showDots={doorsOpen}
-            onIndexChange={setSlideIndex}
           />
         </motion.div>
 
@@ -600,7 +650,7 @@ export default function DoorReveal() {
             width: lightWidth,
             maxWidth: "100%",
             background:
-              "radial-gradient(ellipse at center, rgba(232,212,181,0.5) 0%, rgba(184,149,108,0.16) 38%, transparent 72%)",
+              "radial-gradient(ellipse at center, rgba(245,220,180,0.55) 0%, rgba(196,146,94,0.2) 38%, transparent 72%)",
           }}
         />
 
@@ -628,8 +678,8 @@ export default function DoorReveal() {
                 style={{
                   transform: "rotateY(90deg)",
                   background:
-                    "linear-gradient(180deg, #3a4a54 0%, #1a2830 35%, #0c141a 100%)",
-                  boxShadow: "1px 0 0 rgba(184,149,108,0.35)",
+                    "linear-gradient(180deg, #8b5a35 0%, #5c3824 35%, #3d2518 100%)",
+                  boxShadow: "1px 0 0 rgba(196,146,94,0.35)",
                 }}
               />
               <motion.div
@@ -665,8 +715,8 @@ export default function DoorReveal() {
                 style={{
                   transform: "rotateY(-90deg)",
                   background:
-                    "linear-gradient(180deg, #3a4a54 0%, #1a2830 35%, #0c141a 100%)",
-                  boxShadow: "-1px 0 0 rgba(184,149,108,0.35)",
+                    "linear-gradient(180deg, #8b5a35 0%, #5c3824 35%, #3d2518 100%)",
+                  boxShadow: "-1px 0 0 rgba(196,146,94,0.35)",
                 }}
               />
               <motion.div
@@ -685,12 +735,12 @@ export default function DoorReveal() {
 
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-[28] bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(5,11,16,0.55)_100%)]"
+          className="pointer-events-none absolute inset-0 z-[28] bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(31,20,12,0.58)_100%)]"
         />
 
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-[25] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-brass/55 to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-[25] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#d4a574]/45 to-transparent"
           style={{ opacity: seamOpacity }}
         />
 
@@ -699,33 +749,44 @@ export default function DoorReveal() {
           style={{ opacity: captionOpacity, y: captionY }}
         >
           <div
-            className="mb-5 h-px w-16 bg-gradient-to-r from-transparent via-brass/70 to-transparent"
+            className="mb-5 h-px w-16 bg-gradient-to-r from-transparent via-[#c4925e]/70 to-transparent"
             aria-hidden
           />
-          <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-sand">
+          <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-[#d4a574]">
             The threshold
           </p>
-          <h2 className="mt-4 max-w-lg font-display text-4xl tracking-tight text-foam md:text-5xl lg:text-6xl">
+          <h2 className="mt-4 max-w-lg font-display text-4xl tracking-tight text-[#faf5ee] md:text-5xl lg:text-6xl">
             Open the doors
           </h2>
-          <p className="mx-auto mt-5 max-w-sm text-base font-light leading-relaxed text-seafoam/75">
+          <p className="mx-auto mt-5 max-w-sm text-base font-light leading-relaxed text-[#e8d4b5]/75">
             A quiet passage into Mount Misty’s highland interiors.
           </p>
           <div
-            className="mt-6 h-px w-16 bg-gradient-to-r from-transparent via-brass/70 to-transparent"
+            className="mt-6 h-px w-16 bg-gradient-to-r from-transparent via-[#c4925e]/70 to-transparent"
             aria-hidden
           />
         </motion.div>
+
+        {doorsOpen && SLIDE_COUNT > 1 && (
+          <div className="pointer-events-none absolute inset-x-0 top-1/2 z-[35] flex -translate-y-1/2 justify-between px-4 md:px-8">
+            <SlideNavButton label="Previous interior" onClick={() => goSlide(-1)}>
+              <ChevronLeft size={20} strokeWidth={1.5} />
+            </SlideNavButton>
+            <SlideNavButton label="Next interior" onClick={() => goSlide(1)}>
+              <ChevronRight size={20} strokeWidth={1.5} />
+            </SlideNavButton>
+          </div>
+        )}
 
         <motion.div
           className="pointer-events-none absolute inset-x-0 bottom-0 z-30 px-5 pb-14 md:px-8 md:pb-20"
           style={{ opacity: revealOpacity, y: revealY }}
         >
           <div className="section-shell">
-            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-sand">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-[#d4a574]">
               Within · {slideIndex + 1} / {SLIDE_COUNT}
             </p>
-            <p className="mt-3 max-w-md font-display text-3xl tracking-tight text-foam md:text-4xl">
+            <p className="mt-3 max-w-md font-display text-3xl tracking-tight text-[#faf5ee] md:text-4xl">
               {INTERIOR_SLIDES[slideIndex]?.alt ??
                 "Timber, linen, and soft highland light."}
             </p>

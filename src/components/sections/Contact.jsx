@@ -281,21 +281,43 @@ export default function Contact() {
             </div>
 
             <motion.div
-              className="relative mt-12 overflow-hidden border border-white/10"
+              className="group/map relative mt-12 overflow-hidden rounded-sm border-2 border-[#5a9e6f]/35 shadow-[0_12px_40px_rgba(16,107,67,0.18)]"
               initial={reduce ? false : { opacity: 0, y: 24, rotateX: 10 }}
               whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.35, duration: 0.75, ease: easeOutExpo }}
               style={{ transform: "translateZ(12px)" }}
             >
-              <div className="absolute left-3 top-3 z-10 bg-ink/70 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-sand backdrop-blur-sm">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-br from-[#106B43]/12 via-transparent to-[#c4925e]/10"
+              />
+              <div className="absolute left-3 top-3 z-10 flex items-center gap-2 rounded-sm bg-[#106B43]/90 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.18em] text-[#f5faf7] shadow-md backdrop-blur-sm">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#7dd3a0]/70 opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-full bg-[#7dd3a0]" />
+                </span>
                 Location
               </div>
+              <a
+                href={contact.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-1.5 rounded-sm bg-[#c4925e]/95 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#2a1810] shadow-md transition hover:bg-[#d4a574]"
+              >
+                Open in Maps
+                <ArrowUpRight size={12} strokeWidth={2} />
+              </a>
               <iframe
                 title="Mount Misty Retreat location map"
                 src={contact.mapEmbed}
-                className="h-44 w-full opacity-80 grayscale contrast-125"
+                className="relative z-0 h-48 w-full brightness-[1.02] saturate-[1.15] contrast-[1.05] transition duration-500 group-hover/map:saturate-[1.25] md:h-52"
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-12 bg-gradient-to-t from-[#1a3d2e]/35 to-transparent"
               />
             </motion.div>
           </motion.div>

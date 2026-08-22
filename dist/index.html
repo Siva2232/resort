@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/logo-circle.svg" />
+    <link rel="apple-touch-icon" href="/logo-circle.svg" />
+    <meta name="theme-color" content="#0b1c24" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mount Misty Retreat | premium Resort in Idukki, Kerala</title>
     <meta
@@ -15,10 +17,65 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Sora:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/index-Bhe7zp4m.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Nl85QOWn.css">
+    <style>
+      #app-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background: #0b1c24;
+        transition: opacity 0.45s ease, visibility 0.45s ease;
+      }
+
+      #app-loader.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      #app-loader svg {
+        width: clamp(4.5rem, 18vw, 6.5rem);
+        height: clamp(4.5rem, 18vw, 6.5rem);
+        animation: loader-pulse 2.4s ease-in-out infinite;
+      }
+
+      @keyframes loader-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.04);
+          opacity: 0.88;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #app-loader svg {
+          animation: none;
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-sd11vpx3.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DK_vollX.css">
   </head>
   <body>
+    <div id="app-loader" aria-hidden="true">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 100"
+        role="img"
+        aria-label="Mount Misty Retreat"
+      >
+        <circle cx="50" cy="50" r="50" fill="#BA9255" />
+        <path
+          fill="#0a0a0a"
+          d="M1.39,57.41 L2.31,56.94 L3.24,56.02 L4.17,55.09 L5.09,54.17 L6.02,53.24 L6.94,52.31 L7.87,51.39 L8.80,50.93 L9.72,50.00 L10.65,49.07 L11.57,48.15 L12.50,47.22 L13.43,46.30 L14.35,45.37 L15.28,44.91 L16.20,43.52 L17.13,43.06 L18.06,42.13 L18.98,41.20 L19.91,40.28 L20.83,39.35 L21.76,38.43 L22.69,37.96 L23.61,37.04 L24.54,36.11 L25.46,35.19 L26.39,34.26 L27.31,33.33 L28.24,33.33 L29.17,33.80 L30.09,34.72 L31.02,36.11 L31.94,37.04 L32.87,37.96 L33.80,38.89 L34.72,39.81 L35.65,41.20 L36.57,42.13 L37.50,43.06 L38.43,43.98 L39.35,44.91 L40.28,46.30 L41.20,47.22 L42.13,48.15 L43.06,49.07 L43.98,50.00 L44.91,51.39 L45.83,52.31 L46.76,52.31 L47.69,51.39 L48.61,50.46 L49.54,49.54 L50.46,48.61 L51.39,47.69 L52.31,46.76 L53.24,45.83 L54.17,44.91 L55.09,43.52 L56.02,43.06 L56.94,42.13 L57.87,41.20 L58.80,40.28 L59.72,39.35 L60.65,38.43 L61.57,37.50 L62.50,36.57 L63.43,35.65 L64.35,34.72 L65.28,33.80 L66.20,32.87 L67.13,31.94 L68.06,31.02 L68.98,30.09 L69.91,29.17 L70.83,28.24 L71.76,28.70 L72.69,29.17 L73.61,30.09 L74.54,31.48 L75.46,32.41 L76.39,33.33 L77.31,33.80 L78.24,34.72 L79.17,36.11 L80.09,37.04 L81.02,37.96 L81.94,38.43 L82.87,39.35 L83.80,40.74 L84.72,41.67 L85.65,42.59 L86.57,43.06 L87.50,43.98 L88.43,44.91 L89.35,46.30 L90.28,47.22 L91.20,47.69 L92.13,48.61 L93.06,49.54 L93.98,50.93 L94.91,51.85 L95.83,52.31 L96.76,53.24 L97.69,54.17 L98.61,55.56 L98.61,59.26 L97.69,60.19 L96.76,59.26 L95.83,58.33 L94.91,57.41 L93.98,56.94 L93.06,56.02 L92.13,54.63 L91.20,53.70 L90.28,52.78 L89.35,52.31 L88.43,51.39 L87.50,50.00 L86.57,49.07 L85.65,48.15 L84.72,47.69 L83.80,46.76 L82.87,45.37 L81.94,44.44 L81.02,43.52 L80.09,43.06 L79.17,42.13 L78.24,40.74 L77.31,39.81 L76.39,38.89 L75.46,37.96 L74.54,37.50 L73.61,36.11 L72.69,36.11 L71.76,37.50 L70.83,38.89 L69.91,40.74 L68.98,43.06 L68.06,45.37 L67.13,47.22 L66.20,48.15 L65.28,48.61 L64.35,49.07 L63.43,56.94 L62.50,59.26 L61.57,61.11 L60.65,62.96 L59.72,65.28 L58.80,67.59 L57.87,69.44 L56.94,71.30 L56.02,72.69 L55.09,71.76 L54.17,70.37 L53.24,68.98 L52.31,67.59 L51.39,66.20 L50.46,65.28 L49.54,63.43 L48.61,62.04 L47.69,61.11 L46.76,59.72 L45.83,58.80 L44.91,57.41 L43.98,56.48 L43.06,55.56 L42.13,54.63 L41.20,53.70 L40.28,52.31 L39.35,51.39 L38.43,50.46 L37.50,49.54 L36.57,48.61 L35.65,47.69 L34.72,46.30 L33.80,45.37 L32.87,44.44 L31.94,43.52 L31.02,42.59 L30.09,41.67 L29.17,40.28 L28.24,39.35 L27.31,39.35 L26.39,40.28 L25.46,41.20 L24.54,43.52 L23.61,46.76 L22.69,48.15 L21.76,49.07 L20.83,50.00 L19.91,56.48 L18.98,57.41 L18.06,58.33 L17.13,59.26 L16.20,60.65 L15.28,61.57 L14.35,62.50 L13.43,62.96 L12.50,63.43 L11.57,63.89 L10.65,64.35 L9.72,65.28 L8.80,65.74 L7.87,66.20 L6.94,66.20 L6.02,67.13 L5.09,67.59 L4.17,68.06 L3.24,66.20 L2.31,62.96 L1.39,59.26 Z"
+        />
+      </svg>
+    </div>
     <div id="root"></div>
   </body>
 </html>

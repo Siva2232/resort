@@ -518,7 +518,7 @@ export const contact = {
   whatsappUrl: "https://wa.me/917907808656",
   mapsUrl: "https://maps.app.goo.gl/Pup59CyU29h8nFKL7?g_st=ac",
   mapEmbed:
-    "https://www.google.com/maps?q=Pulickathotty+P.O.+Edathana+Idukki+685607&output=embed",
+    "https://www.google.com/maps?q=Pulickathotty+P.O.+Edathana+Idukki+685607&z=14&output=embed",
 };
 
 export const heroImage =
