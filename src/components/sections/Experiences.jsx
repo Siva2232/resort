@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
 import Tilt from "react-parallax-tilt";
@@ -10,7 +10,16 @@ import SectionReveal from "../ui/SectionReveal";
 /** Experiences — 3D tilt cards + cinematic detail modal */
 export default function Experiences() {
   const [active, setActive] = useState(null);
+  const [enableTilt, setEnableTilt] = useState(false);
   const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setEnableTilt(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   return (
     <section id="experience" className="bg-foam section-pad">
@@ -24,10 +33,17 @@ export default function Experiences() {
         </SectionReveal>
 
         <div
-          className="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-6"
+          className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-16 lg:grid-cols-3 lg:gap-6"
           style={{ perspective: 1400 }}
         >
           {experiences.map((item, i) => {
+            const isLastOdd =
+              i === experiences.length - 1 && experiences.length % 2 !== 0;
+
+            const gridItemClass = isLastOdd
+              ? "col-span-2 max-w-[calc(50%-0.375rem)] justify-self-start lg:col-span-1 lg:max-w-none"
+              : "";
+
             const card = (
               <motion.button
                 type="button"
@@ -36,45 +52,45 @@ export default function Experiences() {
                 initial={
                   reduce
                     ? false
-                    : { opacity: 0, rotateX: 28, y: 60, z: -80 }
+                    : { opacity: 0, y: enableTilt ? 60 : 28, rotateX: enableTilt ? 28 : 0 }
                 }
-                whileInView={{ opacity: 1, rotateX: 0, y: 0, z: 0 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0, z: 0 }}
                 viewport={{ once: true, amount: 0.25 }}
                 transition={{
                   duration: 0.9,
                   delay: 0.08 * i,
                   ease: easeOutExpo,
                 }}
-                style={{ transformStyle: "preserve-3d" }}
+                style={{ transformStyle: enableTilt ? "preserve-3d" : undefined }}
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-sand-light shadow-[0_24px_50px_-28px_rgba(11,28,36,0.45)]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-sand-light shadow-[0_24px_50px_-28px_rgba(11,28,36,0.45)] lg:aspect-[3/4]">
                   <motion.img
                     src={item.image}
                     alt={item.title}
                     loading="lazy"
                     decoding="async"
                     className="h-full w-full object-cover"
-                    whileHover={reduce ? undefined : { scale: 1.08 }}
+                    whileHover={reduce || !enableTilt ? undefined : { scale: 1.08 }}
                     transition={{ duration: 0.85, ease: easeLuxury }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
 
-                  <span className="absolute left-4 top-4 font-display text-sm text-foam/45">
+                  <span className="absolute left-3 top-3 font-display text-xs text-foam/45 lg:left-4 lg:top-4 lg:text-sm">
                     0{i + 1}
                   </span>
 
-                  <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-display text-xl tracking-tight text-foam md:text-[1.35rem]">
+                  <div className="absolute inset-x-0 bottom-0 p-3.5 lg:p-6">
+                    <div className="flex items-start justify-between gap-2 lg:gap-3">
+                      <h3 className="font-display text-sm leading-snug tracking-tight text-foam sm:text-base lg:text-[1.35rem]">
                         {item.title}
                       </h3>
                       <ArrowUpRight
-                        size={16}
-                        className="mt-1 shrink-0 text-foam/40 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brass-light"
+                        size={14}
+                        className="mt-0.5 shrink-0 text-foam/40 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brass-light lg:mt-1 lg:size-4"
                         strokeWidth={1.5}
                       />
                     </div>
-                    <p className="mt-2 line-clamp-2 text-sm font-light leading-relaxed text-seafoam/75">
+                    <p className="mt-1.5 line-clamp-2 text-[11px] font-light leading-relaxed text-seafoam/75 sm:text-xs lg:mt-2 lg:text-sm">
                       {item.description}
                     </p>
                   </div>
@@ -82,8 +98,12 @@ export default function Experiences() {
               </motion.button>
             );
 
-            if (reduce) {
-              return <div key={item.id}>{card}</div>;
+            if (reduce || !enableTilt) {
+              return (
+                <div key={item.id} className={gridItemClass}>
+                  {card}
+                </div>
+              );
             }
 
             return (
@@ -98,7 +118,7 @@ export default function Experiences() {
                 glareMaxOpacity={0.12}
                 glareColor="#d4c4a8"
                 glarePosition="all"
-                className="transform-gpu"
+                className={`transform-gpu ${gridItemClass}`}
               >
                 {card}
               </Tilt>

@@ -19,6 +19,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
+    width: 100%;
   }
 
   body {
@@ -27,6 +29,13 @@
     color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+    width: 100%;
+  }
+
+  #root {
+    overflow-x: clip;
+    width: 100%;
   }
 
   section[id] {
@@ -55,11 +64,11 @@
   }
 
   .section-pad {
-    @apply px-5 py-24 md:px-8 md:py-32 lg:py-36;
+    @apply overflow-x-clip px-5 py-24 md:px-8 md:py-32 lg:py-36;
   }
 
   .section-shell {
-    @apply mx-auto w-full max-w-7xl;
+    @apply mx-auto w-full max-w-7xl min-w-0;
   }
 
   .eyebrow {

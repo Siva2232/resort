@@ -75,7 +75,7 @@ export default function Navbar() {
             whileHover={{ opacity: 0.9 }}
             aria-label={brand.fullName}
           >
-            <BrandLogo size="md" />
+            <BrandLogo size="md" imgClassName="max-w-[min(46vw,11rem)] md:max-w-none" />
           </motion.a>
 
           <nav className="hidden items-center gap-1 lg:flex">

@@ -61,9 +61,9 @@ export default function Hero() {
       {!reduce && (
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,transparent_30%,rgba(200,217,211,0.1)_48%,transparent_66%)]"
-          initial={{ x: "-35%", opacity: 0 }}
-          animate={{ x: "35%", opacity: 1 }}
+          className="pointer-events-none absolute inset-0 overflow-hidden bg-[linear-gradient(105deg,transparent_30%,rgba(200,217,211,0.1)_48%,transparent_66%)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 2.6, delay: 0.35, ease: easeLuxury }}
         />
       )}
@@ -83,7 +83,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.h1
-            className="max-w-4xl font-display text-5xl leading-[0.95] tracking-tight text-foam sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+            className="max-w-4xl text-balance font-display text-[clamp(2.25rem,9vw,5.5rem)] leading-[0.95] tracking-tight text-foam"
             initial={reduce ? false : { opacity: 0, y: 36 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.15, delay: 0.55, ease: easeOutExpo }}

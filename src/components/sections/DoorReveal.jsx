@@ -568,7 +568,7 @@ export default function DoorReveal() {
     <section
       ref={ref}
       aria-label="Open the doors to the retreat"
-      className="relative h-[180vh] bg-ink"
+      className="relative h-[180vh] overflow-x-clip bg-ink"
     >
       <div
         className="sticky top-0 h-svh min-h-[560px] overflow-hidden"
@@ -594,10 +594,11 @@ export default function DoorReveal() {
 
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 -translate-x-1/2"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-10 max-w-full -translate-x-1/2"
           style={{
             opacity: lightSpill,
             width: lightWidth,
+            maxWidth: "100%",
             background:
               "radial-gradient(ellipse at center, rgba(232,212,181,0.5) 0%, rgba(184,149,108,0.16) 38%, transparent 72%)",
           }}

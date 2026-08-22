@@ -7,11 +7,11 @@ import ScrollProgress from "./components/ui/ScrollProgress";
 
 function App() {
   return (
-    <div className="relative flex min-h-screen flex-col bg-foam">
+    <div className="relative flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-foam">
       <PageLoader />
       <ScrollProgress />
       <Navbar />
-      <main className="flex-grow">
+      <main className="w-full max-w-full flex-grow overflow-x-clip">
         <Home />
       </main>
       <Footer />

@@ -40,7 +40,7 @@ export default function Rooms() {
           <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-brass">
             Accommodation options
           </p>
-          <div className="mt-6 overflow-x-auto">
+          <div className="mt-6 w-full max-w-full overflow-x-auto [-webkit-overflow-scrolling:touch]">
             <table className="w-full min-w-[640px] border-collapse text-left text-sm">
               <thead>
                 <tr className="bg-ink text-sand">

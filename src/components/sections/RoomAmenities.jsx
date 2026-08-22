@@ -35,21 +35,72 @@ const amenityIcons = {
   Car,
 };
 
-function AmenityTile({ item, index, isActive, onHover, compact = false }) {
+function getGroupSubtitle(groupId) {
+  return roomAmenityGroups.find((g) => g.id === groupId)?.subtitle ?? "";
+}
+
+function MobileAmenityCard({ item, index }) {
+  const reduce = useReducedMotion();
+  const subtitle = getGroupSubtitle(item.group);
+  const Icon = amenityIcons[item.icon] || Coffee;
+
+  return (
+    <motion.article
+      className="flex min-h-[158px] flex-col border border-ink/8 bg-white/80 p-4"
+      initial={reduce ? false : { opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay: 0.03 * index, duration: 0.55, ease: easeOutExpo }}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-brass/30 bg-brass/5 text-brass">
+          <Icon className="size-4" strokeWidth={1.35} aria-hidden />
+        </span>
+        <span className="font-display text-sm tabular-nums text-ink/20">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      <h3 className="mt-3 font-display text-[15px] leading-snug tracking-tight text-ink">
+        {item.label}
+      </h3>
+
+      {(item.featured || item.paid) && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {item.featured && (
+            <span className="rounded-full bg-seafoam/55 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-ink/60">
+              Included
+            </span>
+          )}
+          {item.paid && (
+            <span className="rounded-full border border-brass/35 bg-brass/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.14em] text-brass">
+              Paid
+            </span>
+          )}
+        </div>
+      )}
+
+      <p className="mt-auto pt-3 text-xs font-light leading-relaxed text-ink/45">
+        {subtitle}
+      </p>
+    </motion.article>
+  );
+}
+
+function AmenityTile({ item, index, isActive, onHover }) {
   const Icon = amenityIcons[item.icon] || Coffee;
   const reduce = useReducedMotion();
+  const subtitle = getGroupSubtitle(item.group);
 
   return (
     <motion.button
       type="button"
       onMouseEnter={() => onHover(item.id)}
       onFocus={() => onHover(item.id)}
-      className={`group relative w-full overflow-hidden text-left transition-colors ${
-        compact
-          ? "border border-white/10 bg-white/[0.04] px-4 py-4"
-          : "border border-ink/8 bg-white/70 px-5 py-5"
-      } ${isActive && !compact ? "border-brass/40 bg-white shadow-[0_20px_50px_-30px_rgba(184,149,108,0.45)]" : ""} ${
-        isActive && compact ? "border-brass/50 bg-white/[0.08]" : ""
+      className={`group relative w-full overflow-hidden border px-5 py-5 text-left transition-colors ${
+        isActive
+          ? "border-brass/40 bg-white shadow-[0_20px_50px_-30px_rgba(184,149,108,0.45)]"
+          : "border-ink/8 bg-white/70"
       }`}
       initial={reduce ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -58,32 +109,18 @@ function AmenityTile({ item, index, isActive, onHover, compact = false }) {
       whileHover={reduce ? undefined : { y: -3 }}
     >
       <div
-        className={`pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 ${
-          compact
-            ? "bg-[radial-gradient(circle_at_20%_20%,rgba(184,149,108,0.14),transparent_55%)]"
-            : "bg-[radial-gradient(circle_at_80%_0%,rgba(143,171,163,0.18),transparent_50%)]"
-        }`}
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_80%_0%,rgba(143,171,163,0.18),transparent_50%)]"
         aria-hidden
       />
 
       <div className="relative flex items-start gap-4">
-        <span
-          className={`flex shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
-            compact
-              ? "h-10 w-10 border-brass/30 text-brass group-hover:border-brass group-hover:bg-brass/10"
-              : "h-12 w-12 border-brass/25 text-brass group-hover:border-brass/50 group-hover:bg-brass/5"
-          }`}
-        >
-          <Icon className={compact ? "size-4" : "size-5"} strokeWidth={1.35} />
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-brass/25 text-brass transition-all duration-300 group-hover:border-brass/50 group-hover:bg-brass/5">
+          <Icon className="size-5" strokeWidth={1.35} />
         </span>
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <p
-              className={`font-display tracking-tight ${
-                compact ? "text-base text-sand" : "text-lg text-ink"
-              }`}
-            >
+            <p className="font-display text-lg tracking-tight text-ink">
               {item.label}
             </p>
             {item.paid && (
@@ -91,24 +128,16 @@ function AmenityTile({ item, index, isActive, onHover, compact = false }) {
                 Paid
               </span>
             )}
-            {item.featured && !compact && (
+            {item.featured && (
               <span className="rounded-full bg-seafoam/50 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-ink/55">
                 Included
               </span>
             )}
           </div>
-          {!compact && (
-            <p className="mt-1.5 text-sm font-light text-ink/45">
-              {roomAmenityGroups.find((g) => g.id === item.group)?.subtitle}
-            </p>
-          )}
+          <p className="mt-1.5 text-sm font-light text-ink/45">{subtitle}</p>
         </div>
 
-        <span
-          className={`font-display text-sm tabular-nums ${
-            compact ? "text-sand/25" : "text-ink/20"
-          }`}
-        >
+        <span className="font-display text-sm tabular-nums text-ink/20">
           {String(index + 1).padStart(2, "0")}
         </span>
       </div>
@@ -117,7 +146,9 @@ function AmenityTile({ item, index, isActive, onHover, compact = false }) {
 }
 
 export default function RoomAmenities() {
-  const [activeId, setActiveId] = useState(roomAmenities.find((a) => a.featured)?.id ?? roomAmenities[0].id);
+  const [activeId, setActiveId] = useState(
+    roomAmenities.find((a) => a.featured)?.id ?? roomAmenities[0].id
+  );
   const activeItem = roomAmenities.find((a) => a.id === activeId) ?? roomAmenities[0];
   const ActiveIcon = amenityIcons[activeItem.icon] || Coffee;
   const activeGroup = roomAmenityGroups.find((g) => g.id === activeItem.group);
@@ -142,7 +173,31 @@ export default function RoomAmenities() {
           />
         </SectionReveal>
 
-        <SectionReveal className="mt-12" y={32}>
+        {/* Mobile — numbered grid cards */}
+        <SectionReveal className="mt-10 lg:hidden" y={24}>
+          <div className="mb-5 flex items-end justify-between border-b border-ink/10 pb-4">
+            <div>
+              <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-brass">
+                Room essentials
+              </p>
+              <p className="mt-1 font-display text-2xl text-ink">
+                {roomAmenities.length} amenities
+              </p>
+            </div>
+            <p className="max-w-[10rem] text-right text-xs font-light text-ink/45">
+              Included with every stay
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {roomAmenities.map((item, i) => (
+              <MobileAmenityCard key={item.id} item={item} index={i} />
+            ))}
+          </div>
+        </SectionReveal>
+
+        {/* Desktop — split showcase */}
+        <SectionReveal className="mt-12 hidden lg:block" y={32}>
           <div className="grid overflow-hidden border border-ink/10 lg:grid-cols-12">
             <div className="relative bg-ink px-7 py-10 text-foam md:px-10 md:py-12 lg:col-span-5">
               <div
@@ -188,7 +243,9 @@ export default function RoomAmenities() {
                       </p>
                       <p className="mt-2 text-sm font-light leading-relaxed text-seafoam/70">
                         {activeGroup?.subtitle}
-                        {activeItem.paid ? " · Available on request" : " · Included with your stay"}
+                        {activeItem.paid
+                          ? " · Available on request"
+                          : " · Included with your stay"}
                       </p>
                     </div>
                   </div>
@@ -216,7 +273,6 @@ export default function RoomAmenities() {
                     index={i}
                     isActive={activeId === item.id}
                     onHover={setActiveId}
-                    compact={false}
                   />
                 ))}
               </div>
@@ -224,7 +280,7 @@ export default function RoomAmenities() {
           </div>
         </SectionReveal>
 
-        <SectionReveal className="mt-10" delay={0.1} y={24}>
+        <SectionReveal className="mt-10 hidden md:block" delay={0.1} y={24}>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {roomAmenityGroups.map((group, groupIndex) => {
               const items = roomAmenities.filter((a) => a.group === group.id);
