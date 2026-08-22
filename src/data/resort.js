@@ -402,22 +402,11 @@ export const experiences = [
   },
 ];
 
-export const sightseeingRoute = {
-  origin: {
-    name: "Mount Misty Retreat",
-    location: "Edathana, Idukki",
-  },
-  note: "Distances and routes are arranged as per your requirements during your stay.",
-  totalDistanceKm: 42,
-  estimatedDriveTime: "2–3 hrs",
-};
-
-export const sightseeing = [
+const sightseeingStops = [
   {
     id: "kottappara",
     name: "Kottappara Viewpoint",
     type: "Viewpoint",
-    distanceKm: 8,
     segmentKm: 8,
     driveTime: "20 min",
     image:
@@ -427,7 +416,6 @@ export const sightseeing = [
     id: "meenuliyan",
     name: "Meenuliyan Para",
     type: "Viewpoint",
-    distanceKm: 14,
     segmentKm: 6,
     driveTime: "15 min",
     image:
@@ -437,7 +425,6 @@ export const sightseeing = [
     id: "kattadikadavu",
     name: "Kattadikadavu Viewpoint",
     type: "Viewpoint",
-    distanceKm: 18,
     segmentKm: 5,
     driveTime: "12 min",
     image:
@@ -447,7 +434,6 @@ export const sightseeing = [
     id: "thommankuthu",
     name: "Thommankuthu Waterfalls",
     type: "Waterfalls",
-    distanceKm: 32,
     segmentKm: 14,
     driveTime: "35 min",
     image:
@@ -457,13 +443,49 @@ export const sightseeing = [
     id: "anayadikuthu",
     name: "Anayadikuthu Waterfalls",
     type: "Waterfalls",
-    distanceKm: 28,
     segmentKm: 9,
     driveTime: "22 min",
     image:
       "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
   },
 ];
+
+/** Cumulative distance from retreat — derived from each leg (segmentKm). */
+export const sightseeing = sightseeingStops.reduce((acc, stop) => {
+  const distanceKm = (acc.at(-1)?.distanceKm ?? 0) + stop.segmentKm;
+  acc.push({ ...stop, distanceKm });
+  return acc;
+}, []);
+
+function parseDriveMinutes(driveTime) {
+  const match = String(driveTime).match(/(\d+)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function formatRouteDriveTime(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+  if (hours === 0) return `~${mins} min`;
+  if (mins === 0) return `~${hours} hr`;
+  return `~${hours}h ${mins}m`;
+}
+
+const totalDriveMinutes = sightseeing.reduce(
+  (sum, stop) => sum + parseDriveMinutes(stop.driveTime),
+  0
+);
+
+export const sightseeingRoute = {
+  origin: {
+    name: "Mount Misty Retreat",
+    location: "Edathana, Idukki",
+  },
+  note: "Distances and routes are arranged as per your requirements during your stay.",
+  totalDistanceKm: sightseeing.at(-1)?.distanceKm ?? 0,
+  totalDriveMinutes,
+  estimatedDriveTime: formatRouteDriveTime(totalDriveMinutes),
+  estimatedDriveTimeNote: "Total driving between all 5 stops",
+};
 
 /** @deprecated use sightseeing */
 export const nearbyAttractions = sightseeing.map((s) => s.name);

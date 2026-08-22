@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   accommodationOptions,
   premiumBookings,
@@ -6,12 +6,125 @@ import {
   tariff,
 } from "../../data/resort";
 import { formatPrice, scrollToId } from "../../utils/helpers";
-import { easeLuxury } from "../../utils/motion";
+import { easeLuxury, easeOutExpo } from "../../utils/motion";
 import ImageCarousel from "../ui/ImageCarousel";
 import ClipReveal from "../ui/ClipReveal";
 import MagneticButton from "../ui/MagneticButton";
 import SectionHeader from "../ui/SectionHeader";
 import SectionReveal from "../ui/SectionReveal";
+
+function TariffCard({ option, index }) {
+  const reduce = useReducedMotion();
+  const savings = option.regularPrice - option.inauguralPrice;
+  const isPremium = option.id === "complete-resort";
+  const priceLabel =
+    option.id === "complete-resort" ? "per booking" : "per night";
+
+  return (
+    <motion.article
+      className={`relative flex h-full flex-col overflow-hidden border ${
+        isPremium
+          ? "border-brass/35 bg-ink text-foam"
+          : "border-ink/10 bg-white/80"
+      }`}
+      initial={reduce ? false : { opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay: 0.05 * index, duration: 0.6, ease: easeOutExpo }}
+    >
+      {isPremium && (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40"
+          style={{
+            background:
+              "radial-gradient(ellipse at 100% 0%, rgba(184,149,108,0.22), transparent 55%)",
+          }}
+          aria-hidden
+        />
+      )}
+
+      <div className="relative flex flex-1 flex-col p-5 md:p-6">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p
+              className={`text-[10px] font-medium uppercase tracking-[0.2em] ${
+                isPremium ? "text-sand/70" : "text-brass"
+              }`}
+            >
+              {option.units} {option.units === 1 ? "unit" : "units"}
+            </p>
+            <h3
+              className={`mt-2 font-display text-xl leading-snug tracking-tight md:text-2xl ${
+                isPremium ? "text-sand" : "text-ink"
+              }`}
+            >
+              {option.name}
+            </h3>
+          </div>
+          {savings > 0 && (
+            <span
+              className={`shrink-0 rounded-full px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.12em] ${
+                isPremium
+                  ? "bg-brass/20 text-brass-light"
+                  : "bg-seafoam/55 text-ink/65"
+              }`}
+            >
+              Save {formatPrice(savings)}
+            </span>
+          )}
+        </div>
+
+        <div
+          className={`mt-6 flex flex-wrap items-end justify-between gap-4 border-t pt-5 ${
+            isPremium ? "border-white/10" : "border-ink/8"
+          }`}
+        >
+          <div>
+            <p
+              className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+                isPremium ? "text-seafoam/55" : "text-ink/40"
+              }`}
+            >
+              Regular tariff
+            </p>
+            <p
+              className={`mt-1 font-display text-lg line-through decoration-2 ${
+                isPremium
+                  ? "text-foam/35 decoration-foam/25"
+                  : "text-ink/30 decoration-ink/20"
+              }`}
+            >
+              {formatPrice(option.regularPrice)}
+            </p>
+          </div>
+          <div className="text-right">
+            <p
+              className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+                isPremium ? "text-brass-light" : "text-seafoam-deep"
+              }`}
+            >
+              Inaugural offer
+            </p>
+            <p
+              className={`mt-1 font-display text-2xl md:text-[1.65rem] ${
+                isPremium ? "text-brass-light" : "text-ink"
+              }`}
+            >
+              {formatPrice(option.inauguralPrice)}
+            </p>
+            <p
+              className={`mt-0.5 text-[10px] font-light uppercase tracking-[0.14em] ${
+                isPremium ? "text-seafoam/55" : "text-ink/45"
+              }`}
+            >
+              {priceLabel}
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
 
 export default function Rooms() {
   return (
@@ -37,59 +150,44 @@ export default function Rooms() {
         </SectionReveal>
 
         <SectionReveal className="mt-12 md:mt-14" y={28}>
-          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-brass">
-            Accommodation options
-          </p>
-          <div className="mt-6 w-full max-w-full overflow-x-auto [-webkit-overflow-scrolling:touch]">
-            <table className="w-full min-w-[640px] border-collapse text-left text-sm">
-              <thead>
-                <tr className="bg-ink text-sand">
-                  <th className="px-4 py-3.5 font-medium uppercase tracking-[0.12em]">
-                    Accommodation
-                  </th>
-                  <th className="px-4 py-3.5 font-medium uppercase tracking-[0.12em]">
-                    No. of Units
-                  </th>
-                  <th className="px-4 py-3.5 font-medium uppercase tracking-[0.12em]">
-                    Regular Tariff
-                  </th>
-                  <th className="px-4 py-3.5 font-medium uppercase tracking-[0.12em]">
-                    Inaugural Offer
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {accommodationOptions.map((option, index) => (
-                  <tr
-                    key={option.id}
-                    className={index % 2 === 0 ? "bg-foam" : "bg-white/70"}
-                  >
-                    <td className="border-t border-ink/8 px-4 py-3.5 font-medium text-ink">
-                      {option.name}
-                    </td>
-                    <td className="border-t border-ink/8 px-4 py-3.5 text-ink/65">
-                      {option.units}
-                    </td>
-                    <td className="border-t border-ink/8 px-4 py-3.5 text-ink/45 line-through">
-                      {formatPrice(option.regularPrice)}
-                    </td>
-                    <td className="border-t border-ink/8 px-4 py-3.5">
-                      <span className="inline-block bg-seafoam/50 px-2 py-0.5 font-display text-base text-ink">
-                        {formatPrice(option.inauguralPrice)}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-brass">
+                Accommodation options
+              </p>
+              <p className="mt-2 max-w-lg text-sm font-light leading-relaxed text-ink/55">
+                Special inaugural rates for our opening guests — all stays listed
+                below.
+              </p>
+            </div>
+            <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink/40">
+              Prices in INR · {accommodationOptions.length} options
+            </p>
           </div>
-          <ul className="mt-5 space-y-1.5">
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {accommodationOptions.map((option, index) => (
+              <div
+                key={option.id}
+                className={
+                  option.id === "complete-resort"
+                    ? "sm:col-span-2 lg:col-span-3"
+                    : ""
+                }
+              >
+                <TariffCard option={option} index={index} />
+              </div>
+            ))}
+          </div>
+
+          <ul className="mt-6 space-y-2 rounded-sm border border-ink/8 bg-white/50 px-5 py-4">
             {tariff.notes.map((note) => (
               <li
                 key={note}
-                className="text-xs font-light italic leading-relaxed text-ink/45"
+                className="text-xs font-light leading-relaxed text-ink/50"
               >
-                * {note}
+                <span className="mr-1.5 text-brass">*</span>
+                {note}
               </li>
             ))}
           </ul>

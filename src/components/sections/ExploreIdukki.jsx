@@ -14,48 +14,67 @@ const typeIcons = {
 const routePath =
   "M 80 520 C 80 460, 140 440, 200 400 C 260 360, 280 300, 340 280 C 400 260, 460 220, 520 200 C 580 180, 620 140, 680 120 C 740 100, 780 60, 840 40";
 
+function legFromLabel(index) {
+  if (index === 0) return "From retreat";
+  return `From stop ${index}`;
+}
+
 function RouteStats({ className = "" }) {
   const stats = [
     {
       icon: Route,
-      label: "Circuit",
+      label: "Full route",
       value: `${sightseeingRoute.totalDistanceKm} km`,
+      hint: "All 5 stops combined",
     },
     {
       icon: Clock,
-      label: "Drive",
+      label: "Drive time",
       value: sightseeingRoute.estimatedDriveTime,
+      hint: sightseeingRoute.estimatedDriveTimeNote,
     },
     {
       icon: MapPin,
       label: "Stops",
       value: `${sightseeing.length}`,
+      hint: "On the circuit",
     },
   ];
 
   return (
-    <div className={`grid grid-cols-3 gap-2 sm:gap-3 ${className}`}>
-      {stats.map((stat) => {
-        const Icon = stat.icon;
-        return (
-          <div
-            key={stat.label}
-            className="flex flex-col items-center border border-ink/10 bg-white/70 px-2 py-3 text-center sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-3 sm:text-left"
-          >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brass/25 text-brass sm:h-9 sm:w-9">
-              <Icon className="size-3.5 sm:size-4" strokeWidth={1.5} />
-            </span>
-            <div className="mt-2 sm:mt-0">
-              <p className="text-[9px] font-medium uppercase tracking-[0.14em] text-ink/40 sm:text-[10px] sm:tracking-[0.18em]">
-                {stat.label}
-              </p>
-              <p className="font-display text-base text-ink sm:text-lg">
-                {stat.value}
-              </p>
+    <div className={className}>
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="flex flex-col items-center border border-ink/10 bg-white/70 px-2 py-3 text-center sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-3 sm:text-left"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brass/25 text-brass sm:h-9 sm:w-9">
+                <Icon className="size-3.5 sm:size-4" strokeWidth={1.5} />
+              </span>
+              <div className="mt-2 min-w-0 sm:mt-0">
+                <p className="text-[9px] font-medium uppercase tracking-[0.14em] text-ink/40 sm:text-[10px] sm:tracking-[0.18em]">
+                  {stat.label}
+                </p>
+                <p className="font-display text-base text-ink sm:text-lg">
+                  {stat.value}
+                </p>
+                {stat.hint && (
+                  <p className="mt-0.5 text-[8px] font-light leading-snug text-ink/40 sm:text-[9px]">
+                    {stat.hint}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+      <p className="mt-3 text-center text-[10px] font-light leading-relaxed text-ink/45 sm:text-left">
+        Each stop below shows its own leg distance and drive time — not the full
+        route.
+      </p>
     </div>
   );
 }
@@ -184,7 +203,7 @@ function StopPin({ stop, index, isActive, onSelect, compact = false }) {
 
       {compact && (
         <span className="z-30 shrink-0 whitespace-nowrap rounded-sm bg-ink px-1.5 py-0.5 text-[10px] font-medium leading-none text-sand shadow-sm ring-1 ring-brass/30">
-          {stop.distanceKm} km
+          {stop.distanceKm} km total
         </span>
       )}
 
@@ -205,10 +224,11 @@ function SegmentBadge({ km, index, compact = false }) {
   if (compact) return null;
 
   const positions = [
-    { x: "28%", y: "66%" },
-    { x: "44%", y: "52%" },
+    { x: "18%", y: "78%" },
+    { x: "29%", y: "65%" },
+    { x: "44%", y: "53%" },
     { x: "60%", y: "40%" },
-    { x: "76%", y: "24%" },
+    { x: "76%", y: "25%" },
   ];
   const pos = positions[index];
 
@@ -287,7 +307,7 @@ function RouteMapPanel({
           ))}
 
           {!compact &&
-            sightseeing.slice(0, -1).map((stop, i) => (
+            sightseeing.map((stop, i) => (
               <SegmentBadge
                 key={`seg-${stop.id}`}
                 km={stop.segmentKm}
@@ -301,14 +321,18 @@ function RouteMapPanel({
           <>
             <div className="border-t border-white/10 bg-[#0b1c24]/90 px-3 py-2.5">
               <p className="mb-2 text-[9px] font-medium uppercase tracking-[0.14em] text-seafoam/50">
-                Leg distances
+                Leg distances (stop to stop)
               </p>
               <div className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {sightseeing.map((stop, i) => (
                   <div key={`leg-${stop.id}`} className="flex shrink-0 items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-brass/30 bg-ink px-2.5 py-1 text-[10px] font-medium text-sand">
-                      <Navigation className="size-3 shrink-0 text-brass" strokeWidth={2} />
-                      <span className="whitespace-nowrap">{stop.segmentKm} km</span>
+                    <span className="inline-flex flex-col gap-0.5 rounded-sm border border-brass/30 bg-ink px-2.5 py-1.5 text-[10px] text-sand">
+                      <span className="font-medium whitespace-nowrap">
+                        Stop {i + 1}: {stop.segmentKm} km
+                      </span>
+                      <span className="whitespace-nowrap text-[9px] font-light text-seafoam/55">
+                        {legFromLabel(i)}
+                      </span>
                     </span>
                     {i < sightseeing.length - 1 && (
                       <span className="text-[10px] text-seafoam/35">→</span>
@@ -317,16 +341,22 @@ function RouteMapPanel({
                 ))}
               </div>
             </div>
-            <div className="flex items-center justify-between gap-2 border-t border-white/10 bg-[#0b1c24] px-3 py-2.5">
+            <div className="flex flex-col items-end gap-0.5 border-t border-white/10 bg-[#0b1c24] px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
               <span className="shrink-0 text-[10px] font-medium uppercase tracking-[0.14em] text-seafoam/60">
                 Stop {activeIndex + 1}
               </span>
-              <span className="min-w-0 truncate text-right text-[11px] font-light text-sand">
-                {activeStop.name}
-                <span className="ml-1.5 font-display text-sm text-brass">
-                  · {activeStop.distanceKm} km
-                </span>
-              </span>
+              <div className="min-w-0 text-right">
+                <p className="truncate text-[11px] font-light text-sand">
+                  {activeStop.name}
+                </p>
+                <p className="mt-0.5 text-[10px] font-light text-seafoam/65">
+                  <span className="font-display text-sm text-brass">
+                    {activeStop.distanceKm} km
+                  </span>{" "}
+                  from retreat · {activeStop.segmentKm} km leg · ~
+                  {activeStop.driveTime} drive
+                </p>
+              </div>
             </div>
           </>
         )}
@@ -341,8 +371,10 @@ function RouteMapPanel({
   );
 }
 
-function StopDetailCard({ stop, className = "" }) {
+function StopDetailCard({ stop, stopIndex, className = "" }) {
   const Icon = typeIcons[stop.type] || Mountain;
+  const index =
+    stopIndex ?? sightseeing.findIndex((item) => item.id === stop.id);
 
   return (
     <article className={`overflow-hidden border border-ink/10 bg-mist ${className}`}>
@@ -381,10 +413,13 @@ function StopDetailCard({ stop, className = "" }) {
         </div>
         <div>
           <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink/40">
-            Drive time
+            This leg
           </p>
           <p className="mt-1 font-display text-lg text-ink sm:text-xl">
-            ~{stop.driveTime}
+            {stop.segmentKm} km
+          </p>
+          <p className="mt-1 text-[10px] font-light text-ink/45">
+            {legFromLabel(index)} · ~{stop.driveTime}
           </p>
         </div>
       </div>
@@ -437,8 +472,9 @@ function MobileStopCard({ stop, index, isActive, onSelect }) {
           </h4>
           <Icon className="size-3.5 shrink-0 text-brass" strokeWidth={1.5} />
         </div>
-        <p className="mt-1.5 text-[11px] font-light text-ink/45">
-          {stop.type} · +{stop.segmentKm} km leg
+        <p className="mt-1.5 text-[11px] font-light leading-relaxed text-ink/45">
+          {stop.distanceKm} km from retreat · {stop.segmentKm} km leg · ~
+          {stop.driveTime}
         </p>
       </div>
     </motion.button>
@@ -490,24 +526,23 @@ function RouteTimeline({ compact = false }) {
                     {stop.name}
                   </p>
                   <p className="mt-1 text-xs font-light text-ink/50 sm:text-sm">
-                    {stop.type} · ~{stop.driveTime} drive
+                    {stop.type}
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-seafoam/40 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] text-ink/60 sm:px-2.5 sm:py-1 sm:text-[10px]">
-                    +{stop.segmentKm} km
-                  </span>
-                  <span className="font-display text-sm text-brass sm:hidden">
+                <div className="flex flex-col gap-1.5 sm:items-end">
+                  <span className="font-display text-sm text-brass sm:text-base">
                     {stop.distanceKm} km total
+                  </span>
+                  <span className="text-[11px] font-light text-ink/50 sm:text-xs">
+                    {stop.segmentKm} km {legFromLabel(i).toLowerCase()} · ~
+                    {stop.driveTime} this leg
                   </span>
                 </div>
               </div>
             </div>
-            {!compact && (
-              <span className="hidden shrink-0 pt-0.5 font-display text-sm text-brass sm:block">
-                {stop.distanceKm} km
-              </span>
-            )}
+            <span className="hidden shrink-0 pt-0.5 font-display text-sm text-brass md:block">
+              {stop.distanceKm} km
+            </span>
           </li>
         ))}
       </ol>
@@ -558,7 +593,7 @@ export default function ExploreIdukki() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.4, ease: easeLuxury }}
               >
-                <StopDetailCard stop={activeStop} />
+                <StopDetailCard stop={activeStop} stopIndex={activeIndex} />
               </motion.div>
             </AnimatePresence>
           </SectionReveal>
@@ -605,7 +640,11 @@ export default function ExploreIdukki() {
                 transition={{ duration: 0.45, ease: easeLuxury }}
                 className="flex h-full flex-col"
               >
-                <StopDetailCard stop={activeStop} className="flex h-full flex-col" />
+                <StopDetailCard
+                  stop={activeStop}
+                  stopIndex={activeIndex}
+                  className="flex h-full flex-col"
+                />
 
                 <ol className="mt-4 space-y-2 border border-ink/10 bg-white/50 p-3">
                   {sightseeing.map((stop, i) => {

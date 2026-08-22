@@ -88,7 +88,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.15, delay: 0.55, ease: easeOutExpo }}
           >
-            Where the mountains slow you down.
+            Wake Up to the Beauty of Idukki.
           </motion.h1>
 
           <motion.p
@@ -97,9 +97,9 @@ export default function Hero() {
             transition={{ duration: 1, delay: 1.05, ease: easeOutExpo }}
             className="mt-6 max-w-xl text-base font-light leading-relaxed text-seafoam/85 md:text-lg"
           >
-            Welcome to Mount Misty Retreat — a premium nature retreat in the
-            hills of Idukki, Kerala, where breathtaking views, peaceful
-            surroundings and thoughtfully designed comfort come together.
+            Nestled in the misty hills of Idukki, Kerala, Mount Misty Retreat is
+            a peaceful nature retreat designed for slow mornings, breathtaking
+            views and memorable stays.
           </motion.p>
 
           <motion.div
@@ -115,7 +115,7 @@ export default function Hero() {
               variant="ghost"
               onClick={() => scrollToId("#about")}
             >
-              Explore Mount Misty
+              Explore the Retreat
             </MagneticButton>
           </motion.div>
         </div>
