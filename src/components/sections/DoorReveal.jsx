@@ -405,7 +405,7 @@ function DoorPanel({ side }) {
 /**
  * Interior gallery — auto-slides once the doors are open.
  */
-function InteriorCarousel({ index, direction, showDots }) {
+function InteriorCarousel({ index, direction, showDots, onSwipe }) {
   const reduce = useReducedMotion();
 
   useEffect(() => {
@@ -440,13 +440,21 @@ function InteriorCarousel({ index, direction, showDots }) {
           animate="center"
           exit="exit"
           transition={{ duration: reduce ? 0.3 : 0.85, ease: easeLuxury }}
-          className="absolute inset-0 h-full w-full object-cover will-change-transform"
+          drag={reduce || SLIDE_COUNT < 2 || !onSwipe ? false : "x"}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.14}
+          onDragEnd={(_, info) => {
+            if (!onSwipe) return;
+            if (info.offset.x < -50 || info.velocity.x < -400) onSwipe(1);
+            else if (info.offset.x > 50 || info.velocity.x > 400) onSwipe(-1);
+          }}
+          className="absolute inset-0 h-full w-full touch-pan-y object-cover will-change-transform"
           decoding="async"
           draggable={false}
         />
       </AnimatePresence>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-ink/15" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-ink/15" />
 
       {showDots && SLIDE_COUNT > 1 && (
         <div
@@ -640,8 +648,24 @@ export default function DoorReveal() {
             index={slideIndex}
             direction={slideDirection}
             showDots={doorsOpen}
+            onSwipe={doorsOpen ? goSlide : undefined}
           />
         </motion.div>
+
+        {/* Mobile swipe layer — above doors, no arrow buttons */}
+        {doorsOpen && SLIDE_COUNT > 1 && (
+          <motion.div
+            className="absolute inset-0 z-[32] touch-pan-y lg:hidden"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.12}
+            onDragEnd={(_, info) => {
+              if (info.offset.x < -50 || info.velocity.x < -400) goSlide(1);
+              else if (info.offset.x > 50 || info.velocity.x > 400) goSlide(-1);
+            }}
+            aria-hidden
+          />
+        )}
 
         <motion.div
           aria-hidden
@@ -769,7 +793,7 @@ export default function DoorReveal() {
         </motion.div>
 
         {doorsOpen && SLIDE_COUNT > 1 && (
-          <div className="pointer-events-none absolute inset-x-0 top-1/2 z-[35] flex -translate-y-1/2 justify-between px-4 md:px-8">
+          <div className="pointer-events-none absolute inset-x-0 top-1/2 z-[35] hidden -translate-y-1/2 justify-between px-4 lg:flex lg:px-8">
             <SlideNavButton label="Previous interior" onClick={() => goSlide(-1)}>
               <ChevronLeft size={20} strokeWidth={1.5} />
             </SlideNavButton>

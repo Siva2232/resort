@@ -167,7 +167,7 @@ export default function ImageCarousel({
       )}
 
       {showControls && count > 1 && (
-        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-10 flex -translate-y-1/2 justify-between px-3 md:px-4">
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-10 hidden -translate-y-1/2 justify-between px-3 md:flex md:px-4">
           <button
             type="button"
             aria-label="Previous image"
