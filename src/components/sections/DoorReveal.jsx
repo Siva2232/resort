@@ -14,28 +14,28 @@ import { easeLuxury } from "../../utils/motion";
 
 const INTERIOR_SLIDES = [
   {
-    src: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1600&q=75",
-    alt: "Suite with soft linen and timber",
+    src: "/gallery/mmr-12.webp",
+    alt: "Deluxe bedroom with balcony and forest views",
   },
   {
-    src: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1600&q=75",
-    alt: "Quiet bedroom in highland light",
+    src: "/gallery/mmr-35.webp",
+    alt: "Suite bedroom with gold accents and marble floors",
   },
   {
-    src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1600&q=75",
-    alt: "Pavilion lounge overlooking mist",
+    src: "/gallery/mmr-05.webp",
+    alt: "Balcony lounge overlooking forested mountains",
   },
   {
-    src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1600&q=75",
-    alt: "Living room with woven textures",
+    src: "/gallery/mmr-15.webp",
+    alt: "Warm wood reception lobby",
   },
   {
-    src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=75",
-    alt: "Private residence and deck",
+    src: "/gallery/mmr-20.webp",
+    alt: "Restaurant dining hall",
   },
   {
-    src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=75",
-    alt: "Evening interiors aglow",
+    src: "/gallery/mmr-08.webp",
+    alt: "Resort exterior with pool and misty peaks",
   },
 ];
 

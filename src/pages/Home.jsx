@@ -5,6 +5,7 @@ import Rooms from "../components/sections/Rooms";
 import RoomAmenities from "../components/sections/RoomAmenities";
 import Facilities from "../components/sections/Facilities";
 import Experiences from "../components/sections/Experiences";
+import PropertyHighlights from "../components/sections/PropertyHighlights";
 import Gallery from "../components/sections/Gallery";
 import ExploreIdukki from "../components/sections/ExploreIdukki";
 import Testimonials from "../components/sections/Testimonials";
@@ -20,6 +21,7 @@ export default function Home() {
       <RoomAmenities />
       <Facilities />
       <Experiences />
+      <PropertyHighlights />
       <Gallery />
       <ExploreIdukki />
       <Testimonials />

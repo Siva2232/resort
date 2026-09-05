@@ -14,20 +14,20 @@ export const brand = {
 
 export const aboutImages = [
   {
-    src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80",
-    alt: "Sunlit forest canopy near the retreat",
+    src: "/gallery/mmr-01.webp",
+    alt: "Aerial view of Mount Misty Retreat above the misty Idukki valley",
   },
   {
-    src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80",
-    alt: "Mountain lake and highland horizons",
+    src: "/gallery/mmr-08.webp",
+    alt: "Resort, infinity pool and misty highland peaks",
   },
   {
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
-    alt: "Morning light over forested hills",
+    src: "/gallery/mmr-05.webp",
+    alt: "Balcony lounge overlooking forested mountains",
   },
   {
-    src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80",
-    alt: "Mist rolling through valley ridges",
+    src: "/gallery/mmr-15.webp",
+    alt: "Warm wood reception lobby at Mount Misty Retreat",
   },
 ];
 
@@ -73,9 +73,57 @@ export const aboutFeatures = [
 
 export const navLinks = [
   { label: "Stay", href: "#stay" },
+  { label: "Highlights", href: "#highlights" },
   { label: "Experience", href: "#experience" },
   { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#contact" },
+];
+
+export const propertyHighlights = [
+  {
+    id: "scenic",
+    title: "Scenic View from Resort",
+    shortTitle: "Scenic View",
+    eyebrow: "The vista",
+    description:
+      "Wake to misty valleys and layered highland peaks — the view that defines Mount Misty.",
+    image: "/gallery/mmr-25.webp",
+    icon: "Mountain",
+    span: "wide",
+  },
+  {
+    id: "pool",
+    title: "Mountain View Swimming Pool",
+    shortTitle: "Infinity Pool",
+    eyebrow: "Poolside",
+    description:
+      "Swim with the hills as your backdrop. Our mountain-view pool is open for quiet morning and evening dips.",
+    image: "/gallery/mmr-30.webp",
+    icon: "Waves",
+    span: "tall",
+  },
+  {
+    id: "cottage-2bhk",
+    title: "2BHK Cottages",
+    shortTitle: "2BHK Cottages",
+    eyebrow: "Stay",
+    description:
+      "Spacious Misty Cottages with living space, kitchen comforts, and private sitouts for families and longer stays.",
+    image: "/gallery/mmr-09.webp",
+    icon: "Home",
+    span: "square",
+  },
+  {
+    id: "park",
+    title: "Children Park",
+    shortTitle: "Children Park",
+    eyebrow: "For little ones",
+    description:
+      "Open green play space on the property — so children can explore while you enjoy the highland calm.",
+    image: "/gallery/mmr-08.webp",
+    icon: "Trees",
+    span: "square",
+  },
 ];
 
 export const tariff = {
@@ -144,9 +192,9 @@ export const rooms = [
     description:
       "Comfortable highland accommodation with thoughtful amenities — offered at a special inaugural tariff for our opening guests.",
     images: [
-      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1400&q=80",
+      "/gallery/mmr-12.webp",
+      "/gallery/mmr-35.webp",
+      "/gallery/mmr-05.webp",
     ],
   },
   {
@@ -159,9 +207,9 @@ export const rooms = [
     description:
       "A more spacious stay with refined comfort — designed to make your inaugural visit to Mount Misty Retreat memorable.",
     images: [
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1400&q=80",
+      "/gallery/mmr-35.webp",
+      "/gallery/mmr-12.webp",
+      "/gallery/mmr-06.webp",
     ],
   },
   {
@@ -175,9 +223,9 @@ export const rooms = [
     description:
       "A two-bedroom cottage for families and longer stays — private, generous, and offered at a special inaugural rate.",
     images: [
-      "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80",
+      "/gallery/mmr-07.webp",
+      "/gallery/mmr-08.webp",
+      "/gallery/mmr-20.webp",
     ],
   },
 ];
@@ -377,8 +425,7 @@ export const experiences = [
       "There is something magical about mornings in Idukki. The cool breeze. The sound of nature. The mountains covered in mist. And the first rays of sunlight appearing through the clouds.",
     detail:
       "At Mount Misty Retreat, the destination itself becomes part of your stay.",
-    image:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+    image: "/gallery/mmr-01.webp",
   },
   {
     id: "couples",
@@ -387,8 +434,7 @@ export const experiences = [
       "Looking for a peaceful honeymoon stay in Idukki? Let the mountains set the mood.",
     detail:
       "From quiet mornings to sunset moments overlooking the hills, Mount Misty Retreat offers couples the perfect setting to slow down and enjoy time together. Create memories that stay long after the mist clears.",
-    image:
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
+    image: "/gallery/mmr-05.webp",
   },
   {
     id: "family",
@@ -397,8 +443,7 @@ export const experiences = [
       "Leave behind busy schedules and spend meaningful time with the people who matter most.",
     detail:
       "Explore the surrounding nature, share time together and simply take in the beauty of Idukki. Because the best family memories don’t need a plan.",
-    image:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80",
+    image: "/gallery/mmr-08.webp",
   },
 ];
 
@@ -493,44 +538,304 @@ export const nearbyAttractions = sightseeing.map((s) => s.name);
 export const gallery = [
   {
     id: "g1",
-    alt: "Forest canopy in soft morning light",
-    src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1400&q=80",
+    alt: "Aerial view of Mount Misty Retreat above the misty Idukki valley",
+    src: "/gallery/mmr-01.webp",
   },
   {
     id: "g2",
-    alt: "Highland suite with linen and timber",
-    src: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1400&q=80",
+    alt: "Resort buildings with emerald roofs among highland forest",
+    src: "/gallery/mmr-02.webp",
   },
   {
     id: "g3",
-    alt: "Misty mountain ridge at dawn",
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1400&q=80",
+    alt: "Wide drone view of Mount Misty Retreat and surrounding hills",
+    src: "/gallery/mmr-03.webp",
   },
   {
     id: "g4",
-    alt: "Evening light among the trees",
-    src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80",
+    alt: "Morning mist around the retreat hillside",
+    src: "/gallery/mmr-04.webp",
   },
   {
     id: "g5",
-    alt: "Valley panorama from the ridge",
-    src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80",
+    alt: "Balcony lounge overlooking forested mountains",
+    src: "/gallery/mmr-05.webp",
   },
   {
     id: "g6",
-    alt: "Resort lounge with woven textures",
-    src: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1400&q=80",
+    alt: "Covered verandah seating with hill views",
+    src: "/gallery/mmr-06.webp",
   },
   {
     id: "g7",
-    alt: "Waterfall cascade in the highlands",
-    src: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1400&q=80",
+    alt: "Outdoor lounge with mountain panorama",
+    src: "/gallery/mmr-07.webp",
   },
   {
     id: "g8",
-    alt: "Sunset light over forested hills",
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80",
+    alt: "Aerial view of the retreat, pool, and misty peaks",
+    src: "/gallery/mmr-08.webp",
   },
+  {
+    id: "g9",
+    alt: "Resort exterior nestled in lush greenery",
+    src: "/gallery/mmr-09.webp",
+  },
+  {
+    id: "g10",
+    alt: "Property approach through highland forest",
+    src: "/gallery/mmr-10.webp",
+  },
+  {
+    id: "g11",
+    alt: "Mount Misty Retreat — photo 11",
+    src: "/gallery/mmr-11.webp",
+  },
+  {
+    id: "g12",
+    alt: "Deluxe bedroom with balcony and forest views",
+    src: "/gallery/mmr-12.webp",
+  },
+  {
+    id: "g13",
+    alt: "Mount Misty Retreat — photo 13",
+    src: "/gallery/mmr-13.webp",
+  },
+  {
+    id: "g14",
+    alt: "Mount Misty Retreat — photo 14",
+    src: "/gallery/mmr-14.webp",
+  },
+  {
+    id: "g15",
+    alt: "Reception lobby with warm wood and brass accents",
+    src: "/gallery/mmr-15.webp",
+  },
+  {
+    id: "g16",
+    alt: "Mount Misty Retreat — photo 16",
+    src: "/gallery/mmr-16.webp",
+  },
+  {
+    id: "g17",
+    alt: "Mount Misty Retreat — photo 17",
+    src: "/gallery/mmr-17.webp",
+  },
+  {
+    id: "g18",
+    alt: "Mount Misty Retreat — photo 18",
+    src: "/gallery/mmr-18.webp",
+  },
+  {
+    id: "g19",
+    alt: "Mount Misty Retreat — photo 19",
+    src: "/gallery/mmr-19.webp",
+  },
+  {
+    id: "g20",
+    alt: "Restaurant dining hall at Mount Misty Retreat",
+    src: "/gallery/mmr-20.webp",
+  },
+  {
+    id: "g21",
+    alt: "Mount Misty Retreat — photo 21",
+    src: "/gallery/mmr-21.webp",
+  },
+  {
+    id: "g22",
+    alt: "Mount Misty Retreat — photo 22",
+    src: "/gallery/mmr-22.webp",
+  },
+  {
+    id: "g23",
+    alt: "Mount Misty Retreat — photo 23",
+    src: "/gallery/mmr-23.webp",
+  },
+  {
+    id: "g24",
+    alt: "Mount Misty Retreat — photo 24",
+    src: "/gallery/mmr-24.webp",
+  },
+  {
+    id: "g25",
+    alt: "Mount Misty Retreat — photo 25",
+    src: "/gallery/mmr-25.webp",
+  },
+  {
+    id: "g26",
+    alt: "Mount Misty Retreat — photo 26",
+    src: "/gallery/mmr-26.webp",
+  },
+  {
+    id: "g27",
+    alt: "Mount Misty Retreat — photo 27",
+    src: "/gallery/mmr-27.webp",
+  },
+  {
+    id: "g28",
+    alt: "Mount Misty Retreat — photo 28",
+    src: "/gallery/mmr-28.webp",
+  },
+  {
+    id: "g29",
+    alt: "Mount Misty Retreat — photo 29",
+    src: "/gallery/mmr-29.webp",
+  },
+  {
+    id: "g30",
+    alt: "Mount Misty Retreat — photo 30",
+    src: "/gallery/mmr-30.webp",
+  },
+  {
+    id: "g31",
+    alt: "Mount Misty Retreat — photo 31",
+    src: "/gallery/mmr-31.webp",
+  },
+  {
+    id: "g32",
+    alt: "Mount Misty Retreat — photo 32",
+    src: "/gallery/mmr-32.webp",
+  },
+  {
+    id: "g33",
+    alt: "Mount Misty Retreat — photo 33",
+    src: "/gallery/mmr-33.webp",
+  },
+  {
+    id: "g34",
+    alt: "Mount Misty Retreat — photo 34",
+    src: "/gallery/mmr-34.webp",
+  },
+  {
+    id: "g35",
+    alt: "Suite bedroom with gold accents and marble floors",
+    src: "/gallery/mmr-35.webp",
+  },
+  {
+    id: "g36",
+    alt: "Mount Misty Retreat — photo 36",
+    src: "/gallery/mmr-36.webp",
+  },
+  {
+    id: "g37",
+    alt: "Mount Misty Retreat — photo 37",
+    src: "/gallery/mmr-37.webp",
+  },
+  {
+    id: "g38",
+    alt: "Mount Misty Retreat — photo 38",
+    src: "/gallery/mmr-38.webp",
+  },
+  {
+    id: "g39",
+    alt: "Mount Misty Retreat — photo 39",
+    src: "/gallery/mmr-39.webp",
+  },
+  {
+    id: "g40",
+    alt: "Mount Misty Retreat — photo 40",
+    src: "/gallery/mmr-40.webp",
+  },
+  {
+    id: "g41",
+    alt: "Mount Misty Retreat — photo 41",
+    src: "/gallery/mmr-41.webp",
+  },
+  {
+    id: "g42",
+    alt: "Mount Misty Retreat — photo 42",
+    src: "/gallery/mmr-42.webp",
+  },
+  {
+    id: "g43",
+    alt: "Mount Misty Retreat — photo 43",
+    src: "/gallery/mmr-43.webp",
+  },
+  {
+    id: "g44",
+    alt: "Mount Misty Retreat — photo 44",
+    src: "/gallery/mmr-44.webp",
+  },
+  {
+    id: "g45",
+    alt: "Mount Misty Retreat — photo 45",
+    src: "/gallery/mmr-45.webp",
+  },
+  {
+    id: "g46",
+    alt: "Mount Misty Retreat — photo 46",
+    src: "/gallery/mmr-46.webp",
+  },
+  {
+    id: "g47",
+    alt: "Mount Misty Retreat — photo 47",
+    src: "/gallery/mmr-47.webp",
+  },
+  {
+    id: "g48",
+    alt: "Mount Misty Retreat — photo 48",
+    src: "/gallery/mmr-48.webp",
+  },
+  {
+    id: "g49",
+    alt: "Mount Misty Retreat — photo 49",
+    src: "/gallery/mmr-49.webp",
+  },
+  {
+    id: "g50",
+    alt: "Mount Misty Retreat — photo 50",
+    src: "/gallery/mmr-50.webp",
+  },
+  {
+    id: "g51",
+    alt: "Mount Misty Retreat — photo 51",
+    src: "/gallery/mmr-51.webp",
+  },
+  {
+    id: "g52",
+    alt: "Mount Misty Retreat — photo 52",
+    src: "/gallery/mmr-52.webp",
+  },
+  {
+    id: "g53",
+    alt: "Mount Misty Retreat — photo 53",
+    src: "/gallery/mmr-53.webp",
+  },
+  {
+    id: "g54",
+    alt: "Mount Misty Retreat — photo 54",
+    src: "/gallery/mmr-54.webp",
+  },
+  {
+    id: "g55",
+    alt: "Mount Misty Retreat — photo 55",
+    src: "/gallery/mmr-55.webp",
+  },
+  {
+    id: "g56",
+    alt: "Mount Misty Retreat — photo 56",
+    src: "/gallery/mmr-56.webp",
+  },
+  {
+    id: "g57",
+    alt: "Mount Misty Retreat — photo 57",
+    src: "/gallery/mmr-57.webp",
+  },
+  {
+    id: "g58",
+    alt: "Mount Misty Retreat — photo 58",
+    src: "/gallery/mmr-58.webp",
+  },
+  {
+    id: "g59",
+    alt: "Mount Misty Retreat — photo 59",
+    src: "/gallery/mmr-59.webp",
+  },
+  {
+    id: "g60",
+    alt: "Mount Misty Retreat — photo 60",
+    src: "/gallery/mmr-60.webp",
+  }
 ];
 
 export const testimonials = [
@@ -575,5 +880,4 @@ export const contact = {
     "https://www.google.com/maps?q=9.998917,76.849972&z=15&output=embed",
 };
 
-export const heroImage =
-  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80";
+export const heroImage = "/gallery/mmr-01.webp";

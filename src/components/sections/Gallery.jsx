@@ -83,14 +83,14 @@ export default function Gallery() {
         <SectionReveal>
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeader
-              eyebrow="Gallery"
-              title="See the mist. Feel the moment."
+              eyebrow="Full gallery"
+              title="Every corner of the retreat"
               titleClassName="max-w-md"
               tone="dark"
             />
             <p className="max-w-sm text-sm font-light leading-relaxed text-seafoam/70 md:pb-1 md:text-right">
-              A glimpse of the mountains, the rooms and the peaceful
-              surroundings of Mount Misty Retreat.
+              Browse all {gallery.length} photos — after the highlights above
+              for views, pool, cottages and the children’s park.
             </p>
           </div>
         </SectionReveal>
@@ -113,7 +113,7 @@ export default function Gallery() {
         </SectionReveal>
 
         <div
-          className="mt-6 grid grid-cols-4 gap-2 sm:gap-3 md:grid-cols-8 md:gap-3"
+          className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3 md:grid-cols-6 lg:grid-cols-8 md:gap-3"
           style={{ perspective: 1000 }}
         >
           {gallery.map((item, i) => (

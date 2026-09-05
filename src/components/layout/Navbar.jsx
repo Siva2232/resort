@@ -19,7 +19,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const ids = ["stay", "experience", "gallery", "contact", "about"];
+    const ids = ["stay", "highlights", "experience", "gallery", "contact", "about"];
     const els = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean);
