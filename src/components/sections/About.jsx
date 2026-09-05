@@ -3,7 +3,6 @@ import { Trees, Mountain, BedDouble, Heart, ArrowDown } from "lucide-react";
 import {
   aboutFeatures,
   aboutImages,
-  aboutStats,
   brand,
 } from "../../data/resort";
 import { scrollToId } from "../../utils/helpers";
@@ -98,30 +97,6 @@ export default function About() {
                 Nothing rushed.
               </p>
             </div>
-
-            <ul className="space-y-5 border-t border-white/10 pt-8">
-              {aboutStats.map((stat, i) => (
-                <motion.li
-                  key={stat.label}
-                  initial={{ opacity: 0, x: 14 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    delay: 0.12 + i * 0.08,
-                    duration: 0.55,
-                    ease: easeLuxury,
-                  }}
-                  className="flex items-baseline justify-between gap-4"
-                >
-                  <span className="font-display text-4xl tracking-tight text-brass-light">
-                    {stat.value}
-                  </span>
-                  <span className="text-right text-sm font-light text-seafoam/75">
-                    {stat.label}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
 
             <motion.button
               type="button"

@@ -446,7 +446,7 @@ function InteriorCarousel({ index, direction, showDots }) {
         />
       </AnimatePresence>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#2a1810]/60 via-transparent to-[#3d2518]/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-ink/15" />
 
       {showDots && SLIDE_COUNT > 1 && (
         <div
@@ -569,8 +569,9 @@ export default function DoorReveal() {
     [24, 0]
   );
 
-  const lightSpill = useTransform(openAmount, [0.06, 0.58], [0, 1]);
-  const lightWidth = useTransform(openAmount, [0, 1], ["10vw", "52vw"]);
+  // Soft flash while doors open, then clear so photos stay natural
+  const lightSpill = useTransform(openAmount, [0.06, 0.32, 0.72], [0, 0.28, 0]);
+  const lightWidth = useTransform(openAmount, [0, 1], ["10vw", "42vw"]);
   const seamOpacity = useTransform(openAmount, [0, 0.18], [1, 0]);
 
   const doorBrightness = useTransform(openAmount, [0, 0.5, 1], [1, 0.82, 0.66]);
@@ -650,7 +651,7 @@ export default function DoorReveal() {
             width: lightWidth,
             maxWidth: "100%",
             background:
-              "radial-gradient(ellipse at center, rgba(245,220,180,0.55) 0%, rgba(196,146,94,0.2) 38%, transparent 72%)",
+              "radial-gradient(ellipse at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 38%, transparent 70%)",
           }}
         />
 
@@ -735,7 +736,7 @@ export default function DoorReveal() {
 
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-[28] bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(31,20,12,0.58)_100%)]"
+          className="pointer-events-none absolute inset-0 z-[28] bg-[radial-gradient(ellipse_at_center,transparent_48%,rgba(0,0,0,0.35)_100%)]"
         />
 
         <motion.div

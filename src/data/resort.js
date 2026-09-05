@@ -26,19 +26,13 @@ export const aboutImages = [
     alt: "Balcony lounge overlooking forested mountains",
   },
   {
-    src: "/gallery/mmr-15.webp",
-    alt: "Warm wood reception lobby at Mount Misty Retreat",
+    src: "/gallery/mmr-14.webp",
+    alt: "Mount Misty Retreat — gallery photo 14",
   },
 ];
 
 /** @deprecated use aboutImages */
 export const aboutImage = aboutImages[0].src;
-
-export const aboutStats = [
-  { value: "16", label: "Rooms & cottages" },
-  { value: "15 Aug", label: "Grand inauguration" },
-  { value: "Idukki", label: "Kerala highlands" },
-];
 
 export const aboutFeatures = [
   {
@@ -127,7 +121,7 @@ export const propertyHighlights = [
 ];
 
 export const tariff = {
-  title: "Room Tariff & Inaugural Offer",
+  title: "Room Tariff",
   greeting: {
     salutation: "Dear Guest,",
     lines: [
