@@ -41,6 +41,7 @@ export const aboutFeatures = [
     description:
       "Wake up to panoramic views of Idukki’s lush mountains and mist-covered landscapes.",
     icon: "Mountain",
+    image: "/gallery/mmr-25.webp",
   },
   {
     id: "nature",
@@ -48,6 +49,7 @@ export const aboutFeatures = [
     description:
       "Experience the greenery, cool climate and peaceful atmosphere of the Idukki highlands.",
     icon: "Trees",
+    image: "/gallery/mmr-06.webp",
   },
   {
     id: "stays",
@@ -55,6 +57,7 @@ export const aboutFeatures = [
     description:
       "Thoughtfully designed rooms created for relaxation, privacy and uninterrupted views.",
     icon: "BedDouble",
+    image: "/gallery/mmr-12.webp",
   },
   {
     id: "escape",
@@ -62,6 +65,7 @@ export const aboutFeatures = [
     description:
       "A beautiful setting for couples, families, friends and anyone looking for a break from the everyday.",
     icon: "Heart",
+    image: "/gallery/mmr-09.webp",
   },
 ];
 
@@ -103,7 +107,7 @@ export const propertyHighlights = [
     eyebrow: "Stay",
     description:
       "Spacious Misty Cottages with living space, kitchen comforts, and private sitouts for families and longer stays.",
-    image: "/gallery/mmr-09.webp",
+    image: "/gallery/mmr-44.webp",
     icon: "Home",
     span: "square",
   },
@@ -126,7 +130,7 @@ export const tariff = {
     salutation: "Dear Guest,",
     lines: [
       "Warm greetings from Mount Misty Retreat.",
-      "We are delighted to welcome you to our retreat and present our Special Inaugural Offers, thoughtfully designed to make your stay comfortable and memorable.",
+      "We are delighted to welcome you to our retreat. Our room tariffs are thoughtfully set to make your stay comfortable and memorable.",
     ],
   },
   notes: [
@@ -142,36 +146,31 @@ export const accommodationOptions = [
     id: "deluxe",
     name: "Deluxe Room",
     units: 8,
-    regularPrice: 5500,
-    inauguralPrice: 3500,
+    price: 5500,
   },
   {
     id: "suite",
     name: "Suite Room",
     units: 4,
-    regularPrice: 7500,
-    inauguralPrice: 4500,
+    price: 7500,
   },
   {
     id: "cottage-2bhk",
     name: "Misty Cottage – 2 BHK",
     units: 2,
-    regularPrice: 10500,
-    inauguralPrice: 7500,
+    price: 10500,
   },
   {
     id: "cottage-4bhk",
     name: "Misty Cottage – 4 BHK (2 Floor)",
     units: 1,
-    regularPrice: 17500,
-    inauguralPrice: 14500,
+    price: 17500,
   },
   {
     id: "complete-resort",
     name: "Complete Resort Booking",
     units: 1,
-    regularPrice: 80000,
-    inauguralPrice: 55500,
+    price: 80000,
   },
 ];
 
@@ -181,10 +180,9 @@ export const rooms = [
     name: "Deluxe Room",
     category: "8 units",
     units: 8,
-    price: 3500,
-    regularPrice: 5500,
+    price: 5500,
     description:
-      "Comfortable highland accommodation with thoughtful amenities — offered at a special inaugural tariff for our opening guests.",
+      "Comfortable highland accommodation with thoughtful amenities for a restful stay in the mist.",
     images: [
       "/gallery/mmr-12.webp",
       "/gallery/mmr-35.webp",
@@ -196,10 +194,9 @@ export const rooms = [
     name: "Suite Room",
     category: "4 units",
     units: 4,
-    price: 4500,
-    regularPrice: 7500,
+    price: 7500,
     description:
-      "A more spacious stay with refined comfort — designed to make your inaugural visit to Mount Misty Retreat memorable.",
+      "A more spacious stay with refined comfort — designed to make your visit to Mount Misty Retreat memorable.",
     images: [
       "/gallery/mmr-35.webp",
       "/gallery/mmr-12.webp",
@@ -212,14 +209,18 @@ export const rooms = [
     category: "2 units",
     units: 2,
     subtitle: "2 Bedroom, Hall, Kitchen, Sitout",
-    price: 7500,
-    regularPrice: 10500,
+    price: 10500,
     description:
-      "A two-bedroom cottage for families and longer stays — private, generous, and offered at a special inaugural rate.",
+      "A two-bedroom cottage for families and longer stays — private, generous, and set among the hills.",
     images: [
-      "/gallery/mmr-07.webp",
-      "/gallery/mmr-08.webp",
-      "/gallery/mmr-20.webp",
+      "/gallery/mmr-44.webp",
+      "/gallery/mmr-49.webp",
+      "/gallery/mmr-46.webp",
+      "/gallery/mmr-47.webp",
+      "/gallery/mmr-50.webp",
+      "/gallery/mmr-52.webp",
+      "/gallery/mmr-54.webp",
+      "/gallery/mmr-43.webp",
     ],
   },
 ];
@@ -231,16 +232,14 @@ export const premiumBookings = [
     subtitle:
       "4 Bedroom, 2 Hall, 2 Kitchen, 2 Sitout, Private Infinity Pool Access, Private Campfire Access, Private Space",
     units: 1,
-    price: 14500,
-    regularPrice: 17500,
+    price: 17500,
   },
   {
     id: "complete-resort",
     name: "Complete Resort & Property Booking",
     subtitle: "Exclusive use of the entire retreat and its facilities",
     units: 1,
-    price: 55500,
-    regularPrice: 80000,
+    price: 80000,
   },
 ];
 
@@ -742,62 +741,62 @@ export const gallery = [
   },
   {
     id: "g43",
-    alt: "Mount Misty Retreat — photo 43",
+    alt: "Misty Cottage 2 BHK — aerial view among misty hills",
     src: "/gallery/mmr-43.webp",
   },
   {
     id: "g44",
-    alt: "Mount Misty Retreat — photo 44",
+    alt: "Misty Cottage 2 BHK — dining and living hall",
     src: "/gallery/mmr-44.webp",
   },
   {
     id: "g45",
-    alt: "Mount Misty Retreat — photo 45",
+    alt: "Misty Cottage 2 BHK — living hall toward balcony",
     src: "/gallery/mmr-45.webp",
   },
   {
     id: "g46",
-    alt: "Mount Misty Retreat — photo 46",
+    alt: "Misty Cottage 2 BHK — private balcony with forest view",
     src: "/gallery/mmr-46.webp",
   },
   {
     id: "g47",
-    alt: "Mount Misty Retreat — photo 47",
+    alt: "Misty Cottage 2 BHK — kitchen with green cabinetry",
     src: "/gallery/mmr-47.webp",
   },
   {
     id: "g48",
-    alt: "Mount Misty Retreat — photo 48",
+    alt: "Misty Cottage 2 BHK — kitchen and sink area",
     src: "/gallery/mmr-48.webp",
   },
   {
     id: "g49",
-    alt: "Mount Misty Retreat — photo 49",
+    alt: "Misty Cottage 2 BHK — bedroom with forest views",
     src: "/gallery/mmr-49.webp",
   },
   {
     id: "g50",
-    alt: "Mount Misty Retreat — photo 50",
+    alt: "Misty Cottage 2 BHK — bedroom with TV wall",
     src: "/gallery/mmr-50.webp",
   },
   {
     id: "g51",
-    alt: "Mount Misty Retreat — photo 51",
+    alt: "Misty Cottage 2 BHK — bathroom vanity",
     src: "/gallery/mmr-51.webp",
   },
   {
     id: "g52",
-    alt: "Mount Misty Retreat — photo 52",
+    alt: "Misty Cottage 2 BHK — bedroom with wardrobe",
     src: "/gallery/mmr-52.webp",
   },
   {
     id: "g53",
-    alt: "Mount Misty Retreat — photo 53",
+    alt: "Misty Cottage 2 BHK — bedroom corner with wood accents",
     src: "/gallery/mmr-53.webp",
   },
   {
     id: "g54",
-    alt: "Mount Misty Retreat — photo 54",
+    alt: "Misty Cottage 2 BHK — bathroom with shower",
     src: "/gallery/mmr-54.webp",
   },
   {
@@ -829,7 +828,7 @@ export const gallery = [
     id: "g60",
     alt: "Mount Misty Retreat — photo 60",
     src: "/gallery/mmr-60.webp",
-  }
+  },
 ];
 
 export const testimonials = [

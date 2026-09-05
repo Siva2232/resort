@@ -126,7 +126,7 @@ export default function About() {
             </div>
           </SectionReveal>
 
-          <div className="mt-14 grid gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {aboutFeatures.map((feature, i) => {
               const Icon = icons[feature.icon] || Trees;
               return (
@@ -136,15 +136,24 @@ export default function About() {
                     whileHover={{ y: -3 }}
                     transition={{ type: "spring", stiffness: 300, damping: 22 }}
                   >
-                    <div className="flex items-center justify-between border-b border-ink/10 pb-5">
-                      <span className="flex size-10 items-center justify-center text-brass transition-colors duration-300 group-hover:text-ink">
-                        <Icon size={18} strokeWidth={1.4} />
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <img
+                        src={feature.image}
+                        alt={feature.title}
+                        className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    <div className="mt-5 flex items-center justify-between border-b border-ink/10 pb-4">
+                      <span className="flex size-9 items-center justify-center text-brass transition-colors duration-300 group-hover:text-ink">
+                        <Icon size={16} strokeWidth={1.4} />
                       </span>
                       <span className="font-display text-sm text-ink/25">
                         0{i + 1}
                       </span>
                     </div>
-                    <h4 className="mt-6 font-display text-xl tracking-tight text-ink md:text-[1.35rem]">
+                    <h4 className="mt-5 font-display text-xl tracking-tight text-ink md:text-[1.35rem]">
                       {feature.title}
                     </h4>
                     <p className="mt-3 text-sm font-light leading-relaxed text-ink/55">

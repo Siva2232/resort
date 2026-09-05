@@ -4,27 +4,68 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import heroPoster from "../../assets/herovideo-poster.jpg";
 import heroVideo from "../../assets/herovideo.mp4";
+import heroPoster2 from "../../assets/herovideo-2-poster.jpg";
+import heroVideo2 from "../../assets/herovideo-2.mp4";
 import { brand } from "../../data/resort";
 import { scrollToId } from "../../utils/helpers";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
 import MagneticButton from "../ui/MagneticButton";
 
+const HERO_VIDEOS = [
+  {
+    id: "retreat",
+    src: heroVideo,
+    poster: heroPoster,
+    label: "Retreat film",
+  },
+  {
+    id: "mmr-ad",
+    src: heroVideo2,
+    poster: heroPoster2,
+    label: "MMR film",
+  },
+];
+
 export default function Hero() {
   const ref = useRef(null);
+  const videoRefs = useRef([]);
   const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.14]);
-  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "24%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.5, 0.78]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.38, 0.68]);
+
+  const goTo = useCallback((index) => {
+    setActive((index + HERO_VIDEOS.length) % HERO_VIDEOS.length);
+  }, []);
+
+  useEffect(() => {
+    videoRefs.current.forEach((el, i) => {
+      if (!el) return;
+      if (i === active) {
+        el.currentTime = 0;
+        const play = el.play();
+        if (play?.catch) play.catch(() => {});
+      } else {
+        el.pause();
+        el.currentTime = 0;
+      }
+    });
+  }, [active]);
+
+  const onEnded = useCallback(() => {
+    goTo(active + 1);
+  }, [active, goTo]);
 
   return (
     <section
@@ -36,25 +77,34 @@ export default function Hero() {
         className="absolute inset-0"
         style={reduce ? undefined : { scale: videoScale, y: videoY }}
       >
-        <motion.video
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={heroPoster}
-          aria-hidden
-          initial={reduce ? false : { scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 2.4, ease: easeLuxury }}
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </motion.video>
+        {HERO_VIDEOS.map((clip, i) => (
+          <motion.video
+            key={clip.id}
+            ref={(el) => {
+              videoRefs.current[i] = el;
+            }}
+            className="absolute inset-0 h-full w-full object-cover [transform:translateZ(0)] [backface-visibility:hidden]"
+            muted
+            playsInline
+            autoPlay={i === 0}
+            preload="auto"
+            poster={clip.poster}
+            aria-hidden
+            onEnded={i === active ? onEnded : undefined}
+            initial={false}
+            animate={{
+              opacity: i === active ? 1 : 0,
+            }}
+            transition={{ duration: 0.85, ease: easeLuxury }}
+            style={{ pointerEvents: "none" }}
+          >
+            <source src={clip.src} type="video/mp4" />
+          </motion.video>
+        ))}
       </motion.div>
 
       <motion.div
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,28,36,0.35)_0%,rgba(11,28,36,0.25)_40%,rgba(11,28,36,0.78)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,28,36,0.22)_0%,rgba(11,28,36,0.16)_40%,rgba(11,28,36,0.62)_100%)]"
         style={reduce ? undefined : { opacity: overlayOpacity }}
       />
 
@@ -69,7 +119,7 @@ export default function Hero() {
       )}
 
       <motion.div
-        className="relative z-10 flex h-full flex-col justify-end px-5 pb-20 pt-28 md:px-8 md:pb-28"
+        className="relative z-10 flex h-full flex-col justify-end px-5 pb-24 pt-28 md:px-8 md:pb-28"
         style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
       >
         <div className="section-shell">
@@ -121,24 +171,62 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {!reduce && (
-        <motion.div
-          className="absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.85, duration: 0.9 }}
+      <div className="absolute bottom-7 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4">
+        <div
+          className="flex items-center gap-2.5"
+          role="tablist"
+          aria-label="Hero videos"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-foam/45">
-            Enter
-          </span>
-          <motion.span
-            className="block h-10 w-px bg-gradient-to-b from-foam/60 to-transparent"
-            animate={{ scaleY: [0.45, 1, 0.45], opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            style={{ originY: 0 }}
-          />
-        </motion.div>
-      )}
+          {HERO_VIDEOS.map((clip, i) => {
+            const isActive = i === active;
+            return (
+              <button
+                key={clip.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Play ${clip.label}`}
+                onClick={() => goTo(i)}
+                className="group relative flex h-8 w-8 items-center justify-center"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-500 ${
+                    isActive
+                      ? "h-2.5 w-2.5 bg-foam"
+                      : "h-2 w-2 bg-foam/40 group-hover:bg-foam/70"
+                  }`}
+                />
+                {isActive && (
+                  <motion.span
+                    layoutId="hero-dot-ring"
+                    className="absolute inset-1.5 rounded-full border border-foam/55"
+                    transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {!reduce && (
+          <motion.div
+            className="hidden flex-col items-center gap-2 sm:flex"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.85, duration: 0.9 }}
+          >
+            <span className="text-[10px] uppercase tracking-[0.3em] text-foam/45">
+              Enter
+            </span>
+            <motion.span
+              className="block h-8 w-px bg-gradient-to-b from-foam/60 to-transparent"
+              animate={{ scaleY: [0.45, 1, 0.45], opacity: [0.35, 1, 0.35] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              style={{ originY: 0 }}
+            />
+          </motion.div>
+        )}
+      </div>
     </section>
   );
 }

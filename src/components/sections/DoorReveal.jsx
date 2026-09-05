@@ -26,8 +26,8 @@ const INTERIOR_SLIDES = [
     alt: "Balcony lounge overlooking forested mountains",
   },
   {
-    src: "/gallery/mmr-15.webp",
-    alt: "Warm wood reception lobby",
+    src: "/gallery/mmr-14.webp",
+    alt: "Mount Misty Retreat — gallery photo 14",
   },
   {
     src: "/gallery/mmr-20.webp",

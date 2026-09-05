@@ -15,7 +15,6 @@ import SectionReveal from "../ui/SectionReveal";
 
 function TariffCard({ option, index }) {
   const reduce = useReducedMotion();
-  const savings = option.regularPrice - option.inauguralPrice;
   const isPremium = option.id === "complete-resort";
   const priceLabel =
     option.id === "complete-resort" ? "per booking" : "per night";
@@ -44,82 +43,49 @@ function TariffCard({ option, index }) {
       )}
 
       <div className="relative flex flex-1 flex-col p-5 md:p-6">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p
-              className={`text-[10px] font-medium uppercase tracking-[0.2em] ${
-                isPremium ? "text-sand/70" : "text-brass"
-              }`}
-            >
-              {option.units} {option.units === 1 ? "unit" : "units"}
-            </p>
-            <h3
-              className={`mt-2 font-display text-xl leading-snug tracking-tight md:text-2xl ${
-                isPremium ? "text-sand" : "text-ink"
-              }`}
-            >
-              {option.name}
-            </h3>
-          </div>
-          {savings > 0 && (
-            <span
-              className={`shrink-0 rounded-full px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.12em] ${
-                isPremium
-                  ? "bg-brass/20 text-brass-light"
-                  : "bg-seafoam/55 text-ink/65"
-              }`}
-            >
-              Save {formatPrice(savings)}
-            </span>
-          )}
+        <div className="min-w-0">
+          <p
+            className={`text-[10px] font-medium uppercase tracking-[0.2em] ${
+              isPremium ? "text-sand/70" : "text-brass"
+            }`}
+          >
+            {option.units} {option.units === 1 ? "unit" : "units"}
+          </p>
+          <h3
+            className={`mt-2 font-display text-xl leading-snug tracking-tight md:text-2xl ${
+              isPremium ? "text-sand" : "text-ink"
+            }`}
+          >
+            {option.name}
+          </h3>
         </div>
 
         <div
-          className={`mt-6 flex flex-wrap items-end justify-between gap-4 border-t pt-5 ${
+          className={`mt-6 border-t pt-5 ${
             isPremium ? "border-white/10" : "border-ink/8"
           }`}
         >
-          <div>
-            <p
-              className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
-                isPremium ? "text-seafoam/55" : "text-ink/40"
-              }`}
-            >
-              Regular tariff
-            </p>
-            <p
-              className={`mt-1 font-display text-lg line-through decoration-2 ${
-                isPremium
-                  ? "text-foam/35 decoration-foam/25"
-                  : "text-ink/30 decoration-ink/20"
-              }`}
-            >
-              {formatPrice(option.regularPrice)}
-            </p>
-          </div>
-          <div className="text-right">
-            <p
-              className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
-                isPremium ? "text-brass-light" : "text-seafoam-deep"
-              }`}
-            >
-              Inaugural offer
-            </p>
-            <p
-              className={`mt-1 font-display text-2xl md:text-[1.65rem] ${
-                isPremium ? "text-brass-light" : "text-ink"
-              }`}
-            >
-              {formatPrice(option.inauguralPrice)}
-            </p>
-            <p
-              className={`mt-0.5 text-[10px] font-light uppercase tracking-[0.14em] ${
-                isPremium ? "text-seafoam/55" : "text-ink/45"
-              }`}
-            >
-              {priceLabel}
-            </p>
-          </div>
+          <p
+            className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+              isPremium ? "text-brass-light" : "text-ink/40"
+            }`}
+          >
+            Tariff
+          </p>
+          <p
+            className={`mt-1 font-display text-2xl md:text-[1.65rem] ${
+              isPremium ? "text-brass-light" : "text-ink"
+            }`}
+          >
+            {formatPrice(option.price)}
+          </p>
+          <p
+            className={`mt-0.5 text-[10px] font-light uppercase tracking-[0.14em] ${
+              isPremium ? "text-seafoam/55" : "text-ink/45"
+            }`}
+          >
+            {priceLabel}
+          </p>
         </div>
       </div>
     </motion.article>
@@ -156,8 +122,7 @@ export default function Rooms() {
                 Accommodation options
               </p>
               <p className="mt-2 max-w-lg text-sm font-light leading-relaxed text-ink/55">
-                Special inaugural rates for our opening guests — all stays listed
-                below.
+                Room tariffs for every stay — all options listed below.
               </p>
             </div>
             <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink/40">
@@ -242,15 +207,7 @@ export default function Rooms() {
                     <div className="mt-10 flex flex-wrap items-end gap-8 border-t border-ink/10 pt-8">
                       <div>
                         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/40">
-                          Regular tariff
-                        </p>
-                        <p className="mt-1 font-display text-xl text-ink/35 line-through decoration-ink/25">
-                          {formatPrice(room.regularPrice)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-seafoam-deep">
-                          Inaugural offer
+                          Tariff
                         </p>
                         <p className="mt-1 font-display text-2xl text-ink md:text-3xl">
                           {formatPrice(room.price)}
@@ -289,26 +246,16 @@ export default function Rooms() {
                 <p className="mt-3 text-sm font-light leading-relaxed text-ink/55">
                   {booking.subtitle}
                 </p>
-                <div className="mt-8 flex flex-wrap items-end gap-6 border-t border-ink/10 pt-6">
-                  <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/40">
-                      Regular tariff
-                    </p>
-                    <p className="mt-1 font-display text-lg text-ink/35 line-through">
-                      {formatPrice(booking.regularPrice)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-seafoam-deep">
-                      Inaugural offer
-                    </p>
-                    <p className="mt-1 font-display text-2xl text-ink">
-                      {formatPrice(booking.price)}
-                      <span className="ml-2 font-sans text-sm font-light text-ink/45">
-                        / night
-                      </span>
-                    </p>
-                  </div>
+                <div className="mt-8 border-t border-ink/10 pt-6">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/40">
+                    Tariff
+                  </p>
+                  <p className="mt-1 font-display text-2xl text-ink">
+                    {formatPrice(booking.price)}
+                    <span className="ml-2 font-sans text-sm font-light text-ink/45">
+                      / night
+                    </span>
+                  </p>
                 </div>
                 <div className="mt-6">
                   <MagneticButton
