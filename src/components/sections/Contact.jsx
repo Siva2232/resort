@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MapPin, Mail, Phone, MessageCircle, ArrowUpRight, Check } from "lucide-react";
 import { contact } from "../../data/resort";
@@ -14,6 +14,35 @@ const initial = {
   room: "",
   message: "",
 };
+
+const roomLabels = {
+  deluxe: "Deluxe Room",
+  suite: "Suite Room",
+  "cottage-2bhk": "Misty Cottage – 2 BHK",
+  "cottage-4bhk": "Misty Cottage – 4 BHK",
+  "complete-resort": "Complete Resort Booking",
+};
+
+function buildWhatsAppUrl(data) {
+  const stay = roomLabels[data.room] || data.room || "Any available";
+  const lines = [
+    "Hello Mount Misty Retreat,",
+    "",
+    "I would like to enquire about a stay.",
+    "",
+    `Name: ${data.name.trim()}`,
+    `Email: ${data.email.trim()}`,
+    `Check-in: ${data.checkIn}`,
+    `Check-out: ${data.checkOut}`,
+    `Guests: ${data.guests}`,
+    `Preferred stay: ${stay}`,
+    "",
+    `Message: ${data.message.trim()}`,
+  ];
+  const text = encodeURIComponent(lines.join("\n"));
+  const base = contact.whatsappUrl.replace(/\?.*$/, "");
+  return `${base}?text=${text}`;
+}
 
 function Field({
   id,
@@ -51,6 +80,7 @@ export default function Contact() {
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [whatsappHref, setWhatsappHref] = useState(contact.whatsappUrl);
   const [focused, setFocused] = useState(null);
   const reduce = useReducedMotion();
 
@@ -92,9 +122,20 @@ export default function Contact() {
       setErrors(next);
       return;
     }
+    const waUrl = buildWhatsAppUrl(form);
+    setWhatsappHref(waUrl);
     setSubmitted(true);
     setForm(initial);
   };
+
+  // After thank-you card shows, open WhatsApp with the enquiry
+  useEffect(() => {
+    if (!submitted || !whatsappHref) return;
+    const timer = window.setTimeout(() => {
+      window.open(whatsappHref, "_blank", "noopener,noreferrer");
+    }, 1600);
+    return () => window.clearTimeout(timer);
+  }, [submitted, whatsappHref]);
 
   const inputBase =
     "w-full rounded-sm border bg-foam/80 px-4 py-3.5 text-sm font-light text-ink outline-none transition-all duration-300 placeholder:text-ink/30";
@@ -204,9 +245,9 @@ export default function Contact() {
           className="grid overflow-hidden lg:grid-cols-12 lg:min-h-[640px]"
           style={{ perspective: 1600 }}
         >
-          {/* Left panel — 3D swing from left */}
+          {/* Left panel — 3D swing from left (map / contact details) */}
           <motion.div
-            className="relative flex flex-col justify-between bg-ink px-7 py-10 text-foam md:px-10 md:py-12 lg:col-span-5"
+            className="relative order-2 flex flex-col justify-between bg-ink px-7 py-10 text-foam md:px-10 md:py-12 lg:order-1 lg:col-span-5"
             initial={
               reduce
                 ? false
@@ -324,7 +365,7 @@ export default function Contact() {
 
           {/* Form panel — 3D swing from right */}
           <motion.div
-            className="bg-foam px-6 py-10 md:px-10 md:py-12 lg:col-span-7"
+            className="order-1 bg-foam px-6 py-10 md:px-10 md:py-12 lg:order-2 lg:col-span-7"
             initial={
               reduce
                 ? false
@@ -335,6 +376,8 @@ export default function Contact() {
             transition={{ duration: 1, delay: 0.08, ease: easeOutExpo }}
             style={{ transformStyle: "preserve-3d" }}
           >
+            {/* Anchor for Book Your Stay / Enquire CTAs — land on form, not map */}
+            <div id="booking-form" className="scroll-mt-28" tabIndex={-1} />
             <AnimatePresence mode="wait">
               {submitted ? (
                 <motion.div
@@ -365,16 +408,26 @@ export default function Contact() {
                     <Check size={24} strokeWidth={1.75} />
                   </motion.span>
                   <p className="mt-8 font-display text-3xl tracking-tight text-ink md:text-4xl">
-                    Enquiry received
+                    Thank you
                   </p>
                   <p className="mt-4 max-w-md text-base font-light leading-relaxed text-ink/60">
-                    Thank you. We’ll be in touch about availability and your
-                    stay.
+                    Your enquiry is ready. We’ll open WhatsApp so you can send
+                    it to Mount Misty Retreat — or tap below if it doesn’t open
+                    automatically.
                   </p>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-8 inline-flex items-center gap-2 rounded-sm bg-[#25D366] px-5 py-3 text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90"
+                  >
+                    <MessageCircle size={16} strokeWidth={1.75} />
+                    Continue on WhatsApp
+                  </a>
                   <motion.button
                     type="button"
                     onClick={() => setSubmitted(false)}
-                    className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-brass"
+                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-brass"
                     whileHover={{ x: 4 }}
                     transition={{ type: "spring", stiffness: 350, damping: 22 }}
                   >

@@ -146,30 +146,35 @@ export const accommodationOptions = [
     id: "deluxe",
     name: "Deluxe Room",
     units: 8,
+    regularPrice: 7500,
     price: 5500,
   },
   {
     id: "suite",
     name: "Suite Room",
     units: 4,
+    regularPrice: 10000,
     price: 7500,
   },
   {
     id: "cottage-2bhk",
     name: "Misty Cottage – 2 BHK",
     units: 2,
+    regularPrice: 13000,
     price: 10500,
   },
   {
     id: "cottage-4bhk",
     name: "Misty Cottage – 4 BHK (2 Floor)",
     units: 1,
+    regularPrice: 20000,
     price: 17500,
   },
   {
     id: "complete-resort",
     name: "Complete Resort Booking",
     units: 1,
+    regularPrice: 95000,
     price: 80000,
   },
 ];
@@ -180,6 +185,7 @@ export const rooms = [
     name: "Deluxe Room",
     category: "8 units",
     units: 8,
+    regularPrice: 7500,
     price: 5500,
     description:
       "Comfortable highland accommodation with thoughtful amenities for a restful stay in the mist.",
@@ -194,6 +200,7 @@ export const rooms = [
     name: "Suite Room",
     category: "4 units",
     units: 4,
+    regularPrice: 10000,
     price: 7500,
     description:
       "A more spacious stay with refined comfort — designed to make your visit to Mount Misty Retreat memorable.",
@@ -209,6 +216,7 @@ export const rooms = [
     category: "2 units",
     units: 2,
     subtitle: "2 Bedroom, Hall, Kitchen, Sitout",
+    regularPrice: 13000,
     price: 10500,
     description:
       "A two-bedroom cottage for families and longer stays — private, generous, and set among the hills.",
@@ -232,6 +240,7 @@ export const premiumBookings = [
     subtitle:
       "4 Bedroom, 2 Hall, 2 Kitchen, 2 Sitout, Private Infinity Pool Access, Private Campfire Access, Private Space",
     units: 1,
+    regularPrice: 20000,
     price: 17500,
   },
   {
@@ -239,6 +248,7 @@ export const premiumBookings = [
     name: "Complete Resort & Property Booking",
     subtitle: "Exclusive use of the entire retreat and its facilities",
     units: 1,
+    regularPrice: 95000,
     price: 80000,
   },
 ];
@@ -442,49 +452,44 @@ export const experiences = [
 
 const sightseeingStops = [
   {
-    id: "kottappara",
-    name: "Kottappara Viewpoint",
-    type: "Viewpoint",
-    segmentKm: 8,
-    driveTime: "20 min",
-    image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
     id: "meenuliyan",
     name: "Meenuliyan Para",
     type: "Viewpoint",
-    segmentKm: 6,
-    driveTime: "15 min",
-    image:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+    segmentKm: 2.5,
+    driveTime: "8 min",
+    image: "/gallery/meenuliyan-para.webp",
   },
   {
     id: "kattadikadavu",
     name: "Kattadikadavu Viewpoint",
     type: "Viewpoint",
-    segmentKm: 5,
-    driveTime: "12 min",
-    image:
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+    segmentKm: 7.5,
+    driveTime: "18 min",
+    image: "/gallery/kattadikadavu.webp",
   },
   {
     id: "thommankuthu",
     name: "Thommankuthu Waterfalls",
     type: "Waterfalls",
-    segmentKm: 14,
-    driveTime: "35 min",
-    image:
-      "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80",
+    segmentKm: 16,
+    driveTime: "40 min",
+    image: "/gallery/thommankuthu.webp",
   },
   {
     id: "anayadikuthu",
     name: "Anayadikuthu Waterfalls",
     type: "Waterfalls",
-    segmentKm: 9,
-    driveTime: "22 min",
-    image:
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
+    segmentKm: 1.5,
+    driveTime: "5 min",
+    image: "/gallery/anayadikuthu.webp",
+  },
+  {
+    id: "palkulammedu",
+    name: "Palkulammedu",
+    type: "Viewpoint",
+    segmentKm: 31,
+    driveTime: "55 min",
+    image: "/gallery/palkulammedu.webp",
   },
 ];
 
@@ -838,6 +843,7 @@ export const testimonials = [
       "We arrived exhausted and left restored. The ridge pavilion felt like a private world — staff attentive without hovering.",
     name: "Maya R.",
     place: "Singapore",
+    rating: 5,
   },
   {
     id: "t2",
@@ -845,6 +851,7 @@ export const testimonials = [
       "Mornings on the verandah, evenings watching mist lift from the valley. Mount Misty understands how to make time slow down.",
     name: "James & Elena K.",
     place: "London",
+    rating: 5,
   },
   {
     id: "t3",
@@ -852,6 +859,7 @@ export const testimonials = [
       "Forest silence and panoramic light in perfect balance. We are already planning our return for the monsoon.",
     name: "Arjun V.",
     place: "Bengaluru",
+    rating: 5,
   },
 ];
 

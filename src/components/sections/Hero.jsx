@@ -21,12 +21,12 @@ const HERO_VIDEOS = [
     poster: heroPoster,
     label: "Retreat film",
   },
-  {
-    id: "mmr-ad",
-    src: heroVideo2,
-    poster: heroPoster2,
-    label: "MMR film",
-  },
+  // {
+  //   id: "mmr-ad",
+  //   src: heroVideo2,
+  //   poster: heroPoster2,
+  //   label: "MMR film",
+  // },
 ];
 
 export default function Hero() {
@@ -158,7 +158,14 @@ export default function Hero() {
             transition={{ duration: 1, delay: 1.2, ease: easeOutExpo }}
             className="mt-10 flex flex-wrap items-center gap-4"
           >
-            <MagneticButton onClick={() => scrollToId("#contact")}>
+            <MagneticButton
+              onClick={() => {
+                scrollToId("#booking-form");
+                window.setTimeout(() => {
+                  document.getElementById("name")?.focus({ preventScroll: true });
+                }, 700);
+              }}
+            >
               Book Your Stay
             </MagneticButton>
             <MagneticButton

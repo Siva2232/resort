@@ -1,8 +1,14 @@
-export function scrollToId(id) {
-  const el = document.getElementById(id.replace("#", ""));
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+export function scrollToId(id, { offset = 96 } = {}) {
+  const el = document.getElementById(String(id).replace("#", ""));
+  if (!el) return;
+
+  const top =
+    el.getBoundingClientRect().top + window.scrollY - offset;
+
+  window.scrollTo({
+    top: Math.max(0, top),
+    behavior: "smooth",
+  });
 }
 
 export function formatPrice(amount) {

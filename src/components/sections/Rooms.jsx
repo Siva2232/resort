@@ -13,11 +13,89 @@ import MagneticButton from "../ui/MagneticButton";
 import SectionHeader from "../ui/SectionHeader";
 import SectionReveal from "../ui/SectionReveal";
 
+function PriceBlock({
+  regularPrice,
+  price,
+  priceLabel = "/ night",
+  dark = false,
+  size = "md",
+}) {
+  const cutOff = Math.max(0, (regularPrice || 0) - (price || 0));
+  const priceClass =
+    size === "lg"
+      ? "text-2xl md:text-3xl"
+      : size === "sm"
+        ? "text-xl md:text-[1.65rem]"
+        : "text-2xl md:text-[1.65rem]";
+
+  return (
+    <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
+      {regularPrice > price && (
+        <div>
+          <p
+            className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+              dark ? "text-seafoam/55" : "text-ink/40"
+            }`}
+          >
+            Regular tariff
+          </p>
+          <p
+            className={`mt-1 font-display text-lg line-through decoration-2 ${
+              dark
+                ? "text-foam/35 decoration-foam/25"
+                : "text-ink/30 decoration-ink/20"
+            }`}
+          >
+            {formatPrice(regularPrice)}
+          </p>
+        </div>
+      )}
+      <div>
+        <p
+          className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+            dark ? "text-brass-light" : "text-seafoam-deep"
+          }`}
+        >
+          Offer tariff
+        </p>
+        <p
+          className={`mt-1 font-display ${priceClass} ${
+            dark ? "text-brass-light" : "text-ink"
+          }`}
+        >
+          {formatPrice(price)}
+          {priceLabel && (
+            <span
+              className={`ml-2 font-sans text-sm font-light tracking-normal ${
+                dark ? "text-seafoam/55" : "text-ink/45"
+              }`}
+            >
+              {priceLabel}
+            </span>
+          )}
+        </p>
+      </div>
+      {cutOff > 0 && (
+        <span
+          className={`mb-1 shrink-0 rounded-sm px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] ${
+            dark
+              ? "bg-brass/20 text-brass-light"
+              : "bg-seafoam/60 text-ink/70"
+          }`}
+        >
+          {formatPrice(cutOff)} off
+        </span>
+      )}
+    </div>
+  );
+}
+
 function TariffCard({ option, index }) {
   const reduce = useReducedMotion();
   const isPremium = option.id === "complete-resort";
   const priceLabel =
     option.id === "complete-resort" ? "per booking" : "per night";
+  const cutOff = option.regularPrice - option.price;
 
   return (
     <motion.article
@@ -43,49 +121,82 @@ function TariffCard({ option, index }) {
       )}
 
       <div className="relative flex flex-1 flex-col p-5 md:p-6">
-        <div className="min-w-0">
-          <p
-            className={`text-[10px] font-medium uppercase tracking-[0.2em] ${
-              isPremium ? "text-sand/70" : "text-brass"
-            }`}
-          >
-            {option.units} {option.units === 1 ? "unit" : "units"}
-          </p>
-          <h3
-            className={`mt-2 font-display text-xl leading-snug tracking-tight md:text-2xl ${
-              isPremium ? "text-sand" : "text-ink"
-            }`}
-          >
-            {option.name}
-          </h3>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p
+              className={`text-[10px] font-medium uppercase tracking-[0.2em] ${
+                isPremium ? "text-sand/70" : "text-brass"
+              }`}
+            >
+              {option.units} {option.units === 1 ? "unit" : "units"}
+            </p>
+            <h3
+              className={`mt-2 font-display text-xl leading-snug tracking-tight md:text-2xl ${
+                isPremium ? "text-sand" : "text-ink"
+              }`}
+            >
+              {option.name}
+            </h3>
+          </div>
+          {cutOff > 0 && (
+            <span
+              className={`shrink-0 rounded-sm px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.12em] ${
+                isPremium
+                  ? "bg-brass/20 text-brass-light"
+                  : "bg-seafoam/55 text-ink/65"
+              }`}
+            >
+              {formatPrice(cutOff)} off
+            </span>
+          )}
         </div>
 
         <div
-          className={`mt-6 border-t pt-5 ${
+          className={`mt-6 flex flex-wrap items-end justify-between gap-4 border-t pt-5 ${
             isPremium ? "border-white/10" : "border-ink/8"
           }`}
         >
-          <p
-            className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
-              isPremium ? "text-brass-light" : "text-ink/40"
-            }`}
-          >
-            Tariff
-          </p>
-          <p
-            className={`mt-1 font-display text-2xl md:text-[1.65rem] ${
-              isPremium ? "text-brass-light" : "text-ink"
-            }`}
-          >
-            {formatPrice(option.price)}
-          </p>
-          <p
-            className={`mt-0.5 text-[10px] font-light uppercase tracking-[0.14em] ${
-              isPremium ? "text-seafoam/55" : "text-ink/45"
-            }`}
-          >
-            {priceLabel}
-          </p>
+          <div>
+            <p
+              className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+                isPremium ? "text-seafoam/55" : "text-ink/40"
+              }`}
+            >
+              Regular tariff
+            </p>
+            <p
+              className={`mt-1 font-display text-lg line-through decoration-2 ${
+                isPremium
+                  ? "text-foam/35 decoration-foam/25"
+                  : "text-ink/30 decoration-ink/20"
+              }`}
+            >
+              {formatPrice(option.regularPrice)}
+            </p>
+          </div>
+          <div className="text-right">
+            <p
+              className={`text-[10px] font-medium uppercase tracking-[0.16em] ${
+                isPremium ? "text-brass-light" : "text-seafoam-deep"
+              }`}
+            >
+              Offer tariff
+            </p>
+            <p
+              className={`mt-1 font-display text-2xl md:text-[1.65rem] ${
+                isPremium ? "text-brass-light" : "text-ink"
+              }`}
+            >
+              {formatPrice(option.price)}
+            </p>
+            <p
+              className={`mt-0.5 text-[10px] font-light uppercase tracking-[0.14em] ${
+                isPremium ? "text-seafoam/55" : "text-ink/45"
+              }`}
+            >
+              {priceLabel}
+            </p>
+          </div>
         </div>
       </div>
     </motion.article>
@@ -122,7 +233,8 @@ export default function Rooms() {
                 Accommodation options
               </p>
               <p className="mt-2 max-w-lg text-sm font-light leading-relaxed text-ink/55">
-                Room tariffs for every stay — all options listed below.
+                Special offer tariffs with regular rates shown crossed out —
+                savings listed on each option.
               </p>
             </div>
             <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink/40">
@@ -204,21 +316,15 @@ export default function Rooms() {
                       {room.description}
                     </p>
 
-                    <div className="mt-10 flex flex-wrap items-end gap-8 border-t border-ink/10 pt-8">
-                      <div>
-                        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/40">
-                          Tariff
-                        </p>
-                        <p className="mt-1 font-display text-2xl text-ink md:text-3xl">
-                          {formatPrice(room.price)}
-                          <span className="ml-2 font-sans text-sm font-light tracking-normal text-ink/45">
-                            / night
-                          </span>
-                        </p>
-                      </div>
+                    <div className="mt-10 flex flex-wrap items-end gap-6 border-t border-ink/10 pt-8">
+                      <PriceBlock
+                        regularPrice={room.regularPrice}
+                        price={room.price}
+                        size="lg"
+                      />
                       <MagneticButton
                         variant="outline"
-                        onClick={() => scrollToId("#contact")}
+                        onClick={() => scrollToId("#booking-form")}
                       >
                         Enquire
                       </MagneticButton>
@@ -247,20 +353,15 @@ export default function Rooms() {
                   {booking.subtitle}
                 </p>
                 <div className="mt-8 border-t border-ink/10 pt-6">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink/40">
-                    Tariff
-                  </p>
-                  <p className="mt-1 font-display text-2xl text-ink">
-                    {formatPrice(booking.price)}
-                    <span className="ml-2 font-sans text-sm font-light text-ink/45">
-                      / night
-                    </span>
-                  </p>
+                  <PriceBlock
+                    regularPrice={booking.regularPrice}
+                    price={booking.price}
+                  />
                 </div>
                 <div className="mt-6">
                   <MagneticButton
                     variant="outline"
-                    onClick={() => scrollToId("#contact")}
+                    onClick={() => scrollToId("#booking-form")}
                   >
                     Enquire
                   </MagneticButton>
@@ -276,7 +377,7 @@ export default function Rooms() {
               Find the stay that suits your escape — Deluxe, Suite, Misty
               Cottage, or a complete resort booking.
             </p>
-            <MagneticButton onClick={() => scrollToId("#contact")}>
+            <MagneticButton onClick={() => scrollToId("#booking-form")}>
               Find Your Perfect Stay
             </MagneticButton>
           </div>

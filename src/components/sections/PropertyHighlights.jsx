@@ -20,29 +20,30 @@ function HighlightCard({ item, index, featured = false }) {
 
   return (
     <motion.article
-      className={`group relative overflow-hidden ${
-        featured ? "min-h-[280px] md:min-h-[380px]" : "min-h-[240px] md:min-h-[280px]"
+      className={`group relative flex flex-col overflow-hidden ${
+        featured
+          ? "min-h-[320px] sm:min-h-[340px] md:min-h-[380px]"
+          : "min-h-[300px] sm:min-h-[280px] md:min-h-[280px]"
       }`}
       initial={reduce ? false : { opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ delay: 0.06 * index, duration: 0.7, ease: easeOutExpo }}
     >
-      <img
-        src={item.image}
-        alt={item.title}
-        loading="lazy"
-        decoding="async"
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/10"
-        aria-hidden
-      />
+      <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        <img
+          src={item.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/15" />
+      </div>
 
-      <div className="relative z-10 flex h-full flex-col justify-between p-5 md:p-7">
+      <div className="relative z-10 flex min-h-[inherit] flex-1 flex-col justify-between gap-6 p-5 md:p-7">
         <div className="flex items-start justify-between gap-3">
-          <span className="flex size-10 items-center justify-center rounded-full border border-brass/40 bg-ink/40 text-brass backdrop-blur-sm">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-brass/40 bg-ink/40 text-brass backdrop-blur-sm">
             <Icon className="size-4" strokeWidth={1.5} aria-hidden />
           </span>
           <span className="font-display text-sm tabular-nums text-foam/35">
@@ -50,22 +51,22 @@ function HighlightCard({ item, index, featured = false }) {
           </span>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-sand/80">
             {item.eyebrow}
           </p>
           <h3
-            className={`mt-2 font-display tracking-tight text-foam ${
+            className={`mt-2 break-words font-display tracking-tight text-foam ${
               featured
-                ? "text-2xl md:text-4xl lg:text-[2.75rem]"
-                : "text-xl md:text-2xl"
+                ? "text-2xl leading-snug md:text-4xl lg:text-[2.75rem]"
+                : "text-xl leading-snug md:text-2xl"
             }`}
           >
             {item.title}
           </h3>
           <p
-            className={`mt-3 max-w-md font-light leading-relaxed text-seafoam/80 ${
-              featured ? "text-sm md:text-base" : "text-xs md:text-sm"
+            className={`mt-3 max-w-md font-light leading-relaxed text-seafoam/85 ${
+              featured ? "text-sm md:text-base" : "text-sm"
             }`}
           >
             {item.description}
@@ -80,7 +81,7 @@ export default function PropertyHighlights() {
   const [scenic, pool, cottage, park] = propertyHighlights;
 
   return (
-    <section id="highlights" className="relative overflow-hidden bg-mist section-pad">
+    <section id="highlights" className="relative bg-mist section-pad">
       <div
         className="pointer-events-none absolute -right-20 top-10 h-80 w-80 rounded-full bg-seafoam/30 blur-3xl"
         aria-hidden
@@ -102,8 +103,8 @@ export default function PropertyHighlights() {
           </div>
         </SectionReveal>
 
-        {/* Mobile — clear stacked cards */}
-        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:hidden">
+        {/* Mobile — clear stacked cards (single column avoids cramped cutoff) */}
+        <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
           {propertyHighlights.map((item, i) => (
             <HighlightCard key={item.id} item={item} index={i} />
           ))}
@@ -127,22 +128,22 @@ export default function PropertyHighlights() {
 
         {/* Label strip — quick scan labels */}
         <SectionReveal className="mt-8" delay={0.08} y={16}>
-          <div className="grid grid-cols-2 gap-2 border border-ink/10 bg-white/60 p-2 md:grid-cols-4 md:gap-0 md:divide-x md:divide-ink/10">
+          <div className="grid grid-cols-2 gap-1 border border-ink/10 bg-white/60 p-2 md:grid-cols-4 md:gap-0 md:divide-x md:divide-ink/10">
             {propertyHighlights.map((item, i) => {
               const Icon = icons[item.icon] || Mountain;
               return (
                 <div
                   key={item.id}
-                  className="flex items-center gap-3 px-3 py-3 md:px-5"
+                  className="flex min-w-0 items-center gap-3 px-3 py-3 md:px-5"
                 >
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brass/10 text-brass">
                     <Icon className="size-3.5" strokeWidth={1.5} />
                   </span>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-ink/40">
                       0{i + 1}
                     </p>
-                    <p className="truncate text-sm font-medium text-ink">
+                    <p className="text-sm font-medium leading-snug text-ink">
                       {item.shortTitle}
                     </p>
                   </div>
