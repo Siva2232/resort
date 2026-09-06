@@ -14,28 +14,32 @@ import { easeLuxury } from "../../utils/motion";
 
 const INTERIOR_SLIDES = [
   {
-    src: "/gallery/mmr-12.webp",
-    alt: "Deluxe bedroom with balcony and forest views",
+    src: "/gallery/mmr-30.webp",
+    alt: "Infinity swimming pool overlooking misty highland hills",
   },
   {
-    src: "/gallery/mmr-35.webp",
-    alt: "Suite bedroom with gold accents and marble floors",
+    src: "/gallery/mmr-31.webp",
+    alt: "Poolside lounge with mountain views at golden hour",
   },
   {
-    src: "/gallery/mmr-05.webp",
-    alt: "Balcony lounge overlooking forested mountains",
+    src: "/gallery/mmr-32.webp",
+    alt: "Evening swimming pool lit under the night sky",
   },
   {
-    src: "/gallery/mmr-14.webp",
-    alt: "Mount Misty Retreat — gallery photo 14",
-  },
-  {
-    src: "/gallery/mmr-20.webp",
-    alt: "Restaurant dining hall",
+    src: "/gallery/mmr-33.webp",
+    alt: "Resort grounds with swimming pool, lawns and children’s park",
   },
   {
     src: "/gallery/mmr-08.webp",
-    alt: "Resort exterior with pool and misty peaks",
+    alt: "Aerial view of Mount Misty with pool and park lawns",
+  },
+  {
+    src: "/gallery/mmr-25.webp",
+    alt: "Scenic mountain vista from the retreat",
+  },
+  {
+    src: "/gallery/mmr-09.webp",
+    alt: "Resort exterior, pool deck and highland greenery",
   },
 ];
 
