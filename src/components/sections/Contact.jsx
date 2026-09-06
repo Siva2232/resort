@@ -6,8 +6,6 @@ import { contact } from "../../data/resort";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
 import SectionReveal from "../ui/SectionReveal";
 
-const THANK_YOU_MS = 5000;
-
 const initial = {
   name: "",
   email: "",
@@ -116,39 +114,24 @@ function ThankYouModal({ open, whatsappHref, onClose, onOpenWhatsApp }) {
                 Thank you
               </h3>
               <p className="mt-3 max-w-sm text-sm font-light leading-relaxed text-ink/60">
-                Your enquiry is ready. Opening WhatsApp in a few seconds so you
-                can send it to Mount Misty Retreat.
-              </p>
-
-              <div className="mt-6 h-1 w-full overflow-hidden rounded-full bg-ink/8">
-                <motion.div
-                  className="h-full origin-left bg-brass"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{
-                    duration: THANK_YOU_MS / 1000,
-                    ease: "linear",
-                  }}
-                />
-              </div>
-              <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.18em] text-ink/40">
-                Redirecting in 5 seconds
+                Your enquiry is ready. Tap the button below to send it on
+                WhatsApp to Mount Misty Retreat.
               </p>
 
               <button
                 type="button"
                 onClick={onOpenWhatsApp}
-                className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-[#25D366] px-5 py-3.5 text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90"
+                className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-[#25D366] px-5 py-3.5 text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90"
               >
                 <MessageCircle size={16} strokeWidth={1.75} />
-                Open WhatsApp now
+                Continue on WhatsApp
               </button>
               <button
                 type="button"
                 onClick={onClose}
                 className="mt-3 text-xs font-medium uppercase tracking-[0.16em] text-ink/45"
               >
-                Stay on site
+                Close
               </button>
             </div>
           </motion.div>
@@ -248,16 +231,6 @@ export default function Contact() {
     window.open(whatsappHref, "_blank", "noopener,noreferrer");
     setSubmitted(false);
   };
-
-  // Show thank-you modal for 5s, then open WhatsApp
-  useEffect(() => {
-    if (!submitted || !whatsappHref) return;
-    const timer = window.setTimeout(() => {
-      window.open(whatsappHref, "_blank", "noopener,noreferrer");
-      setSubmitted(false);
-    }, THANK_YOU_MS);
-    return () => window.clearTimeout(timer);
-  }, [submitted, whatsappHref]);
 
   const inputBase =
     "w-full rounded-sm border bg-foam/80 px-4 py-3.5 text-sm font-light text-ink outline-none transition-all duration-300 placeholder:text-ink/30";
