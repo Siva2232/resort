@@ -861,6 +861,22 @@ export const testimonials = [
     place: "Bengaluru",
     rating: 5,
   },
+  {
+    id: "t4",
+    quote:
+      "Our kids loved the park while we sat by the pool with the hills behind us. The 2BHK cottage felt like a home in the clouds.",
+    name: "Priya & Rohan S.",
+    place: "Kochi",
+    rating: 5,
+  },
+  {
+    id: "t5",
+    quote:
+      "Clean rooms, warm hospitality, and views that stop you mid-sentence. Best weekend escape we have taken in Idukki.",
+    name: "Neha M.",
+    place: "Chennai",
+    rating: 5,
+  },
 ];
 
 export const contact = {

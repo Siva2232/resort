@@ -63,7 +63,7 @@ function FloatingAction({ action, index, reduce }) {
         duration: 0.45,
         ease: easeLuxury,
       }}
-      className="flex flex-col items-center gap-1.5"
+      className="flex flex-col items-center gap-1 md:gap-1.5"
     >
       <motion.a
         href={action.href}
@@ -71,7 +71,7 @@ function FloatingAction({ action, index, reduce }) {
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
         aria-label={action.label}
-        className={`group relative flex size-14 items-center justify-center rounded-full ring-1 transition-colors ${action.buttonClass}`}
+        className={`group relative flex size-11 items-center justify-center rounded-full ring-1 transition-colors md:size-14 ${action.buttonClass}`}
         whileHover={reduce ? undefined : { scale: 1.06 }}
         whileTap={reduce ? undefined : { scale: 0.94 }}
         transition={{ type: "spring", stiffness: 420, damping: 24 }}
@@ -90,12 +90,12 @@ function FloatingAction({ action, index, reduce }) {
           />
         )}
         <span
-          className={`flex size-11 items-center justify-center rounded-full ${action.iconWrapClass}`}
+          className={`flex size-8 items-center justify-center rounded-full md:size-11 ${action.iconWrapClass}`}
         >
-          <ActionIcon id={action.id} className="size-5" />
+          <ActionIcon id={action.id} className="size-4 md:size-5" />
         </span>
       </motion.a>
-      <span className="select-none text-[10px] font-medium uppercase tracking-[0.2em] text-ink/70">
+      <span className="select-none text-[8px] font-medium uppercase tracking-[0.16em] text-ink/70 md:text-[10px] md:tracking-[0.2em]">
         {action.label}
       </span>
     </motion.div>
@@ -151,7 +151,7 @@ export function ContactActionButtons({
   if (variant === "floating") {
     return (
       <div
-        className={`flex flex-col items-center gap-4 ${className}`}
+        className={`flex flex-col items-center gap-3 md:gap-4 ${className}`}
         aria-label="Quick contact"
       >
         {contactQuickActions.map((action, index) => (
@@ -227,7 +227,7 @@ export default function ContactToggle() {
               : { opacity: 0, y: 16, scale: 0.96, pointerEvents: "none" }
           }
           transition={{ duration: reduce ? 0.15 : 0.35, ease: easeLuxury }}
-          className="fixed bottom-5 right-4 z-30 md:bottom-8 md:right-8"
+          className="fixed bottom-4 right-3 z-30 md:bottom-8 md:right-8"
         >
           <ContactActionButtons variant="floating" />
         </motion.div>

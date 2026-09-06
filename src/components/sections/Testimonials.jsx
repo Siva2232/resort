@@ -233,7 +233,7 @@ function MobileCarousel() {
 
   return (
     <div
-      className="relative mt-12 md:hidden"
+      className="relative mt-12 md:mt-16 md:mx-auto md:max-w-2xl"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onMouseEnter={() => setPaused(true)}
@@ -320,15 +320,6 @@ export default function Testimonials() {
         </SectionReveal>
 
         <MobileCarousel />
-
-        <div
-          className="mt-16 hidden gap-8 md:mt-20 md:grid md:grid-cols-3 md:gap-8 lg:gap-10"
-          style={{ perspective: 1400 }}
-        >
-          {testimonials.map((item, i) => (
-            <QuoteCard3D key={item.id} item={item} index={i} />
-          ))}
-        </div>
       </div>
     </section>
   );
