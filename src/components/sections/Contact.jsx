@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { MapPin, Mail, Phone, MessageCircle, ArrowUpRight, Check } from "lucide-react";
 import { contact } from "../../data/resort";
 import { easeLuxury, easeOutExpo } from "../../utils/motion";
 import SectionReveal from "../ui/SectionReveal";
+
+const THANK_YOU_MS = 5000;
 
 const initial = {
   name: "",
@@ -42,6 +45,118 @@ function buildWhatsAppUrl(data) {
   const text = encodeURIComponent(lines.join("\n"));
   const base = contact.whatsappUrl.replace(/\?.*$/, "");
   return `${base}?text=${text}`;
+}
+
+function ThankYouModal({ open, whatsappHref, onClose, onOpenWhatsApp }) {
+  const reduce = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="thank-you-modal"
+          className="fixed inset-0 z-[100] flex items-end justify-center p-4 sm:items-center sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="thank-you-title"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <motion.button
+            type="button"
+            aria-label="Close"
+            className="absolute inset-0 bg-ink/70 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          <motion.div
+            className="relative z-10 w-full max-w-md overflow-hidden rounded-sm border border-white/10 bg-foam px-6 py-8 shadow-[0_24px_80px_rgba(11,28,36,0.45)] sm:px-8 sm:py-10"
+            initial={
+              reduce
+                ? { opacity: 0 }
+                : { opacity: 0, y: 40, scale: 0.94 }
+            }
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={
+              reduce
+                ? { opacity: 0 }
+                : { opacity: 0, y: 24, scale: 0.96 }
+            }
+            transition={{ duration: 0.45, ease: easeOutExpo }}
+          >
+            <div className="flex flex-col items-center text-center">
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-seafoam text-ink">
+                <Check size={24} strokeWidth={1.75} />
+              </span>
+              <h3
+                id="thank-you-title"
+                className="mt-6 font-display text-3xl tracking-tight text-ink"
+              >
+                Thank you
+              </h3>
+              <p className="mt-3 max-w-sm text-sm font-light leading-relaxed text-ink/60">
+                Your enquiry is ready. Opening WhatsApp in a few seconds so you
+                can send it to Mount Misty Retreat.
+              </p>
+
+              <div className="mt-6 h-1 w-full overflow-hidden rounded-full bg-ink/8">
+                <motion.div
+                  className="h-full origin-left bg-brass"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{
+                    duration: THANK_YOU_MS / 1000,
+                    ease: "linear",
+                  }}
+                />
+              </div>
+              <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.18em] text-ink/40">
+                Redirecting in 5 seconds
+              </p>
+
+              <button
+                type="button"
+                onClick={onOpenWhatsApp}
+                className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-[#25D366] px-5 py-3.5 text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90"
+              >
+                <MessageCircle size={16} strokeWidth={1.75} />
+                Open WhatsApp now
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="mt-3 text-xs font-medium uppercase tracking-[0.16em] text-ink/45"
+              >
+                Stay on site
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body
+  );
 }
 
 function Field({
@@ -128,12 +243,19 @@ export default function Contact() {
     setForm(initial);
   };
 
-  // After thank-you card shows, open WhatsApp with the enquiry
+  const openWhatsApp = () => {
+    if (!whatsappHref) return;
+    window.open(whatsappHref, "_blank", "noopener,noreferrer");
+    setSubmitted(false);
+  };
+
+  // Show thank-you modal for 5s, then open WhatsApp
   useEffect(() => {
     if (!submitted || !whatsappHref) return;
     const timer = window.setTimeout(() => {
       window.open(whatsappHref, "_blank", "noopener,noreferrer");
-    }, 1600);
+      setSubmitted(false);
+    }, THANK_YOU_MS);
     return () => window.clearTimeout(timer);
   }, [submitted, whatsappHref]);
 
@@ -378,75 +500,12 @@ export default function Contact() {
           >
             {/* Anchor for Book Your Stay / Enquire CTAs — land on form, not map */}
             <div id="booking-form" className="scroll-mt-28" tabIndex={-1} />
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
-                  key="success"
-                  initial={
-                    reduce
-                      ? { opacity: 0, scale: 0.96 }
-                      : { opacity: 0, rotateX: 20, scale: 0.9, y: 30 }
-                  }
-                  animate={{ opacity: 1, rotateX: 0, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.6, ease: easeOutExpo }}
-                  style={{ transformPerspective: 1200 }}
-                  className="flex h-full min-h-[420px] flex-col items-start justify-center"
-                >
-                  <motion.span
-                    initial={{ scale: 0.4, rotateY: 90, opacity: 0 }}
-                    animate={{ scale: 1, rotateY: 0, opacity: 1 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 220,
-                      damping: 16,
-                      delay: 0.12,
-                    }}
-                    className="flex h-14 w-14 items-center justify-center rounded-full bg-seafoam text-ink"
-                    style={{ transformStyle: "preserve-3d" }}
-                  >
-                    <Check size={24} strokeWidth={1.75} />
-                  </motion.span>
-                  <p className="mt-8 font-display text-3xl tracking-tight text-ink md:text-4xl">
-                    Thank you
-                  </p>
-                  <p className="mt-4 max-w-md text-base font-light leading-relaxed text-ink/60">
-                    Your enquiry is ready. We’ll open WhatsApp so you can send
-                    it to Mount Misty Retreat — or tap below if it doesn’t open
-                    automatically.
-                  </p>
-                  <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-8 inline-flex items-center gap-2 rounded-sm bg-[#25D366] px-5 py-3 text-sm font-medium tracking-wide text-white transition-opacity hover:opacity-90"
-                  >
-                    <MessageCircle size={16} strokeWidth={1.75} />
-                    Continue on WhatsApp
-                  </a>
-                  <motion.button
-                    type="button"
-                    onClick={() => setSubmitted(false)}
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-brass"
-                    whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  >
-                    Send another enquiry
-                    <ArrowUpRight size={16} />
-                  </motion.button>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.5, ease: easeLuxury }}
-                  onSubmit={onSubmit}
-                  className="space-y-6"
-                  noValidate
-                  style={{ transformStyle: "preserve-3d" }}
-                >
+            <form
+              onSubmit={onSubmit}
+              className="space-y-6"
+              noValidate
+              style={{ transformStyle: "preserve-3d" }}
+            >
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field id="name" label="Full name" error={errors.name}>
                       <motion.div
@@ -608,12 +667,17 @@ export default function Contact() {
                       <ArrowUpRight size={16} strokeWidth={1.75} />
                     </motion.button>
                   </div>
-                </motion.form>
-              )}
-            </AnimatePresence>
+            </form>
           </motion.div>
         </div>
       </div>
+
+      <ThankYouModal
+        open={submitted}
+        whatsappHref={whatsappHref}
+        onClose={() => setSubmitted(false)}
+        onOpenWhatsApp={openWhatsApp}
+      />
     </section>
   );
 }
